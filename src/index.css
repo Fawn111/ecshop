@@ -1,0 +1,23 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #f42c37;
+  --color-secondary: #f42c37;
+  --color-brandYellow: #fdc62e;
+  --color-brandGreen: #2dcc6f;
+  --color-brandBlue: #1376f4;
+  --color-brandWhite: #eeeeee;
+
+  --container-hello:center: true
+        padding: {
+          DEFAULT: "1rem",
+          sm: "3rem",
+    }
+}
+
+@layer components {
+    .search-bar {
+        @apply w-0 group-hover:w-[300px] transition-all duration-300 rounded-full group-hover:border text-black border-gray-500 group-hover:border-gray-500 px-3 py-1;
+    }
+}
+
