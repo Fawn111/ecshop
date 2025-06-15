@@ -46,9 +46,9 @@ const MenuLinks = [
   },
 ]
 
-function NavBar(){
+function NavBar({ handleOrderPopup }){
     return (
-    <div className="bg-white dark:text-white relative">
+    <div className="bg-white dark:text-white relative overflow-x-hidden">
         <div className="py-1">
             <div className="p-3 sm:p-6 flex justify-between items-center">
                 <div className="flex">
@@ -81,7 +81,7 @@ function NavBar(){
                       <input type="text" placeholder="Search" className="search-bar" />
                       <IoIosSearch className='text-gray-600 absolute top-1/2 -translate-y-1/2 right-1 group-hover:text-primary text-xl duration-200'/>
                     </div>
-                    <button>
+                    <button onClick={handleOrderPopup}>
                       <FaShoppingCart className='text-gray-600 hover:text-primary '/>
                     </button>
                     <div>

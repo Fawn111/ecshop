@@ -76,7 +76,7 @@ const Productcards2 = [
 const Products = () => {
   return (
     <div>
-        <div className='p-3 sm:p-6 m-4'>
+        <div className='p-3 sm:p-6 m-4 overflow-x-hidden'>
             <Heading title="Our Products" subtitle="Explore Our Products"/>
             <ProductCard data={Productcards}/>
             <ProductCard data={Productcards2} />

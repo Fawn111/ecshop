@@ -34,7 +34,7 @@ const servicesData = [
 function Services(){
     return(
         <>
-        <div className="p-3 sm:p-6 m-4">
+        <div className="p-3 sm:p-6 m-4 overflow-x-hidden">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 my-10">
             {servicesData.map((data) => (
                 <div key={data.id} className="flex">

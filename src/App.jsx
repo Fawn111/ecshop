@@ -11,6 +11,12 @@ import watch from "./assets/category/smartwatch2-removebg-preview.png"
 import Blog from './components/Blogs/Blog';
 import Partners from './components/Partners/Partners';
 import Footer from './components/Footer/Footer';
+import Popup from './components/Popup/Popup';
+import AOS from "aos";
+import "aos/dist/aos.css";
+import { useEffect } from "react";
+
+
 
 const BannerData = {
     discount: "30% OFF",
@@ -34,20 +40,41 @@ const BannerData2 = {
     bgColor: "#2dcc6f",
 }
 
+
 function App(){
+
+  useEffect(() => {
+  AOS.init(
+    {
+      duration: 800,
+      easing: "ease-in-sine",
+      delay: 100,
+      offset: 100,
+    }
+  )
+  AOS.refresh();
+}, []);
+
+  const [OrderPopup, SetOrderPopup] = React.useState(false);
+
+  const handleOrderPopup = ()  => {
+    SetOrderPopup(!OrderPopup);
+  };
+
   return (
     <>
-       <Navbar />
-        <Hero />
+       <Navbar handleOrderPopup={handleOrderPopup}/>
+        <Hero handleOrderPopup={handleOrderPopup}/>
         <Category />
         <Category2 />
         <Services />
-        <Banner data={BannerData}/>
-        <Products />
-        <Banner data={BannerData2}/>
+        <Banner data={BannerData} handleOrderPopup={handleOrderPopup}/>
+        <Products handleOrderPopup={handleOrderPopup}/>
+        <Banner data={BannerData2} handleOrderPopup={handleOrderPopup}/>
         <Blog />
         <Partners />
         <Footer />
+        <Popup OrderPopup={OrderPopup} handleOrderPopup={handleOrderPopup}/>
     </>
   )
 }

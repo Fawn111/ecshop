@@ -30,7 +30,7 @@ const HeroData = [
 ]
 
 
-function Hero(){
+function Hero( { handleOrderPopup }){
   var settings = {
     dots: true,
     infinite: true,
@@ -40,18 +40,24 @@ function Hero(){
   };
 
     return(
-        <div className="p-3 sm:p-6 m-4">
-            <div className="w-full bg-gray-200 rounded-3xl h-[600px] sm:h-[550px]">
+        <div className="p-3 sm:p-6 m-4 overflow-x-hidden">
+            <div className="w-full bg-gray-200 rounded-3xl h-[600px] sm:h-[550px]"        data-aos="fade-up"
+                                data-aos-duration="500"
+                                data-aos-once="true" >
               <Slider {...settings}>
                 {HeroData.map((data) =>(
                     <div key={data.id}>
                         <div className="grid grid-cols-1 sm:grid-cols-2">
                             <div className="flex flex-col justify-center sm:ml-26 gap-2 ml-5">
                                 <h1 className="sm:text-2xl text-l mt-3 font-bold uppercase top-2 sm:ml-0 ml-26">{data.subtitle}</h1>
-                                <h1 className="font-bold text-4xl sm:text-7xl sm:ml-0 ml-20">{data.title}</h1>
+                                <h1 className="font-bold text-4xl sm:text-7xl sm:ml-0 ml-20" 
+                                data-aos="zoom-out"
+                                data-aos-duration="500"
+                                data-aos-once="true"
+                                    >{data.title}</h1>
                                 <h1 className="sm:text-9xl text-5xl uppercase tracking-wide font-bold text-white">{data.title2}</h1>
                                 <div>
-                                    <button className="border transition hover:-translate-y-1 hover:scale-110  duration-300 ease-in-out delay-150 rounded-3xl p-3 mt-2 sm:ml-2 text-white border-secondary bg-secondary font-semibold cursor-pointer ml-20">Shop By Category</button>
+                                    <button className="border transition hover:-translate-y-1 hover:scale-110  duration-300 ease-in-out delay-150 rounded-3xl p-3 mt-2 sm:ml-2 text-white border-secondary bg-secondary font-semibold cursor-pointer ml-20" onClick={handleOrderPopup}>Shop By Category</button>
                                 </div>
                             </div>
                             <div>
