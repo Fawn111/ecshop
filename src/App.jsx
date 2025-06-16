@@ -16,6 +16,7 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import { useEffect, useState } from "react";
 import Cart from './components/Cart/Cart';
+import Wishlist from './components/Whishlist/Wishlist';
 
 
 
@@ -61,6 +62,10 @@ function App(){
   const [cart, setCart] = useState([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [warning, setWarning ] = useState(false);
+  const [warning2, setWarning2 ] = useState(false);
+  const [wish, setWish] = useState([]);
+  const [isWishOpen, setIsWishOpen] = useState(false);
+    const [addedwish, setaddedWish] = useState(false);
 
   const handleOrderPopup = ()  => {
     SetOrderPopup(!OrderPopup);
@@ -71,11 +76,17 @@ function App(){
   setIsCartOpen(!isCartOpen);
 }
 
+ function toggleWish() {
+    console.log("pressed")
+  setIsWishOpen(!isWishOpen);
+}
+
  function handlecart(item) {
   let isPresent = false;
 
   cart.forEach((moiz) => {
     if (item.id === moiz.id) {
+
       isPresent = true;
     }
   });
@@ -91,27 +102,67 @@ function App(){
     setCart([...cart, item]);
 }
 
+ function handlewish(item) {
+  
+  let isPresent = false;
+
+  wish.forEach((list) => {
+    if (item.id === list.id) {
+      isPresent = true;
+    }
+  });
+
+  if (isPresent) {
+    setWarning2(true);
+    setTimeout(() => {
+      setWarning2(false);
+    }, 5000);
+    return;
+  }
+
+  setWish([...wish, item]);
+}
+
 
   return (
     <>
-       <Navbar handleOrderPopup={handleOrderPopup} size={cart.length} toggleCart={toggleCart}/>
+       <Navbar handleOrderPopup={handleOrderPopup} size={cart.length} size2={wish.length} toggleCart={toggleCart} toggleWish={toggleWish}/>
         <Hero handleOrderPopup={handleOrderPopup}/>
-        {warning && (
-              <div className="fixed bottom-4 right-4 bg-red-500 text-white px-4 font-semibold text-xl py-2 rounded-lg shadow-md transition-all duration-100 z-[9999] border border-white">
-               Item is already in the cart!
+        {
+        
+        warning && (
+              <div className="fixed bottom-4 right-4 bg-red-500 text-white px-4 font-semibold text-xl py-2 rounded-lg shadow-md transition-all duration-100 z-[9999]">
+               Item is already in the Cart!
               </div>
           )}
+
+          {
+            warning2 && (
+               <div className="fixed bottom-4 right-4 bg-red-500 text-white px-4 font-semibold text-xl py-2 rounded-lg shadow-md transition-all duration-100 z-[9999]">
+               Item is already in the Wishlist!
+              </div>
+            )
+          }
+ 
+          {  addedwish && (
+               <div className="fixed bottom-4 right-4 bg-red-500 text-white px-4 font-semibold text-xl py-2 rounded-lg shadow-md transition-all duration-100 z-[9999]">
+               Added To The Wishlist!
+              </div>
+            )
+          }
+
         <Category />
         <Category2 />
         <Services />
         <Banner data={BannerData} handleOrderPopup={handleOrderPopup}/>
-        <Products handleOrderPopup={handleOrderPopup} handlecart={handlecart}/>
+        <Products handleOrderPopup={handleOrderPopup} handlecart={handlecart} handlewish={handlewish}/>
         <Banner data={BannerData2} handleOrderPopup={handleOrderPopup}/>
         <Blog />
         <Partners />
         <Footer />
         <Popup OrderPopup={OrderPopup} handleOrderPopup={handleOrderPopup}/>
         <Cart isCartOpen={isCartOpen} toggleCart={toggleCart} cart={cart} setCart={setCart}/>
+        <Wishlist isWishOpen={isWishOpen} toggleWish={toggleWish} wish={wish} setWish={setWish}/>
     </>
   )
 }

@@ -4,6 +4,7 @@ import { FaShoppingCart } from "react-icons/fa";
 import DarkMode from './DarkMode';
 import { IoMdArrowDropdown } from "react-icons/io";
 import ProductCard from '../Products/ProductCard';
+import { FaHeart } from "react-icons/fa";
 
 const DropLinks = [
   {
@@ -46,11 +47,11 @@ const MenuLinks = [
   },
 ]
 
-function NavBar({ handleOrderPopup, handlecart , size , toggleCart }){
+function NavBar({ handleOrderPopup , size , toggleCart, toggleWish ,size2 }){
 
     return (
       <>
-    <div className="bg-white dark:text-white relative overflow-x-hidden">
+    <div className="bg-white dark:text-white relative">
         <div className="py-1">
             <div className="p-3 sm:p-6 flex justify-between items-center">
                 <div className="flex">
@@ -70,7 +71,7 @@ function NavBar({ handleOrderPopup, handlecart , size , toggleCart }){
                           <ul>
                             {DropLinks.map((data, index) => (
                         <li key={index} className="hidden group-hover:block text-gray-600 
-                   items-center w-36 p-2 group-hover:transition-all group-hover:duration-300 rounded-sm hover:bg-red-200 font-semibold border-solid  border-0"><a href={data.link}> {data.name}</a> </li>))}
+                   items-center w-36 p-2 group-hover:transition-all group-hover:duration-300 rounded-sm hover:bg-red-200 font-semibold border-solid  border-0 bg-white"><a href={data.link}> {data.name}</a> </li>))}
                           </ul>
                         </div>
                       </li>
@@ -82,6 +83,10 @@ function NavBar({ handleOrderPopup, handlecart , size , toggleCart }){
                       <input type="text" placeholder="Search" className="search-bar" />
                       <IoIosSearch className='text-gray-600 absolute top-1/2 -translate-y-1/2 right-1 group-hover:text-primary text-xl duration-200'/>
                     </div>
+                     <button onClick={toggleWish}>
+                      <FaHeart className='text-gray-600 hover:text-primary text-2xl'/>
+                    </button>
+                    <p className='-translate-x-6 -translate-y-3 border rounded-4xl px-2 text-white bg-primary'>{size2}</p>
                     <button onClick={toggleCart}>
                       <FaShoppingCart className='text-gray-600 hover:text-primary text-2xl'/>
                     </button>
