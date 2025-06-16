@@ -97,7 +97,7 @@ function App(){
        <Navbar handleOrderPopup={handleOrderPopup} size={cart.length} toggleCart={toggleCart}/>
         <Hero handleOrderPopup={handleOrderPopup}/>
         {warning && (
-              <div data-aos="fade-in" className="fixed bottom-4 right-4 bg-red-500 text-white px-4 font-semibold text-xl py-2 rounded-lg shadow-md transition-all duration-100 z-[9999] border border-white">
+              <div className="fixed bottom-4 right-4 bg-red-500 text-white px-4 font-semibold text-xl py-2 rounded-lg shadow-md transition-all duration-100 z-[9999] border border-white">
                Item is already in the cart!
               </div>
           )}
@@ -111,7 +111,7 @@ function App(){
         <Partners />
         <Footer />
         <Popup OrderPopup={OrderPopup} handleOrderPopup={handleOrderPopup}/>
-        <Cart isCartOpen={isCartOpen} toggleCart={toggleCart} />
+        <Cart isCartOpen={isCartOpen} toggleCart={toggleCart} cart={cart} setCart={setCart}/>
     </>
   )
 }
