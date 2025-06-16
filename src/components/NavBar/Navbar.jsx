@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { IoIosSearch } from "react-icons/io";
 import { FaShoppingCart } from "react-icons/fa";
 import DarkMode from './DarkMode';
 import { IoMdArrowDropdown } from "react-icons/io";
-
+import ProductCard from '../Products/ProductCard';
 
 const DropLinks = [
   {
@@ -46,8 +46,10 @@ const MenuLinks = [
   },
 ]
 
-function NavBar({ handleOrderPopup }){
+function NavBar({ handleOrderPopup, handlecart , size , toggleCart }){
+
     return (
+      <>
     <div className="bg-white dark:text-white relative overflow-x-hidden">
         <div className="py-1">
             <div className="p-3 sm:p-6 flex justify-between items-center">
@@ -75,15 +77,15 @@ function NavBar({ handleOrderPopup }){
                       </ul>
                     </div>
                 </div>
-
                 <div className="flex justify-center items-center gap-4">
                     <div className="relative group hidden sm:block">
                       <input type="text" placeholder="Search" className="search-bar" />
                       <IoIosSearch className='text-gray-600 absolute top-1/2 -translate-y-1/2 right-1 group-hover:text-primary text-xl duration-200'/>
                     </div>
-                    <button onClick={handleOrderPopup}>
-                      <FaShoppingCart className='text-gray-600 hover:text-primary '/>
+                    <button onClick={toggleCart}>
+                      <FaShoppingCart className='text-gray-600 hover:text-primary text-2xl'/>
                     </button>
+                  <p className='-translate-x-6 -translate-y-3 border rounded-4xl px-2 text-white bg-primary'>{size}</p>
                     <div>
                       <DarkMode />
                     </div>
@@ -92,6 +94,7 @@ function NavBar({ handleOrderPopup }){
             </div>
         </div>
     </div>
+    </>
   )
 }
 

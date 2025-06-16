@@ -14,7 +14,9 @@ import Footer from './components/Footer/Footer';
 import Popup from './components/Popup/Popup';
 import AOS from "aos";
 import "aos/dist/aos.css";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import Cart from './components/Cart/Cart';
+
 
 
 
@@ -56,25 +58,60 @@ function App(){
 }, []);
 
   const [OrderPopup, SetOrderPopup] = React.useState(false);
+  const [cart, setCart] = useState([]);
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const [warning, setWarning ] = useState(false);
 
   const handleOrderPopup = ()  => {
     SetOrderPopup(!OrderPopup);
   };
 
+  function toggleCart() {
+    console.log("pressed")
+  setIsCartOpen(!isCartOpen);
+}
+
+ function handlecart(item) {
+  let isPresent = false;
+
+  cart.forEach((moiz) => {
+    if (item.id === moiz.id) {
+      isPresent = true;
+    }
+  });
+
+  if (isPresent) {
+    setWarning(true);
+    setTimeout(() =>{
+      setWarning(false);
+    }, 5000);
+    return;
+  }
+
+    setCart([...cart, item]);
+}
+
+
   return (
     <>
-       <Navbar handleOrderPopup={handleOrderPopup}/>
+       <Navbar handleOrderPopup={handleOrderPopup} size={cart.length} toggleCart={toggleCart}/>
         <Hero handleOrderPopup={handleOrderPopup}/>
+        {warning && (
+              <div data-aos="fade-in" className="fixed bottom-4 right-4 bg-red-500 text-white px-4 font-semibold text-xl py-2 rounded-lg shadow-md transition-all duration-100 z-[9999] border border-white">
+               Item is already in the cart!
+              </div>
+          )}
         <Category />
         <Category2 />
         <Services />
         <Banner data={BannerData} handleOrderPopup={handleOrderPopup}/>
-        <Products handleOrderPopup={handleOrderPopup}/>
+        <Products handleOrderPopup={handleOrderPopup} handlecart={handlecart}/>
         <Banner data={BannerData2} handleOrderPopup={handleOrderPopup}/>
         <Blog />
         <Partners />
         <Footer />
         <Popup OrderPopup={OrderPopup} handleOrderPopup={handleOrderPopup}/>
+        <Cart isCartOpen={isCartOpen} toggleCart={toggleCart} />
     </>
   )
 }

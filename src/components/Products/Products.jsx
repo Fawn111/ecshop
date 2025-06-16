@@ -73,13 +73,13 @@ const Productcards2 = [
     },
 ]
 
-const Products = () => {
+const Products = ({ handlecart }) => {
   return (
     <div>
         <div className='p-3 sm:p-6 m-4 overflow-x-hidden'>
             <Heading title="Our Products" subtitle="Explore Our Products"/>
-            <ProductCard data={Productcards}/>
-            <ProductCard data={Productcards2} />
+            <ProductCard data={Productcards} handlecart={handlecart}/>
+            <ProductCard data={Productcards2} handlecart={handlecart}/>
         </div>
     </div>
   )
