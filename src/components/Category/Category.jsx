@@ -7,7 +7,7 @@ import Button from "../Shared/Button"
 function Category(){
     return(
         <>
-        <div className="grid grid-col-1 sm:grid-cols-4 m-4 sm:p-6 gap-8  mt-24 sm:mt-0">
+        <div className="grid grid-col-1 sm:grid-cols-4 m-4 sm:p-6 gap-8  mt-24 sm:mt-0 overflow-hidden">
             <div className="bg-gradient-to-br from-black/90 to-black/70 rounded-3xl p-6 h-[320px] flex relative items-end">
                 <div>
                     <h2 className="text-white opacity-40">Enjoy</h2>

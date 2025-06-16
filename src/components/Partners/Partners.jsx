@@ -7,7 +7,7 @@ import brand5 from '../../assets/brand/br-5.png'
 
 const Partners = () => {
   return (
-    <div className='mt-10 bg-gray-200 hidden md:block overflow-x-hidden'>
+    <div className='mt-10 bg-gray-200 hidden md:block overflow-hidden'>
         <div className='p-3 sm:p-6 m-4'>
             <div className='gap-3 grid md:grid-cols-5 place-items-center opacity-50'>
                 <img src={brand1} alt="" className='w-[80px]'/>

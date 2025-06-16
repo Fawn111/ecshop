@@ -32,7 +32,7 @@ const blogs = [
 const Blog = () => {
   return (
     <div>
-        <div className='p-3 sm:p-6 m-4 overflow-x-hidden'>
+        <div className='p-3 sm:p-6 m-4 overflow-hidden'>
             <Heading title="Our Blogs" subtitle="Explore Our Blogs"/>
             <div className='grid md:grid-cols-3 grid-cols-1 gap-4 mt-10'>
                 {blogs.map((data) => (

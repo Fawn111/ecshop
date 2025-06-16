@@ -25,7 +25,7 @@ const FooterLinks = [
 const Footer = () => {
   return (
     <div>
-        <div className='p-3 sm:p-6 m-4 flex overflow-x-hidden'>
+        <div className='p-3 sm:p-6 m-4 flex overflow-hidden'>
             <div className='md:grid-cols-4 grid-cols-1 grid pb-20 pt-5 gap-10'>
                 <div>
                     <a href="#" className="text-primary tracking-widest font-semibold text-2xl sm:text-3xl uppercase">Eshop</a>

@@ -3,7 +3,7 @@ import React from 'react'
 const Banner = ({ data, handleOrderPopup }) => {
   return (
   <>
-    <div className='min-h-[550px] flex justify-center items-center overflow-x-hidden'>
+    <div className='min-h-[550px] flex justify-center items-center overflow-hidden'>
         <div className="p-3 sm:p-6 m-4">
             <div className="grid grid-cols-1 pl-10 sm:pl-0 gap-5 sm:grid-cols-3 items-center text-white rounded-2xl" style={{backgroundColor: data.bgColor}}>
                 <div className="p-6 sm:p-8">

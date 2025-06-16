@@ -7,7 +7,7 @@ import Image3 from "../../assets/category/speaker.png"
 function Category2(){
     return( 
         <>
-        <div className="grid grid-col-1 sm:grid-cols-4 m-4 sm:p-6 gap-8  mt-24 sm:mt-0">
+        <div className="grid grid-col-1 sm:grid-cols-4 m-4 sm:p-6 gap-8  mt-24 sm:mt-0 overflow-hidden">
             <div className="bg-gradient-to-br from-gray-300/90 to-gray-100 rounded-3xl p-6 h-[320px] flex relative sm:col-span-2">
                 <div>
                     <h2 className="text-white opacity-60">Enjoy</h2>
