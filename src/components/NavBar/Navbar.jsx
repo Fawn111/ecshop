@@ -86,11 +86,11 @@ function NavBar({ handleOrderPopup , size , toggleCart, toggleWish ,size2 }){
                      <button onClick={toggleWish}>
                       <FaHeart className='text-gray-600 hover:text-primary text-2xl cursor-pointer'/>
                     </button>
-                    <p className='-translate-x-6 -translate-y-3 border rounded-4xl px-2 text-white bg-primary'>{size2}</p>
+                    <p onClick={toggleWish} className='cursor-pointer -translate-x-6 -translate-y-3 border rounded-4xl px-2 text-white bg-primary'>{size2}</p>
                     <button onClick={toggleCart}>
                       <FaShoppingCart className='text-gray-600 hover:text-primary text-2xl cursor-pointer'/>
                     </button>
-                  <p className='-translate-x-6 -translate-y-3 border rounded-4xl px-2 text-white bg-primary'>{size}</p>
+                  <p onClick={toggleCart} className='cursor-pointer -translate-x-6 -translate-y-3 border rounded-4xl px-2 text-white bg-primary'>{size}</p>
                     {/* <div>
                       <DarkMode />
                     </div> */}
