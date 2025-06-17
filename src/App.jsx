@@ -145,8 +145,8 @@ function App(){
         <Services />
         <Footer />
         <Popup OrderPopup={OrderPopup} handleOrderPopup={handleOrderPopup}/>
-        <Cart isCartOpen={isCartOpen} toggleCart={toggleCart} cart={cart} setCart={setCart}/>
-        <Wishlist isWishOpen={isWishOpen} toggleWish={toggleWish} wish={wish} setWish={setWish}/>
+        <Cart isCartOpen={isCartOpen} size={cart.length} toggleCart={toggleCart} cart={cart} setCart={setCart}/>
+        <Wishlist isWishOpen={isWishOpen} toggleWish={toggleWish} wish={wish} setWish={setWish} size={wish.length}/>
     </>
   )
 }

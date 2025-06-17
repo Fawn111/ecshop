@@ -3,7 +3,7 @@ import { IoMdClose } from "react-icons/io";
 import { FaPlusCircle, FaMinusCircle } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 
-const Wishlist = ({ isWishOpen, toggleWish, wish , setWish }) => {
+const Wishlist = ({ isWishOpen, toggleWish, wish , setWish, size }) => {
 
 
 
@@ -26,14 +26,14 @@ const Wishlist = ({ isWishOpen, toggleWish, wish , setWish }) => {
       }`}
     >
       <div className="flex items-center justify-between px-6 py-4  bg-primary">
-        <h2 className="text-2xl text-center font-bold text-white">Wishlist</h2>
+        <h2 className="text-2xl text-center font-bold text-white">Wishlist {size}</h2>
         <IoMdClose
           onClick={toggleWish}
           className="text-2xl cursor-pointer text-white hover:scale-105"
         />
       </div>
 
-    <div className="p-6 space-y-4">
+    <div className="p-6 space-y-4 flex flex-col overflow-y-auto h-[calc(100vh-80px)]">
       {
             wish?.map((item) => (
             <>
