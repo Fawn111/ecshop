@@ -51,7 +51,7 @@ function NavBar({ handleOrderPopup , size , toggleCart, toggleWish ,size2 }){
 
     return (
       <>
-    <div className="bg-white dark:text-white relative">
+    <div className="bg-white dark:text-white fixed w-full z-50 left-0 top-0">
         <div className="py-1">
             <div className="p-3 sm:p-6 flex justify-between items-center">
                 <div className="flex">

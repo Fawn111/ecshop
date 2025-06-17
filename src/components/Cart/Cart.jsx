@@ -49,11 +49,11 @@ const handleMinus = (id) => {
         isCartOpen ? 'translate-x-0' : 'translate-x-full'
       }`}
     >
-      <div className="flex items-center justify-between px-6 py-4 border-b">
-        <h2 className="text-xl font-bold">Your Cart</h2>
+      <div className="flex items-center justify-between px-6 py-4 bg-brandGreen">
+        <h2 className="text-2xl font-bold text-white">Your Cart</h2>
         <IoMdClose
           onClick={toggleCart}
-          className="text-2xl cursor-pointer hover:text-primary"
+          className="text-2xl cursor-pointer hover:scale-105 text-white"
         />
       </div>
 
@@ -70,7 +70,7 @@ const handleMinus = (id) => {
                         <button className='text-xl hover:text-primary cursor-pointer'  onClick={() => handlePlus(item.id)}><FaPlusCircle /></button>
                         <h2>{item.quantity}</h2>
                         <button className='text-xl hover:text-primary cursor-pointer'  onClick={() => handleMinus(item.id)}><FaMinusCircle /></button>
-                         <button className='ml-30 text-3xl hover:text-primary cursor-pointer' onClick={() => handleRemove(item.id)}>
+                         <button className='sm:ml-30 ml-20 text-3xl hover:text-primary cursor-pointer' onClick={() => handleRemove(item.id)}>
                             <MdDelete />
                         </button>
                     </div>

@@ -25,11 +25,11 @@ const Wishlist = ({ isWishOpen, toggleWish, wish , setWish }) => {
         isWishOpen ? 'translate-x-0' : 'translate-x-full'
       }`}
     >
-      <div className="flex items-center justify-between px-6 py-4 border-b">
-        <h2 className="text-2xl text-center font-bold">Wishlist</h2>
+      <div className="flex items-center justify-between px-6 py-4  bg-primary">
+        <h2 className="text-2xl text-center font-bold text-white">Wishlist</h2>
         <IoMdClose
           onClick={toggleWish}
-          className="text-2xl cursor-pointer hover:text-primary"
+          className="text-2xl cursor-pointer text-white hover:scale-105"
         />
       </div>
 

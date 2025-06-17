@@ -17,6 +17,7 @@ import "aos/dist/aos.css";
 import { useEffect, useState } from "react";
 import Cart from './components/Cart/Cart';
 import Wishlist from './components/Whishlist/Wishlist';
+import Toaster from './components/Shared/Toaster';
 
 
 
@@ -62,10 +63,11 @@ function App(){
   const [cart, setCart] = useState([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [warning, setWarning ] = useState(false);
-  const [warning2, setWarning2 ] = useState(false);
   const [wish, setWish] = useState([]);
   const [isWishOpen, setIsWishOpen] = useState(false);
-    const [addedwish, setaddedWish] = useState(false);
+  const [addedwish, setaddedWish] = useState(false);
+  const [addedcart, setaddedCart] = useState(false);
+  const [warning2, setWarning2 ] = useState(false);
 
   const handleOrderPopup = ()  => {
     SetOrderPopup(!OrderPopup);
@@ -82,83 +84,65 @@ function App(){
 }
 
  function handlecart(item) {
-  let isPresent = false;
-
-  cart.forEach((moiz) => {
-    if (item.id === moiz.id) {
-
-      isPresent = true;
-    }
-  });
+  const isPresent = cart.some((moiz) => moiz.id === item.id);
 
   if (isPresent) {
+    setCart(cart.filter((moiz) => moiz.id !== item.id));
     setWarning(true);
-    setTimeout(() =>{
+    setTimeout(() => {
       setWarning(false);
-    }, 5000);
-    return;
-  }
-
+    }, 2000);
+  } else {
     setCart([...cart, item]);
+    setaddedCart(true);
+    setTimeout(() => {
+      setaddedCart(false);
+    }, 2000);
+  }
 }
 
- function handlewish(item) {
-  
-  let isPresent = false;
 
-  wish.forEach((list) => {
-    if (item.id === list.id) {
-      isPresent = true;
-    }
-  });
+ function handlewish(item) {
+  const isPresent = wish.some((list) => list.id === item.id);
 
   if (isPresent) {
+    setWish(wish.filter((list) => list.id !== item.id));
     setWarning2(true);
     setTimeout(() => {
       setWarning2(false);
-    }, 5000);
-    return;
+    }, 2000);
+  } else {
+    setWish([...wish, item]);
+    setaddedWish(true);
+    setTimeout(() => {
+      setaddedWish(false);
+    }, 2000);
   }
-
-  setWish([...wish, item]);
 }
+
 
 
   return (
     <>
        <Navbar handleOrderPopup={handleOrderPopup} size={cart.length} size2={wish.length} toggleCart={toggleCart} toggleWish={toggleWish}/>
         <Hero handleOrderPopup={handleOrderPopup}/>
-        {
-        
-        warning && (
-              <div className="fixed bottom-4 right-4 bg-red-500 text-white px-4 font-semibold text-xl py-2 rounded-lg shadow-md transition-all duration-100 z-[9999]">
-               Item is already in the Cart!
-              </div>
-          )}
+       <div className="fixed bottom-4 right-4 flex flex-col-reverse gap-3 z-[9999]">
+              {warning && <Toaster message="Removed From the Cart!" type="error" />}
+              {warning2 && <Toaster message="Item Removed From Wishlist!" type="error" />}
+              {addedcart && <Toaster message="Added To The Cart!" type="success" />}
+              {addedwish && <Toaster message="Added To The Wishlist!" type="success" />}
+        </div>
 
-          {
-            warning2 && (
-               <div className="fixed bottom-4 right-4 bg-red-500 text-white px-4 font-semibold text-xl py-2 rounded-lg shadow-md transition-all duration-100 z-[9999]">
-               Item is already in the Wishlist!
-              </div>
-            )
-          }
- 
-          {  addedwish && (
-               <div className="fixed bottom-4 right-4 bg-red-500 text-white px-4 font-semibold text-xl py-2 rounded-lg shadow-md transition-all duration-100 z-[9999]">
-               Added To The Wishlist!
-              </div>
-            )
-          }
+        
 
         <Category />
         <Category2 />
-        <Services />
+        <Products cart={cart} handlecart={handlecart} handlewish={handlewish} wish={wish}/>
         <Banner data={BannerData} handleOrderPopup={handleOrderPopup}/>
-        <Products handleOrderPopup={handleOrderPopup} handlecart={handlecart} handlewish={handlewish}/>
         <Banner data={BannerData2} handleOrderPopup={handleOrderPopup}/>
         <Blog />
         <Partners />
+        <Services />
         <Footer />
         <Popup OrderPopup={OrderPopup} handleOrderPopup={handleOrderPopup}/>
         <Cart isCartOpen={isCartOpen} toggleCart={toggleCart} cart={cart} setCart={setCart}/>
