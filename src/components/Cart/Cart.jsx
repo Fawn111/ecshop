@@ -57,8 +57,7 @@ const handleMinus = (id) => {
         />
       </div>
 
-   <div className="flex flex-col h-[calc(100vh-80px)]"> {/* Adjust height as needed */}
-  {/* Scrollable cart items */}
+   <div className="flex flex-col h-[calc(100vh-80px)]"> 
   <div className="flex-1 overflow-y-auto px-6 py-4 space-y-4">
     {cart?.map((item) => (
       <div key={item.id} className="border-b pb-2 flex gap-4">
@@ -83,7 +82,6 @@ const handleMinus = (id) => {
     ))}
   </div>
 
-  {/* Total Section */}
   <div className="bg-white flex justify-end p-4">
     <div className='flex flex-col'>
     <div className="px-6 py-4 border-t bg-white">

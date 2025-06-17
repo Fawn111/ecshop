@@ -84,16 +84,16 @@ function NavBar({ handleOrderPopup , size , toggleCart, toggleWish ,size2 }){
                       <IoIosSearch className='text-gray-600 absolute top-1/2 -translate-y-1/2 right-1 group-hover:text-primary text-xl duration-200'/>
                     </div>
                      <button onClick={toggleWish}>
-                      <FaHeart className='text-gray-600 hover:text-primary text-2xl'/>
+                      <FaHeart className='text-gray-600 hover:text-primary text-2xl cursor-pointer'/>
                     </button>
                     <p className='-translate-x-6 -translate-y-3 border rounded-4xl px-2 text-white bg-primary'>{size2}</p>
                     <button onClick={toggleCart}>
-                      <FaShoppingCart className='text-gray-600 hover:text-primary text-2xl'/>
+                      <FaShoppingCart className='text-gray-600 hover:text-primary text-2xl cursor-pointer'/>
                     </button>
                   <p className='-translate-x-6 -translate-y-3 border rounded-4xl px-2 text-white bg-primary'>{size}</p>
-                    <div>
+                    {/* <div>
                       <DarkMode />
-                    </div>
+                    </div> */}
                 </div>
 
             </div>
