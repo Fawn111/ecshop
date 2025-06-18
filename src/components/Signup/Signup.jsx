@@ -55,7 +55,7 @@ const Signup = () => {
     <div className='bg-gradient-to-br from-red-800 via-rose-600 to-pink-800 h-screen flex items-center justify-center'>
         <div>
             <h1 className="text-4xl font-bold text-center text-white uppercase tracking-widest">Signup</h1>
-            <form className="w-xl mt-8 p-6 bg-white rounded-lg shadow-md" onSubmit={handleSubmit}>
+            <form className="sm:w-xl w-sm mt-8 p-6 bg-white rounded-lg shadow-md" onSubmit={handleSubmit}>
                 <div className="mb-4">
                     <label className="block text-gray-700 text-sm font-bold mb-2">Name</label>
                     <input type="text" name='name' onChange={handleInput} placeholder="Enter your name" className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-0"/>

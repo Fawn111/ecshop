@@ -37,9 +37,9 @@ const user = JSON.parse(localStorage.getItem("loggedInUser"));
   return (
     <div className="bg-white dark:text-white fixed w-full z-50 left-0 top-0 shadow">
       <div className="py-1">
-        <div className="p-3 sm:p-6 flex justify-between items-center">
-          <div className="flex">
-            <a href="#" className="text-primary tracking-widest font-semibold text-2xl sm:text-3xl uppercase">Eshop</a>
+        <div className="p-3 sm:p-6 sm:flex sm:justify-between items-center">
+          <div className="flex justify-center items-center">
+            <a href="#" className="text-primary tracking-widest font-semibold text-4xl sm:text-3xl uppercase mb-5 sm:mb-0">Eshop</a>
             <div className="hidden lg:block">
               <ul className="flex mx-9 mt-2">
                 {MenuLinks.map((data) => (

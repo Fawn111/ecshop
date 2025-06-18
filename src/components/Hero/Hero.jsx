@@ -40,7 +40,7 @@ function Hero( { handleOrderPopup }){
   };
 
     return(
-        <div className="p-3 sm:p-6 m-4 overflow-hidden">
+        <div className="p-3 sm:p-6 m-4 overflow-hidden mt-42 sm:mt-24">
             <div className="w-full bg-gray-200 rounded-3xl h-[600px] sm:h-[550px]"        data-aos="fade-up"
                                 data-aos-duration="500"
                                 data-aos-once="true" >

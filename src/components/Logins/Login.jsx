@@ -38,7 +38,7 @@ const Login = () => {
 
       <div>
         <h1 className="text-4xl uppercase tracking-widest font-bold text-center text-white">Login</h1>
-        <form className="w-lg mt-8 p-6 bg-white rounded-lg shadow-md" onSubmit={handleSubmit}>
+        <form className="sm:w-lg w-sm mt-8 p-6 bg-white rounded-lg shadow-md" onSubmit={handleSubmit}>
           <div className="mb-4">
             <label htmlFor="email" className="block text-gray-700 text-sm font-bold mb-2">Email</label>
             <input
