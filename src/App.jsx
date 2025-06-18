@@ -19,7 +19,7 @@ import Wishlist from './components/Whishlist/Wishlist';
 import Toaster from './components/Shared/Toaster';
 
 import Login from './components/Logins/Login';
-import Signup from './components/Logins/signup';
+import Signup from './components/Signup/Signup';
 
 const BannerData = {
   discount: "30% OFF",

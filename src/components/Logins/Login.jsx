@@ -48,7 +48,7 @@ const Login = () => {
               onChange={handleInput}
               placeholder="Enter your email"
               className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-              required
+              required focus:border-0
             />
           </div>
           <div className="mb-4">
@@ -60,7 +60,7 @@ const Login = () => {
               onChange={handleInput}
               placeholder="Enter your password"
               className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-              required
+              required focus:border-0
             />
           </div>
           <div className="mb-4 flex items-center justify-between">
