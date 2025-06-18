@@ -105,8 +105,8 @@ const user = JSON.parse(localStorage.getItem("loggedInUser"));
         </div>
       ) : (
         <>
-          <a href="/login" className="text-white text-lg rounded-sm cursor-pointer border border-primary bg-primary px-3 py-2">Login</a>
-          <a href="/signup" className="text-white text-lg rounded-sm cursor-pointer border border-primary bg-primary px-3 py-2">Signup</a>
+          <a href="/login" className="text-white text-lg rounded-3xl cursor-pointer border border-primary bg-primary px-3 py-2">Login</a>
+          <a href="/signup" className="text-white text-lg rounded-3xl cursor-pointer border border-primary bg-primary px-3 py-2">Signup</a>
         </>
       )}
 

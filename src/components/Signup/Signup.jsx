@@ -1,5 +1,6 @@
 import React, { use } from 'react'
 import Toaster from '../Shared/Toaster';
+import { IoMdReturnLeft } from "react-icons/io";
 
 const Signup = () => {
     const [isOpen, setIsOpen] = React.useState(false);
@@ -54,6 +55,7 @@ const Signup = () => {
     }
     <div className='bg-gradient-to-br from-red-800 via-rose-600 to-pink-800 h-screen flex items-center justify-center'>
         <div>
+           <a href="/" className="absolute sm:top-4 top-4 left-2 sm:left-4 text-primary font-bold border rounded-lg px-3 py-2 z-10 cursor-pointer bg-white flex text-center items-center justify-center gap-2 border-white hover:scale-105 transition-all duration-300"><IoMdReturnLeft className='text-lg'/> Return To Homepage</a>
             <h1 className="text-4xl font-bold text-center text-white uppercase tracking-widest">Signup</h1>
             <form className="sm:w-xl w-sm mt-8 p-6 bg-white rounded-lg shadow-md" onSubmit={handleSubmit}>
                 <div className="mb-4">

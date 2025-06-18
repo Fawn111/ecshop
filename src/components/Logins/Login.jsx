@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Toaster from '../Shared/Toaster'; // Optional if you want error/success toast
+import Toaster from '../Shared/Toaster';
+import { IoMdReturnLeft } from "react-icons/io";
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -37,7 +38,9 @@ const Login = () => {
       {errorToast && <Toaster message="Invalid credentials" type="error" />}
 
       <div>
+        <a href="/" className="absolute sm:top-4 top-4 left-2 sm:left-4 text-primary font-bold border rounded-lg px-3 py-2 z-10 cursor-pointer bg-white flex text-center items-center justify-center gap-2 border-white hover:scale-105 transition-all duration-300"><IoMdReturnLeft className='text-lg'/> Return To Homepage</a>
         <h1 className="text-4xl uppercase tracking-widest font-bold text-center text-white">Login</h1>
+        
         <form className="sm:w-lg w-sm mt-8 p-6 bg-white rounded-lg shadow-md" onSubmit={handleSubmit}>
           <div className="mb-4">
             <label htmlFor="email" className="block text-gray-700 text-sm font-bold mb-2">Email</label>
