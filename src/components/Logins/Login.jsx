@@ -7,6 +7,7 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorToast, setErrorToast] = useState(false);
+  const [isOpen2, setIsOpen2] = useState(false);
   const navigate = useNavigate();
 
   const handleInput = (e) => {
@@ -26,7 +27,11 @@ const Login = () => {
     if (matchedUser) {
       localStorage.setItem('isLoggedIn', 'true');
       localStorage.setItem("loggedInUser", JSON.stringify(matchedUser));
-      navigate('/'); 
+       setIsOpen2(true);
+        setTimeout(() => {
+            setIsOpen2(false);
+            window.location.href = "/";
+        }, 2000);
     } else {
       setErrorToast(true);
       setTimeout(() => setErrorToast(false), 3000);
@@ -36,6 +41,9 @@ const Login = () => {
   return (
     <div className="bg-gradient-to-br from-red-800 via-rose-600 to-pink-800 h-screen flex items-center justify-center">
       {errorToast && <Toaster message="Invalid credentials" type="error" />}
+    {
+        isOpen2 && ( <Toaster message="Login Successful!" type="success" />)
+    }
 
       <div>
         <a href="/" className="absolute sm:top-4 top-4 left-2 sm:left-4 text-primary font-bold border rounded-lg px-3 py-2 z-10 cursor-pointer bg-white flex text-center items-center justify-center gap-2 border-white hover:scale-105 transition-all duration-300"><IoMdReturnLeft className='text-lg'/> Return To Homepage</a>

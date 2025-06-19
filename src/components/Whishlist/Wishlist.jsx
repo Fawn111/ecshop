@@ -1,9 +1,9 @@
 import React, { use, useEffect, useState } from 'react';
 import { IoMdClose } from "react-icons/io";
-import { FaPlusCircle, FaMinusCircle } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
+import { FaRegHeart } from "react-icons/fa";
 
-const Wishlist = ({ isWishOpen, toggleWish, wish , setWish, size }) => {
+const Wishlist = ({ isWishOpen, toggleWish, wish , setWish, size , cart , handlecart}) => {
 
 
 
@@ -25,13 +25,17 @@ const Wishlist = ({ isWishOpen, toggleWish, wish , setWish, size }) => {
         isWishOpen ? 'translate-x-0' : 'translate-x-full'
       }`}
     >
-      <div className="flex items-center justify-between px-6 py-4  bg-primary">
-        <h2 className="text-2xl text-center font-bold text-white">Wishlist {size}</h2>
+      <div className="flex items-center justify-between px-6 py-5  bg-white">
+        <h2 className="text-center flex items-center gap-3 text-xl font-semibold text-black font-primary tracking-wide"><FaRegHeart className='text-primary'/> Wishlist ({size})</h2>
         <IoMdClose
           onClick={toggleWish}
-          className="text-2xl cursor-pointer text-white hover:scale-105"
+          className="text-2xl cursor-pointer text-gray-400 hover:scale-105"
         />
       </div>
+        <div className='border-b border-t text-center py-2 bg-primary/20 border-primary'>
+        <h2 className='text-primary font-sans font-medium tracking-wide'>Wishlist</h2>
+      </div>
+
 
     <div className="p-6 space-y-4 flex flex-col overflow-y-auto h-[calc(100vh-80px)]">
       {
@@ -43,14 +47,21 @@ const Wishlist = ({ isWishOpen, toggleWish, wish , setWish, size }) => {
                     <div>
                     <p className="font-bold text-xl">" {item.title} "</p>
                     <p className="text-lg text-gray-500">${item.price}</p>
+                       {/* <button onClick={() => handlecart(item)} className={`${cart.map((c) => c.id === item.id) ? 'bg-primary' : 'bg-green-300'} text-white px-6 py-2 rounded-xl font-semibold text-sm hover:scale-105 shadow-md hover:shadow-lg bottom-2`} >
+                      {cart.some((c) => c.id === item.id) ? "Remove From Cart" : "Add To Cart"}
+                    </button> */}
                     </div>
                     <div className="">
                          <button className=' text-3xl hover:text-primary cursor-pointer' onClick={() => handleRemove(item.id)}>
                             <MdDelete />
                         </button>
+  
+          
                     </div>
+                
                 </div>
             </div>
+            
             </>
              ))
       }

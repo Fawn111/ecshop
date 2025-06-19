@@ -7,6 +7,8 @@
   --color-brandGreen: #2dcc6f;
   --color-brandBlue: #1376f4;
   --color-brandWhite: #eeeeee;
+  --font-primary: "Montserrat", sans-serif;
+  --font-secondary: "Montserrat Alternates", sans-serif;
 
   --container-hello:center: true
         padding: {

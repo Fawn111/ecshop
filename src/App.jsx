@@ -138,6 +138,8 @@ function App() {
             wish={wish}
             setWish={setWish}
             size={wish.length}
+            cart={cart}
+            handlecart={handlecart}
           />
         </>
       }

@@ -31,6 +31,7 @@ const Signup = () => {
                 setIsOpen(false);
             }, 3000);
         }
+        
         const getData = JSON.parse(localStorage.getItem("user")) || [];
 
         let arr = [];

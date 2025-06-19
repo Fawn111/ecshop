@@ -43,7 +43,7 @@ const user = JSON.parse(localStorage.getItem("loggedInUser"));
             <div className="hidden lg:block">
               <ul className="flex mx-9 mt-2">
                 {MenuLinks.map((data) => (
-                  <li key={data.id} className="text-gray-600 font-semibold px-6 hover:text-black">
+                  <li key={data.id} className="text-gray-600 font-semibold font-primary px-6 hover:text-black">
                     <a href={data.link}>{data.name}</a>
                   </li>
                 ))}
