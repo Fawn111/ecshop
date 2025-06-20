@@ -3,6 +3,7 @@ import { FaCarSide } from "react-icons/fa";
 import { RiVerifiedBadgeFill } from "react-icons/ri";
 import { FaWallet } from "react-icons/fa";
 import { BiSupport } from "react-icons/bi";
+import { motion } from "framer-motion";
 
 const servicesData = [
     {
@@ -37,7 +38,7 @@ function Services(){
         <div className="p-3 sm:p-6 m-4 overflow-hidden">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 my-10">
             {servicesData.map((data) => (
-                <div key={data.id} className="flex">
+                <div key={data.id} className="flex" >
                      {data.icon}
                      <div className="ml-5">
                         <h2 className="text-2xl font-bold">{data.title}</h2>

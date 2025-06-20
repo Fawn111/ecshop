@@ -83,8 +83,8 @@ const Productcards2 = [
 
 const Products = ({ handlecart, handlewish, wish , cart}) => {
   return (
-    <div>
-        <div className='p-3 sm:p-6 m-4 overflow-x-hidden'>
+    <div className=''>
+        <div className='p-3 sm:p-6 m-4 overflow-x-hidde'>
             <Heading title="Our Products" subtitle="Explore Our Products"/>
             <ProductCard data={Productcards} handlecart={handlecart} handlewish={handlewish} wish={wish} cart={cart}/>
             <ProductCard data={Productcards2} handlecart={handlecart} handlewish={handlewish}wish={wish} cart={cart}/>

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Toaster from '../Shared/Toaster';
 import { IoMdReturnLeft } from "react-icons/io";
 import { Link, Navigate } from "react-router-dom";
+import { motion } from 'framer-motion';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -53,7 +54,12 @@ const Login = () => {
         <form className="sm:w-lg w-sm mt-8 p-6 bg-white rounded-lg shadow-md" onSubmit={handleSubmit}>
           <div className="mb-4">
             <label htmlFor="email" className="block text-gray-700 text-sm font-bold mb-2">Email</label>
-            <input
+            <motion.input
+             initial={{ x: -100, opacity: 0 }}
+            whileInView={{ x: 0, opacity: 1 }}
+            transition={{ delay: 0.2, duration: 1 }}
+            viewport={{ once: true }}
+
               type="email"
               name="email"
               value={email}
@@ -65,7 +71,11 @@ const Login = () => {
           </div>
           <div className="mb-4">
             <label htmlFor="password" className="block text-gray-700 text-sm font-bold mb-2">Password</label>
-            <input
+            <motion.input
+            initial={{ x: 100, opacity: 0 }}
+            whileInView={{ x: 0, opacity: 1 }}
+            transition={{ delay: 0.2, duration: 1 }}
+            viewport={{ once: true }}
               type="password"
               name="password"
               value={password}
@@ -81,12 +91,16 @@ const Login = () => {
               <a href="/signup" className="text-primary ml-2 hover:underline">Signup</a>
             </span>
           </div>
-          <button
+          <motion.button
+            initial={{ y: 50, opacity: 0 }}
+            whileInView={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.2, duration: 0.5 }}
+            viewport={{ once: true }}
             type="submit"
             className="w-full bg-primary text-white px-4 py-2 rounded-lg hover:scale-105 transition duration-200"
           >
             Login
-          </button>
+          </motion.button>
         </form>
       </div>
     </div>
