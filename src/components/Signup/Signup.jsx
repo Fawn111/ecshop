@@ -33,10 +33,8 @@ const Signup = () => {
         localStorage.setItem("user", JSON.stringify(updatedUsers));
 
         setIsOpen2(true);
-        setTimeout(() => {
             setIsOpen2(false);
             navigate("/login");
-        }, 3000);
     }
 
     return (
