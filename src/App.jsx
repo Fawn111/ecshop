@@ -20,7 +20,7 @@ import Toaster from './components/Shared/Toaster';
 import Order from "./components/Orders/Order";
 import Login from './components/Logins/Login';
 import Signup from './components/Signup/Signup';
-
+import OrderRecieved from "./components/Conformation/OrderRecieved";
 import Checkout from './components/Checkout/Checkout';
 
 const BannerData = {
@@ -181,9 +181,10 @@ useEffect(() => {
             cart={cart}
             handlecart={handlecart}
           />
-      <Checkout
+      <Checkout setCart1={setCart}
         cart={cart}/>
     </>} />
+    <Route path="/order-received" element={<OrderRecieved />} />
     <Route path="/orders" element={
       <> 
      <Navbar

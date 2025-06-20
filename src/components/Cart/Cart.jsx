@@ -139,7 +139,7 @@ const updateCart = (updatedCart) => {
             </div>
             {isLoggedIn ? (
               <Link to='/checkout' settimeout={3000} onClick={toggleCart}>
-                <button className="bg-primary animate-bounce text-white px-6 py-2 rounded-md font-semibold hover:bg-brandGreen cursor-pointer transition duration-300 w-full">
+                <button className="bg-primary text-white px-6 py-2 rounded-md font-semibold hover:bg-brandGreen cursor-pointer transition duration-300 w-full">
                   Proceed to Checkout
                 </button>
               </Link>
