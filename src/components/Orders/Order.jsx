@@ -50,7 +50,7 @@ const ADMIN_PASSWORD = "admin123";
      {warning && (<Toaster message="Incorrect Password!" type="error" />)}
     <div className="min-h-screen bg-gray-100 p-6">
         <div className=" ml-4 flex justify-center-safe">
-          <button className="mt-22 w-23 bg-red-500 text-white cursor-pointer py-2 rounded hover:bg-red-600 transition" onClick={() => setAuthenticated(false)}>Log Out</button>
+          <button className="sm:mt-22 mt-32 w-23 bg-red-500 text-white cursor-pointer py-2 rounded hover:bg-red-600 transition" onClick={() => setAuthenticated(false)}>Log Out</button>
         </div>
       <h2 className="text-2xl font-bold mb-4 text-center mt-2">Your Orders</h2>
 
