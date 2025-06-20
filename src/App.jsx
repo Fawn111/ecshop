@@ -17,9 +17,11 @@ import Popup from './components/Popup/Popup';
 import Cart from './components/Cart/Cart';
 import Wishlist from './components/Whishlist/Wishlist';
 import Toaster from './components/Shared/Toaster';
-
+import Order from "./components/Orders/Order";
 import Login from './components/Logins/Login';
 import Signup from './components/Signup/Signup';
+
+import Checkout from './components/Checkout/Checkout';
 
 const BannerData = {
   discount: "30% OFF",
@@ -60,6 +62,16 @@ function App() {
   const toggleCart = () => setIsCartOpen(!isCartOpen);
   const toggleWish = () => setIsWishOpen(!isWishOpen);
   const handleOrderPopup = () => SetOrderPopup(!OrderPopup);
+
+
+useEffect(() => {
+  const savedCart = JSON.parse(localStorage.getItem("cartItems")) || [];
+  setCart(savedCart);
+}, []);
+
+    useEffect(() => {
+      localStorage.setItem("cartItems", JSON.stringify(cart));
+    }, [cart]);
 
   const handlecart = (item) => {
     const exists = cart.some((moiz) => moiz.id === item.id);
@@ -147,6 +159,43 @@ function App() {
     <Route path="/login" element={<Login />} />
     <Route path="/signup" element={<Signup />} />
     <Route path="*" element={<Navigate to="/" />} />
+    <Route path="/checkout" element={<>
+      <Navbar   handleOrderPopup={handleOrderPopup}
+            size={cart.length}
+            size2={wish.length}
+            toggleCart={toggleCart}
+            toggleWish={toggleWish}/> 
+             <Cart
+            isCartOpen={isCartOpen}
+            size={cart.length}
+            toggleCart={toggleCart}
+            cart={cart}
+            setCart={setCart}
+          />
+          <Wishlist
+            isWishOpen={isWishOpen}
+            toggleWish={toggleWish}
+            wish={wish}
+            setWish={setWish}
+            size={wish.length}
+            cart={cart}
+            handlecart={handlecart}
+          />
+      <Checkout
+        cart={cart}/>
+    </>} />
+    <Route path="/orders" element={
+      <> 
+     <Navbar
+            handleOrderPopup={handleOrderPopup}
+            size={cart.length}
+            size2={wish.length}
+            toggleCart={toggleCart}
+            toggleWish={toggleWish}
+          />
+      <Order />
+    </>
+  } />
   </Routes>
 </Router>
 

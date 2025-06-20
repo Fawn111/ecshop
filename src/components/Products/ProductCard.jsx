@@ -18,7 +18,7 @@ const ProductCard = ({ data, handlecart, handlewish, wish, cart }) => {
         </button>
               </div>
               <div>
-                <h2 className="text-gray-500">${item.price}</h2>
+                <h2 className="text-gray-500">PKR {item.price}</h2>
               </div>
                
                <div className="items-center flex justify-center mt-3">

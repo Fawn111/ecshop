@@ -14,12 +14,25 @@ const Wishlist = ({ isWishOpen, toggleWish, wish , setWish, size , cart , handle
         setWish(arr);
     }
 
+       useEffect(() => {
+      if (isWishOpen) {
+        document.body.classList.add('overflow-hidden');
+      } else {
+        document.body.classList.remove('overflow-hidden');
+      }
+    
+      return () => {
+        document.body.classList.remove('overflow-hidden');
+      };
+    }, [isWishOpen]);
+
 
 //    useEffect(() => {
 //         handleprice();
 //     }, [cart]);
 
   return (
+    
     <div
       className={`fixed h-full w-full top-0 right-0 sm:w-[600px] bg-white shadow-lg z-50 transform transition-transform duration-300 overflow-hidden ${
         isWishOpen ? 'translate-x-0' : 'translate-x-full'
