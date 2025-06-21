@@ -84,7 +84,7 @@ function NavBar({ handleOrderPopup, size, toggleCart }) {
             </div>
                 
             <button onClick={toggleCart}>
-              <FaShoppingCart className="text-black hover:text-primary text-2xl cursor-pointer" />
+              <FaShoppingCart className="text-black hover:scale-105 text-2xl cursor-pointer" />
             </button>
             <p onClick={toggleCart} className="cursor-pointer -translate-x-6 -translate-y-3 border rounded-4xl px-2 text-white bg-black">
               {size}
@@ -92,7 +92,7 @@ function NavBar({ handleOrderPopup, size, toggleCart }) {
 
             <div className="relative cursor-pointer" onClick={toggleDropdown}>
               <CgProfile className="text-black text-3xl" />
-              {isOpen && (
+              {isOpen && user && (
                 <div className="absolute right-0 mt-4 shadow-sm w-56 bg-white top-full z-50 rounded-md border border-gray-200">
                   <div className="flex items-center justify-between mb-2">
                     <h2 className="text-black text-xl font-bold p-3">{user ? `Hello, ${user.name}` : 'Profile'}</h2>

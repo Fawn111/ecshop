@@ -1,40 +1,77 @@
-import React from 'react'
+import React from 'react';
 import { motion } from 'framer-motion';
+import Heading from '../Shared/Heading';
+import banner1 from '../../assets/banner/1.png';
+import banner2 from '../../assets/banner/2.png';
+import banner3 from '../../assets/banner/3.png'; 
+import banner4 from '../../assets/banner/4.png';
 
-const Banner = ({ data, handleOrderPopup }) => {
+const Banner = () => {
+ const cardClasses = "relative overflow-hidden rounded-2xl p-0";
+const labelClasses = "absolute top-3 left-4 text-[32px] font-semibold tracking-tight font-secondary font-semibold z-10 text-black  px-3 py-1 rounded";
+const imageClasses = "w-full h-full object-cover rounded-2xl";
+
+
   return (
-  <>
-    <div className='min-h-[550px] flex justify-center items-center overflow-hidden '>
-        <div className="p-3 sm:p-6 m-4">
-            <div className="grid grid-cols-1 pl-10 sm:pl-0 gap-5 sm:grid-cols-3 items-center text-white rounded-2xl" style={{backgroundColor: data.bgColor}}>
-                <div className="p-6 sm:p-8">
-                    <p className='text-sm' data-aos="fade-up">{data.discount}</p>
-                    <motion.h2 initial={{ x: -50, opacity: 0 }}
-          whileInView={{ x: 0, opacity: 1 }}
-          transition={{ delay: 0.4, duration: 1 }}
-          viewport={{ once: true }} className="text-7xl font-bold uppercase" data-aos="zoom-out">{data.title}</motion.h2>
-                    <p className='text-sm' data-aos="fade-up">{data.date}</p>
-               </div>
-               <motion.div initial={{ x: 50, opacity: 0 }}
-                          whileInView={{ x: 0, opacity: 1 }}
-                          transition={{ delay: 0.4, duration: 4 }}
-                          viewport={{ once: true }} >
-                <img src={data.image} data-aos="fade-up" className="scale-125 drop-shadow-xl drop-shadow-black/40 w-[250px] sm:w-[340px] object-cover" />
-               </motion.div>
-               <div className='flex flex-col justify-center p-3 gap-4'>
-                <p className='font-bold text-xl' data-aos="zoom-out">{data.title2}</p>
-                <p className='text-3xl sm:text-5xl font-bold' data-aos="fade-up">{data.title3}</p>
-                <p className='leading-5 tracking-wide text-sm' data-aos="fade-up">{data.title4}</p>
-                <div>
-                    <button style={{color: data.bgColor}} className='border-0 border-solid p-3  transition-all duration-300 ease-in-out  hover:scale-105 
-                  shadow-md hover:shadow-lg bg-white text-primary rounded-4xl' data-aos="fade-up" onClick={handleOrderPopup}>Shop Now</button>
-                </div>
-               </div>
-            </div>
+    <div className='w-full max-w-[1239px] mx-auto overflow-hidden bg-white'>
+      <div className="p-3 sm:p-6 m-4 bg-primary rounded-2xl">
+        <Heading title="BROWSE BY DRESS STYLE" />
+
+        <div className="grid grid-cols-1 sm:grid-cols-3 grid-rows-2 gap-5 mt-10">
+          
+          {/* Casual */}
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.1, duration: 0.6 }}
+            viewport={{ once: true }}
+            className={cardClasses}
+          >
+            
+            <img src={banner3} alt="Casual" className={imageClasses} />
+            <div className={`${labelClasses}`}>Casual</div>
+          </motion.div>
+
+          {/* Formal (spans 2 columns) */}
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.2, duration: 0.6 }}
+            viewport={{ once: true }}
+            className={`${cardClasses} sm:col-span-2 h-[289px]`}
+          >
+            <img src={banner4} alt="Formal" className={imageClasses} />
+             <div className={labelClasses}>Formal</div>
+          </motion.div>
+
+          {/* Party */}
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.3, duration: 0.6 }}
+            viewport={{ once: true }}
+            className={`${cardClasses} sm:col-span-2 h-[289px]`}
+          >
+            <img src={banner1} alt="Party" className={imageClasses} />
+            <div className={labelClasses}>Party</div>
+          </motion.div>
+
+          {/* Gym */}
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.4, duration: 0.6 }}
+            viewport={{ once: true }}
+            className={cardClasses}
+          >
+            <img src={banner2} alt="Gym" className={imageClasses} />
+            <div className={labelClasses}>Gym</div>
+          </motion.div>
+
         </div>
+      </div>
     </div>
-    </>
-  )
-}
+  );
+};
 
 export default Banner;

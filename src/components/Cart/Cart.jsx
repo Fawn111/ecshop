@@ -124,7 +124,7 @@ const updateCart = (updatedCart) => {
 
           <div className="bg-white flex justify-center p-4 border-t border-b border-gray-300">
             <input type="text" placeholder="Enter Coupon Code" className="border border-gray-300 px-3 py-2 sm:w-[250px] w-[200]" />
-            <button className="bg-primary text-white px-4 py-2 font-semibold cursor-pointer hover:bg-brandGreen text-[14px] transition duration-300">Apply Coupon</button>
+            <button className="bg-black text-white px-4 py-2 font-semibold cursor-pointer hover:bg-brandGreen text-[14px] transition duration-300">Apply Coupon</button>
           </div>
 
           <div className="p-7">
@@ -139,13 +139,13 @@ const updateCart = (updatedCart) => {
             </div>
             {isLoggedIn ? (
               <Link to='/checkout' settimeout={3000} onClick={toggleCart}>
-                <button className="bg-primary text-white px-6 py-2 rounded-md font-semibold hover:bg-brandGreen cursor-pointer transition duration-300 w-full">
+                <button className="bg-black text-white px-6 py-2 rounded-md font-semibold hover:bg-brandGreen cursor-pointer transition duration-300 w-full">
                   Proceed to Checkout
                 </button>
               </Link>
             ) : (
               <Link to='/login' settimeout={500} onClick={toggleCart}>
-                <button className="bg-primary text-white px-6 py-2 rounded-md font-semibold cursor-pointer hover:bg-brandGreen transition duration-300 w-full">
+                <button className="bg-black text-white px-6 py-2 rounded-md font-semibold cursor-pointer hover:bg-brandGreen transition duration-300 w-full">
                   Please Login to Checkout
                 </button>
               </Link>

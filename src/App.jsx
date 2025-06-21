@@ -6,9 +6,7 @@ import Hero from './components/Hero/Hero';
 import Category from './components/Category/Category';
 import Services from './components/Services/Services';
 import Banner from './components/Banner/Banner';
-import headphone from './assets/hero/headphone.png';
 import Products from './components/Products/Products';
-import watch from "./assets/category/smartwatch2-removebg-preview.png";
 import Blog from './components/Blogs/Blog';
 import Footer from './components/Footer/Footer';
 import Popup from './components/Popup/Popup';
@@ -20,28 +18,6 @@ import Login from './components/Logins/Login';
 import Signup from './components/Signup/Signup';
 import OrderRecieved from "./components/Conformation/OrderRecieved";
 import Checkout from './components/Checkout/Checkout';
-
-const BannerData = {
-  discount: "30% OFF",
-  title: "Fine Smile",
-  date: "10 Jan to 28 Jan",
-  image: headphone,
-  title2: "Air Solo Bass",
-  title3: "Winter Sale",
-  title4: "Voluptate omnis aut at nobis voluptates vel quibusdam porro cupiditate hic ametvoluptatibus quos error?",
-  bgColor: "#f42c37"
-};
-
-const BannerData2 = {
-  discount: "30% OFF",
-  title: "Happy Hours",
-  date: "10 Jan to 28 Jan",
-  image: watch,
-  title2: "Winter Sale",
-  title3: "Winter Sale",
-  title4: "Voluptate omnis aut at nobis voluptates vel quibusdam porro cupiditate hic ametvoluptatibus quos error?",
-  bgColor: "#2dcc6f"
-};
 
 function App() {
   const [cart, setCart] = useState([]);
@@ -127,8 +103,7 @@ useEffect(() => {
             handlewish={handlewish}
             wish={wish}
           />
-          <Banner data={BannerData} handleOrderPopup={handleOrderPopup} />
-          <Banner data={BannerData2} handleOrderPopup={handleOrderPopup} />
+          <Banner />
           <Blog />
           <Services />
           <Footer />

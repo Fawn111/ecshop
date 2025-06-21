@@ -42,9 +42,9 @@ const Signup = () => {
             {isOpen && <Toaster message="Please Fill All Fields" type="error" />}
             {isOpen2 && <Toaster message="Signup Successful! Redirecting to Login..." type="success" />}
 
-            <div className='bg-gradient-to-br from-red-800 via-rose-600 to-pink-800 h-screen flex items-center justify-center'>
+            <div className='bg-black/90 h-screen flex items-center justify-center'>
                 <div>
-                    <Link to="/" className="absolute sm:top-4 top-4 left-2 sm:left-4 text-primary font-bold border rounded-lg px-3 py-2 z-10 cursor-pointer bg-white flex text-center items-center justify-center gap-2 border-white hover:scale-105 transition-all duration-300">
+                    <Link to="/" className="absolute sm:top-4 top-4 left-2 sm:left-4 text-white font-bold border rounded-lg px-3 py-2 z-10 cursor-pointer bg-black/90 flex text-center items-center justify-center gap-2 border-black hover:scale-105 transition-all duration-300">
                         <IoMdReturnLeft className='text-lg' /> Return To Homepage
                     </Link>
                     <h1 className="text-4xl font-bold text-center text-white uppercase tracking-widest">Signup</h1>
@@ -63,10 +63,10 @@ const Signup = () => {
                         </div>
                         <div className='mb-4 flex justify-between items-center'>
                             <label className="inline-flex items-center text-sm">
-                                Already have an account? <Link to="/login" className="text-primary ml-1 hover:underline">Login</Link>
+                                Already have an account? <Link to="/login" className="text-red-600 ml-1 hover:underline">Login</Link>
                             </label>
                         </div>
-                        <button type="submit" className="w-full bg-primary text-white px-4 py-2 rounded-lg hover:scale-105 transition duration-200">Signup</button>
+                        <button type="submit" className="w-full bg-black cursor-pointer text-white px-4 py-2 rounded-lg hover:scale-105 transition duration-200">Signup</button>
                     </form>
                 </div>
             </div>

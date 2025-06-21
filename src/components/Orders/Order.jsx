@@ -35,7 +35,7 @@ const ADMIN_PASSWORD = "admin123";
         <div className="bg-white p-6 rounded shadow-md w-full max-w-sm text-center">
           <h2 className="text-xl font-bold mb-4">Admin Login</h2>
           <input type="password" placeholder="Enter admin password" value={inputPassword} onChange={(e) => setInputPassword(e.target.value)} className="w-full p-2 border rounded mb-4"/>
-          <button onClick={handleLogin} setTimeout={2000} className="w-full bg-red-500 text-white py-2 rounded hover:bg-red-600 transition">
+          <button onClick={handleLogin} setTimeout={2000} className="w-full bg-black text-white py-2 rounded hover:bg-brandGreen cursor-pointer transition">
             Access Order Panel
           </button>
         </div>

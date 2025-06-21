@@ -41,25 +41,20 @@ const Login = () => {
   };
 
   return (
-    <div className="bg-gradient-to-br from-red-800 via-rose-600 to-pink-800 h-screen flex items-center justify-center">
+    <div className="bg-black/90 h-screen flex items-center justify-center">
       {errorToast && <Toaster message="Invalid credentials" type="error" />}
     {
         isOpen2 && ( <Toaster message="Login Successful!" type="success" />)
     }
 
       <div>
-        <Link to="/" className="absolute sm:top-4 top-4 left-2 sm:left-4 text-primary font-bold border rounded-lg px-3 py-2 z-10 cursor-pointer bg-white flex text-center items-center justify-center gap-2 border-white hover:scale-105 transition-all duration-300"><IoMdReturnLeft className='text-lg'/> Return To Homepage</Link>
+        <Link to="/" className="absolute sm:top-4 top-4 left-2 sm:left-4 text-white font-bold border rounded-lg px-3 py-2 z-10 cursor-pointer bg-black/90 flex text-center items-center justify-center gap-2 border-black hover:scale-105 transition-all duration-300"><IoMdReturnLeft className='text-lg'/> Return To Homepage</Link>
         <h1 className="text-4xl uppercase tracking-widest font-bold text-center text-white">Login</h1>
         
         <form className="sm:w-lg w-sm mt-8 p-6 bg-white rounded-lg shadow-md" onSubmit={handleSubmit}>
           <div className="mb-4">
             <label htmlFor="email" className="block text-gray-700 text-sm font-bold mb-2">Email</label>
             <motion.input
-             initial={{ x: -100, opacity: 0 }}
-            whileInView={{ x: 0, opacity: 1 }}
-            transition={{ delay: 0.2, duration: 1 }}
-            viewport={{ once: true }}
-
               type="email"
               name="email"
               value={email}
@@ -72,10 +67,6 @@ const Login = () => {
           <div className="mb-4">
             <label htmlFor="password" className="block text-gray-700 text-sm font-bold mb-2">Password</label>
             <motion.input
-            initial={{ x: 100, opacity: 0 }}
-            whileInView={{ x: 0, opacity: 1 }}
-            transition={{ delay: 0.2, duration: 1 }}
-            viewport={{ once: true }}
               type="password"
               name="password"
               value={password}
@@ -88,16 +79,12 @@ const Login = () => {
           <div className="mb-4 flex items-center justify-between">
             <span className="inline-flex items-center text-sm">
               Don't have an account?
-              <a href="/signup" className="text-primary ml-2 hover:underline">Signup</a>
+              <a href="/signup" className="text-red-600 ml-2 hover:underline">Signup</a>
             </span>
           </div>
           <motion.button
-            initial={{ y: 50, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.2, duration: 0.5 }}
-            viewport={{ once: true }}
             type="submit"
-            className="w-full bg-primary text-white px-4 py-2 rounded-lg hover:scale-105 transition duration-200"
+            className="w-full bg-black cursor-pointer text-white px-4 py-2 rounded-lg hover:scale-105 transition duration-200"
           >
             Login
           </motion.button>
