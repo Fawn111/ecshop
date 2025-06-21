@@ -4,14 +4,12 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import Navbar from './components/NavBar/Navbar';
 import Hero from './components/Hero/Hero';
 import Category from './components/Category/Category';
-import Category2 from './components/Category/Category2';
 import Services from './components/Services/Services';
 import Banner from './components/Banner/Banner';
 import headphone from './assets/hero/headphone.png';
 import Products from './components/Products/Products';
 import watch from "./assets/category/smartwatch2-removebg-preview.png";
 import Blog from './components/Blogs/Blog';
-import Partners from './components/Partners/Partners';
 import Footer from './components/Footer/Footer';
 import Popup from './components/Popup/Popup';
 import Cart from './components/Cart/Cart';
@@ -123,7 +121,6 @@ useEffect(() => {
           </div>
 
           <Category />
-          <Category2 />
           <Products
             cart={cart}
             handlecart={handlecart}
@@ -133,7 +130,6 @@ useEffect(() => {
           <Banner data={BannerData} handleOrderPopup={handleOrderPopup} />
           <Banner data={BannerData2} handleOrderPopup={handleOrderPopup} />
           <Blog />
-          <Partners />
           <Services />
           <Footer />
           <Popup OrderPopup={OrderPopup} handleOrderPopup={handleOrderPopup} />

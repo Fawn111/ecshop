@@ -1,24 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { IoIosSearch } from "react-icons/io";
-import { FaShoppingCart, FaHeart } from "react-icons/fa";
-import { IoMdArrowDropdown } from "react-icons/io";
+import { FaShoppingCart } from "react-icons/fa";
+import { IoMdArrowDropdown, IoMdClose } from "react-icons/io";
 import { CgProfile } from "react-icons/cg";
-import { Link, Navigate } from "react-router-dom";
-import { IoMdClose } from "react-icons/io";
+import { IoMenu } from "react-icons/io5";
+import { Link } from "react-router-dom";
 
 const MenuLinks = [
-  { id: 1, name: "Home", link: "/#" },
-  { id: 2, name: "Shop", link: "/#" },
-  { id: 3, name: "Blogs", link: "/#" },
-  { id: 4, name: "About", link: "/#" },
-  { id: 4, name: "Orders", link: "/#" },
+  { id: 1, name: "On Sale", link: "/#" },
+  { id: 2, name: "New Arrivals", link: "/#" },
+  { id: 3, name: "Deals", link: "/#" },
+  { id: 4, name: "Brands", link: "/#" },
 ];
-
-
-const ProfileLinks = [
-  { id: 1, name: "Orders", link: "/orders" },
-];
-
 
 const DropLinks = [
   { id: 1, name: "Best Selling", link: "/#" },
@@ -26,128 +19,118 @@ const DropLinks = [
   { id: 3, name: "Most Ordered", link: "/#" },
 ];
 
-function NavBar({ handleOrderPopup, size, toggleCart, toggleWish, size2 }) {
+const ProfileLinks = [
+  { id: 1, name: "Orders", link: "/orders" },
+  { id: 2, name: "Wishlist", link: "/wishlist" },
+  { id: 3, name: "Login", link: "/login" },
+  { id: 4, name: "Signup", link: "/signup" },
+];
+
+function NavBar({ handleOrderPopup, size, toggleCart }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [name, setName] = useState('');
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
   const toggleDropdown = () => setIsOpen(!isOpen);
   const closeDropdown = () => setIsOpen(false);
 
+  const [user, setUser] = useState(null);
   useEffect(() => {
-    const user = localStorage.getItem("user");
-    setLoggedIn(!!user);
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+    if (storedUser) setUser(storedUser);
   }, []);
 
-
-const user = JSON.parse(localStorage.getItem("loggedInUser"));
   return (
-    <div className="bg-white dark:text-white fixed w-full z-50 left-0 top-0 shadow">
+    <div className="bg-white dark:text-white fixed w-full z-50 left-0 top-0 shadow overflow-visible">
       <div className="py-1">
-        <div className="p-3 sm:p-6 sm:flex sm:justify-between items-center">
-          <div className="flex justify-center items-center">
-            <Link to="/" className="text-primary tracking-widest font-semibold text-4xl sm:text-3xl uppercase mb-5 sm:mb-0">Eshop</Link>
+        <div className="p-3 sm:p-6 sm:flex sm:justify-between items-center flex justify-around mx-0 sm:mx-6">
+           <div className="lg:hidden flex items-center">
+            <IoMenu
+              onClick={() => setShowMobileMenu(!showMobileMenu)}
+              className="text-2xl cursor-pointer text-black mr-4"
+            />
+          </div>
+          <div className="flex items-center gap-6">
+            <Link to="/" className="text-black font-extrabold text-4xl sm:text-3xl uppercase">SHOP.CO</Link>
+
             <div className="hidden lg:block">
               <ul className="flex mx-9 mt-2">
-                {MenuLinks.map((data) => (
-                  <li key={data.id} className="text-gray-600  px-6 font-sans font-semibold hover:text-black">
-                    <Link to={data.link}>{data.name}</Link>
-                  </li>
-                ))}
                 <li className="relative group cursor-pointer">
-                  <a href="#" className="text-gray-600 flex items-center gap-[2px] font-sans font-semibold">
-                    Quick Links
+                  <span className="text-gray-600 flex items-center gap-[2px] font-sans font-semibold">
+                    Shop
                     <IoMdArrowDropdown className="text-gray-600 group-hover:rotate-180 mt-1 duration-300 text-xl" />
-                  </a>
+                  </span>
                   <div className="hidden group-hover:block absolute shadow-sm top-full z-10">
                     <ul>
                       {DropLinks.map((data) => (
-                        <li
-                          key={data.id}
-                          className="text-gray-600 w-36 p-2 rounded-sm hover:bg-red-200 font-sans font-semibold bg-white"
-                        >
+                        <li key={data.id} className="text-gray-600 w-36 p-2 rounded-sm hover:bg-red-200 font-sans font-semibold bg-white">
                           <Link to={data.link}>{data.name}</Link>
                         </li>
                       ))}
                     </ul>
                   </div>
                 </li>
+                {MenuLinks.map((data) => (
+                  <li key={data.id} className="text-gray-600 px-4 font-sans font-semibold hover:text-black">
+                    <Link to={data.link}>{data.name}</Link>
+                  </li>
+                ))}
               </ul>
             </div>
           </div>
 
-          <div className="flex justify-center items-center gap-4">
-            <div className="relative group hidden sm:block">
-              <input type="text" placeholder="Search" className="search-bar" />
-              <IoIosSearch className="text-gray-600 absolute top-1/2 -translate-y-1/2 right-1 group-hover:text-primary text-xl duration-200" />
+          <div className="flex items-center gap-4">
+            <div className="relative hidden sm:block">
+              <IoIosSearch className="text-gray-600 absolute top-3 left-2 text-2xl" />
+              <input type="text" placeholder="Search for Products.." className="search-bar pl-10" />
             </div>
-
-            <button onClick={toggleWish}>
-              <FaHeart className="text-gray-600 hover:text-primary text-2xl cursor-pointer" />
-            </button>
-            <p onClick={toggleWish} className="cursor-pointer -translate-x-6 -translate-y-3 border rounded-4xl px-2 text-white bg-primary">
-              {size2}
-            </p>
-
+                
             <button onClick={toggleCart}>
-              <FaShoppingCart className="text-gray-600 hover:text-primary text-2xl cursor-pointer" />
+              <FaShoppingCart className="text-black hover:text-primary text-2xl cursor-pointer" />
             </button>
-            <p onClick={toggleCart} className="cursor-pointer -translate-x-6 -translate-y-3 border rounded-4xl px-2 text-white bg-primary">
+            <p onClick={toggleCart} className="cursor-pointer -translate-x-6 -translate-y-3 border rounded-4xl px-2 text-white bg-black">
               {size}
             </p>
 
-       <div className="relative group cursor-pointer item-center" onClick={toggleDropdown} >
-                  <a className="text-gray-600 flex items-center font-sans font-semibold" onClick={toggleDropdown}>
-                    <CgProfile className="text-gray-600 duration-300 text-3xl" />
-                  </a>
-                    {isOpen && (
-                  <div className="hidder group-hover:block absolute shadow-sm p-3 w-56 bg-white top-full z-10 ">
-                    <ul>
-                      <div>
-                        <div className="flex items-center justify-between mb-2">
-                          <h2 className="text-gray-600 font-semibold">Profile</h2>
-                          <button onClick={closeDropdown} className="text-gray-600 hover:text-primary text-xl">  <IoMdClose
-                                    className="text-2xl cursor-pointer hover:scale-105 text-black"
-                                  /></button>
-                        </div>
-                      </div>
-                      {ProfileLinks.map((moiz) => (
-                        <li
-                          key={moiz.id}
-                          className="text-gray-600 w-full p-2 hover:bg-red-200 font-sans font-semibold bg-white border border-gray-200 rounded-sm mb-1"
-                        >
-                          <Link to={moiz.link}>{moiz.name}</Link>
-                        </li>
-                      ))}
-                    </ul>
-                  </div> 
-                )}
+            <div className="relative cursor-pointer" onClick={toggleDropdown}>
+              <CgProfile className="text-black text-3xl" />
+              {isOpen && (
+                <div className="absolute right-0 mt-4 shadow-sm w-56 bg-white top-full z-50 rounded-md border border-gray-200">
+                  <div className="flex items-center justify-between mb-2">
+                    <h2 className="text-black text-xl font-bold p-3">{user ? `Hello, ${user.name}` : 'Profile'}</h2>
+                    <button onClick={closeDropdown}>
+                      <IoMdClose className="text-2xl m-3 text-gray-600 hover:scale-105" />
+                    </button>
+                  </div>
+                  <ul>
+                    {ProfileLinks.map((item) => (
+                      
+                        <Link to={item.link}><li key={item.id} className="text-gray-600 w-full p-2 hover:bg-black hover:text-white font-sans font-semibold bg-white">{item.name}</li></Link>
+                    ))}
+                  </ul>
                 </div>
-
-                {user ? (
-        <div className="flex items-center gap-4">
-          <span className="text-gray-700 font-medium">Welcome, {user.name}</span>
-          <button
-            onClick={() => {
-              localStorage.removeItem("isLoggedIn");
-              localStorage.removeItem("loggedInUser");
-              window.location.href = "/login";
-            }}
-            className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
-          >
-            Logout
-          </button>
-        </div>
-      ) : (
-        <>
-          <Link to="/login" className="text-white text-lg rounded-3xl cursor-pointer border border-primary bg-primary px-3 py-2">Login</Link>
-          <Link to="/signup" className="text-white text-lg rounded-3xl cursor-pointer border border-primary bg-primary px-3 py-2">Signup</Link>
-        </>
-      )}
-
-
+              )}
+            </div>
           </div>
         </div>
       </div>
+
+      {showMobileMenu && (
+        <div className="lg:hidden absolute top-full left-0 w-full bg-white shadow-md z-40 px-4 py-2 transition-all duration-300">
+          <ul className="">
+            <li className="font-bold text-gray-700 mb-1">Quick Links <button onClick={() => setShowMobileMenu(!showMobileMenu)} className='text-black tracking-widest text-2xl transition-all duration-200'>X</button></li>
+            {DropLinks.map((link) => (
+              <li key={link.id} className="py-2 border-b">
+                <Link to={link.link} className="text-gray-600">{link.name}</Link>
+              </li>
+            ))}
+            <li className="font-bold text-gray-700 mt-4 mb-1">Main Menu</li>
+            {MenuLinks.map((link) => (
+              <li key={link.id} className="py-2 border-b">
+                <Link to={link.link} className="text-gray-600">{link.name}</Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 }

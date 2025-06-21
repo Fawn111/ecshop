@@ -1,74 +1,45 @@
 import React from "react";
-import Image1 from "../../assets/category/earphone.png";
-import Image2 from "../../assets/category/watch.png";
-import Image3 from "../../assets/category/macbook.png";
-import Button from "../Shared/Button";
 import { motion } from "framer-motion";
+import brand1 from "../../assets/brands/1.png";
+import brand2 from "../../assets/brands/2.png";
+import brand3 from "../../assets/brands/3.png";
+import brand4 from "../../assets/brands/4.png";
+import brand5 from "../../assets/brands/5.png";
 
 function Category() {
+
   return (
-    <>
-      <div className="grid grid-col-1 sm:grid-cols-4 m-4 sm:p-6 gap-8 mt-24 sm:mt-0 overflow-hidden">
-        <motion.div
-          initial={{ x: -50, opacity: 0 }}
-          whileInView={{ x: 0, opacity: 1 }}
-          transition={{ delay: 0.2, duration: 1 }}
-          viewport={{ once: true }}
-          className="bg-gradient-to-br from-black/90 to-black/70 rounded-3xl p-6 h-[320px] flex relative items-end"
-        >
-          <div>
-            <h2 className="text-white opacity-40">Enjoy</h2>
-            <h2 className="text-2xl text-white font-semibold">With</h2>
-            <h2 className="text-5xl font-bold opacity-20 text-white mb-5">Earphone</h2>
-            <Button className="mb-5 cursor-pointer">Browse</Button>
-          </div>
-          <div>
-            <img src={Image1} alt="" className="absolute bottom-0 right-0 w-[270px]" />
-          </div>
+    <div className=' bg-black overflow-hidden'>
+        <motion.div className='p-3 sm:p-6'>
+            <div className='gap-3 grid grid-cols-3 md:grid-cols-5 place-items-center items-center'>
+                <motion.img src={brand1} alt="" className='w-[80px]'  initial={{ x: 50, opacity: 0 }}
+                 whileInView={{ x: 0, opacity: 1 }}
+                 transition={{ delay: 0.4, duration: 4 }}
+                 viewport={{ once: true }}/>
+                <motion.img src={brand2} alt="" className='w-[80px]' initial={{ x: 50, opacity: 0 }}
+                 whileInView={{ x: 0, opacity: 1 }}
+                 transition={{ delay: 0.6, duration: 4 }}
+                 viewport={{ once: true }} />
+                <motion.img src={brand3} alt="" className='w-[80px]' 
+                 initial={{ x: 50, opacity: 0 }}
+                 whileInView={{ x: 0, opacity: 1 }}
+                 transition={{ delay: 0.8, duration: 4 }}
+                 viewport={{ once: true }}/>
+                <motion.img src={brand4} alt="" className='w-[80px] col-span-auto md:col-span-1'
+                 initial={{ x: 50, opacity: 0 }}
+                 whileInView={{ x: 0, opacity: 1 }}
+                 transition={{ delay: 1, duration: 4 }}
+                 viewport={{ once: true }}/>
+                <motion.img src={brand5} alt="" className='w-[80px] col-span-auto md:col-span-1'
+                 initial={{ x: 50, opacity: 0 }}
+                 whileInView={{ x: 0, opacity: 1 }}
+                 transition={{ delay: 2, duration: 4 }}
+                 viewport={{ once: true }}/>
+            </div>
         </motion.div>
-
-        <motion.div
-          initial={{ x: -50, opacity: 0 }}
-          whileInView={{ x: 0, opacity: 1 }}
-          transition={{ delay: 0.3, duration: 1 }}
-          viewport={{ once: true }}
-          className="bg-brandYellow rounded-3xl p-6 text-white h-[320px] relative flex items-end"
-        >
-          <div>
-            <h2 className="text-white opacity-70">Enjoy</h2>
-            <h2 className="text-2xl text-white font-semibold">With</h2>
-            <h2 className="text-5xl font-bold opacity-40 text-white mb-5">Watches</h2>
-            <Button className="mb-6 cursor-pointer">Browse</Button>
-          </div>
-          <div>
-            <img src={Image2} alt="" className="absolute bottom-10 left-20 right-0" />
-          </div>
-        </motion.div>
-
-        <motion.div
-          initial={{ x: 50, opacity: 0 }}
-          whileInView={{ x: 0, opacity: 1 }}
-          transition={{ delay: 0.4, duration: 1 }}
-          viewport={{ once: true }}
-          className="bg-secondary rounded-3xl p-6 text-white h-[320px] sm:col-span-2 relative flex items-end"
-        >
-          <div>
-            <h2 className="text-white opacity-70">Enjoy</h2>
-            <h2 className="text-2xl text-white font-semibold">With</h2>
-            <h2 className="text-5xl font-bold opacity-40 text-white mb-5">Laptops</h2>
-            <Button className="mb-6 cursor-pointer">Browse</Button>
-          </div>
-          <div>
-            <img
-              src={Image3}
-              alt=""
-              className="absolute sm:top-0 right-0 sm:h-86 h-62 top-15 ml-10 sm:ml-0"
-            />
-          </div>
-        </motion.div>
-      </div>
-    </>
-  );
+    </div>
+  )
 }
+
 
 export default Category;

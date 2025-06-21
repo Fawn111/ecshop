@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #f42c37;
+  --color-primary: #F0F0F0;
   --color-secondary: #f42c37;
   --color-brandYellow: #fdc62e;
   --color-brandGreen: #2dcc6f;
@@ -35,7 +35,7 @@
 
 @layer components {
     .search-bar {
-        @apply w-0 group-hover:w-[300px] transition-all duration-300 rounded-full group-hover:border text-black border-gray-500 group-hover:border-gray-500 px-3 py-1;
+        @apply w-[557px] rounded-full border bg-primary h-[48px] text-black border-primary px-3 py-1;
     }
 }
 
