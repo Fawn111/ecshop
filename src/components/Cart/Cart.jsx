@@ -71,7 +71,7 @@ const updateCart = (updatedCart) => {
   return (
     <>
       <div
-        className={`fixed top-0 right-0 h-5/6 w-full sm:w-[450px] bg-white shadow-lg z-50 transform transition-transform duration-300 overflow-hidden ${isCartOpen ? 'translate-x-0' : 'translate-x-full'}`}
+        className={`fixed top-0 right-0 h-full w-full sm:w-[450px] bg-white shadow-lg z-50 transform transition-transform duration-300 overflow-hidden ${isCartOpen ? 'translate-x-0' : 'translate-x-full'}`}
       >
         <div className="flex items-center justify-between px-5 py-5 bg-white">
           <h2 className="text-xl font-semibold text-black font-primary tracking-wide">Shopping Cart ({size})</h2>
