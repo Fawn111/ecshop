@@ -1,10 +1,10 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import Heading from '../Shared/Heading';
-import banner1 from '../../assets/banner/1.png';
-import banner2 from '../../assets/banner/2.png';
-import banner3 from '../../assets/banner/3.png'; 
-import banner4 from '../../assets/banner/4.png';
+import banner1 from '../../assets/Banner/1.png';
+import banner2 from '../../assets/Banner/2.png';
+import banner3 from '../../assets/Banner/3.png'; 
+import banner4 from '../../assets/Banner/4.png';
 
 const Banner = () => {
  const cardClasses = "relative overflow-hidden rounded-2xl p-0";
