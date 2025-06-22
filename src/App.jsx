@@ -19,6 +19,12 @@ import Signup from './components/Signup/Signup';
 import OrderRecieved from "./components/Conformation/OrderRecieved";
 import Checkout from './components/Checkout/Checkout';
 
+// Admin components
+import AdminLayout from "./components/Admin/AdminLayout";
+import AdminOrders from "./components/Admin/Orders";
+import AdminProducts from "./components/Admin/Products";
+import Dashboard from "./components/Admin/Dashboard";
+
 function App() {
   const [cart, setCart] = useState([]);
   const [wish, setWish] = useState([]);
@@ -31,26 +37,23 @@ function App() {
   const [addedwish, setaddedWish] = useState(false);
   const [addedcart, setaddedCart] = useState(false);
 
-  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
-
   const toggleCart = () => setIsCartOpen(!isCartOpen);
   const toggleWish = () => setIsWishOpen(!isWishOpen);
   const handleOrderPopup = () => SetOrderPopup(!OrderPopup);
 
+  useEffect(() => {
+    const savedCart = JSON.parse(localStorage.getItem("cartItems")) || [];
+    setCart(savedCart);
+  }, []);
 
-useEffect(() => {
-  const savedCart = JSON.parse(localStorage.getItem("cartItems")) || [];
-  setCart(savedCart);
-}, []);
-
-    useEffect(() => {
-      localStorage.setItem("cartItems", JSON.stringify(cart));
-    }, [cart]);
+  useEffect(() => {
+    localStorage.setItem("cartItems", JSON.stringify(cart));
+  }, [cart]);
 
   const handlecart = (item) => {
-    const exists = cart.some((moiz) => moiz.id === item.id);
+    const exists = cart.some((i) => i.id === item.id);
     if (exists) {
-      setCart(cart.filter((moiz) => moiz.id !== item.id));
+      setCart(cart.filter((i) => i.id !== item.id));
       setWarning(true);
       setTimeout(() => setWarning(false), 2000);
     } else {
@@ -74,103 +77,120 @@ useEffect(() => {
   };
 
   return (
-   <Router>
-  <Routes>
-    <Route
-      path="/"
-      element={
-        <>
-          <Navbar
-            handleOrderPopup={handleOrderPopup}
-            size={cart.length}
-            size2={wish.length}
-            toggleCart={toggleCart}
-            toggleWish={toggleWish}
-          />
-          <Hero handleOrderPopup={handleOrderPopup} />
+    <Router>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <>
+              <Navbar
+                handleOrderPopup={handleOrderPopup}
+                size={cart.length}
+                size2={wish.length}
+                toggleCart={toggleCart}
+                toggleWish={toggleWish}
+              />
+              <Hero handleOrderPopup={handleOrderPopup} />
+              <div className="fixed bottom-4 right-4 flex flex-col-reverse gap-3 z-[9999]">
+                {warning && <Toaster message="Removed From the Cart!" type="error" />}
+                {warning2 && <Toaster message="Item Removed From Wishlist!" type="error" />}
+                {addedcart && <Toaster message="Added To The Cart!" type="success" />}
+                {addedwish && <Toaster message="Added To The Wishlist!" type="success" />}
+              </div>
+              <Category />
+              <Products
+                cart={cart}
+                handlecart={handlecart}
+                handlewish={handlewish}
+                wish={wish}
+              />
+              <Banner />
+              <Blog />
+              <Services />
+              <Footer />
+              <Popup OrderPopup={OrderPopup} handleOrderPopup={handleOrderPopup} />
+              <Cart
+                isCartOpen={isCartOpen}
+                size={cart.length}
+                toggleCart={toggleCart}
+                cart={cart}
+                setCart={setCart}
+              />
+              <Wishlist
+                isWishOpen={isWishOpen}
+                toggleWish={toggleWish}
+                wish={wish}
+                setWish={setWish}
+                size={wish.length}
+                cart={cart}
+                handlecart={handlecart}
+              />
+            </>
+          }
+        />
 
-          <div className="fixed bottom-4 right-4 flex flex-col-reverse gap-3 z-[9999]">
-            {warning && <Toaster message="Removed From the Cart!" type="error" />}
-            {warning2 && <Toaster message="Item Removed From Wishlist!" type="error" />}
-            {addedcart && <Toaster message="Added To The Cart!" type="success" />}
-            {addedwish && <Toaster message="Added To The Wishlist!" type="success" />}
-          </div>
+      <Route path="/admin" element={<AdminLayout />}>
+      <Route path="dashboard" element={<Dashboard />} />
+      <Route path="orders" element={<AdminOrders />} />
+      <Route path="products" element={<AdminProducts />} />
+    </Route>
 
-          <Category />
-          <Products
-            cart={cart}
-            handlecart={handlecart}
-            handlewish={handlewish}
-            wish={wish}
-          />
-          <Banner />
-          <Blog />
-          <Services />
-          <Footer />
-          <Popup OrderPopup={OrderPopup} handleOrderPopup={handleOrderPopup} />
-          <Cart
-            isCartOpen={isCartOpen}
-            size={cart.length}
-            toggleCart={toggleCart}
-            cart={cart}
-            setCart={setCart}
-          />
-          <Wishlist
-            isWishOpen={isWishOpen}
-            toggleWish={toggleWish}
-            wish={wish}
-            setWish={setWish}
-            size={wish.length}
-            cart={cart}
-            handlecart={handlecart}
-          />
-        </>
-      }
-    />
-    <Route path="/login" element={<Login />} />
-    <Route path="/signup" element={<Signup />} />
-    <Route path="*" element={<Navigate to="/" />} />
-    <Route path="/checkout" element={<>
-      <Navbar   handleOrderPopup={handleOrderPopup}
-            size={cart.length}
-            size2={wish.length}
-            toggleCart={toggleCart}
-            toggleWish={toggleWish}/> 
-             <Cart
-            isCartOpen={isCartOpen}
-            size={cart.length}
-            toggleCart={toggleCart}
-            cart={cart}
-            setCart={setCart}
-          />
-          <Wishlist
-            isWishOpen={isWishOpen}
-            toggleWish={toggleWish}
-            wish={wish}
-            setWish={setWish}
-            size={wish.length}
-            cart={cart}
-            handlecart={handlecart}
-          />
-      <Checkout setCart1={setCart}
-        cart={cart}/>
-    </>} />
-    <Route path="/order-received" element={<OrderRecieved />} />
-    <Route path="/orders" element={
-      <> 
-     <Navbar
-            handleOrderPopup={handleOrderPopup}
-            size={cart.length}
-            size2={wish.length}
-            toggleCart={toggleCart}
-            toggleWish={toggleWish}
-          />
-      <Order />
-    </>
-  } />
-  </Routes>
-</Router>
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/order-received" element={<OrderRecieved />} />
 
+        <Route
+          path="/checkout"
+          element={
+            <>
+              <Navbar
+                handleOrderPopup={handleOrderPopup}
+                size={cart.length}
+                size2={wish.length}
+                toggleCart={toggleCart}
+                toggleWish={toggleWish}
+              />
+              <Cart
+                isCartOpen={isCartOpen}
+                size={cart.length}
+                toggleCart={toggleCart}
+                cart={cart}
+                setCart={setCart}
+              />
+              <Wishlist
+                isWishOpen={isWishOpen}
+                toggleWish={toggleWish}
+                wish={wish}
+                setWish={setWish}
+                size={wish.length}
+                cart={cart}
+                handlecart={handlecart}
+              />
+              <Checkout setCart1={setCart} cart={cart} />
+            </>
+          }
+        />
+
+        <Route
+          path="/orders"
+          element={
+            <>
+              <Navbar
+                handleOrderPopup={handleOrderPopup}
+                size={cart.length}
+                size2={wish.length}
+                toggleCart={toggleCart}
+                toggleWish={toggleWish}
+              />
+              <Order />
+            </>
+          }
+        />
+
+        {/* Catch-all route */}
+        <Route path="*" element={<Navigate to="/" />} />
+      </Routes>
+    </Router>
   );
 }
 

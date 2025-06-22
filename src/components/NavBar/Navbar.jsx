@@ -92,12 +92,12 @@ function NavBar({ handleOrderPopup, size, toggleCart }) {
 
             <div className="relative cursor-pointer" onClick={toggleDropdown}>
               <CgProfile className="text-black text-3xl" />
-              {isOpen && user && (
+              {isOpen && (
                 <div className="absolute right-0 mt-4 shadow-sm w-56 bg-white top-full z-50 rounded-md border border-gray-200">
                   <div className="flex items-center justify-between mb-2">
                     <h2 className="text-black text-xl font-bold p-3">{user ? `Hello, ${user.name}` : 'Profile'}</h2>
                     <button onClick={closeDropdown}>
-                      <IoMdClose className="text-2xl m-3 text-gray-600 hover:scale-105" />
+                      <IoMdClose className="text-2xl m-3 text-gray-600 hover:scale-110 cursor-pointer" />
                     </button>
                   </div>
                   <ul>
