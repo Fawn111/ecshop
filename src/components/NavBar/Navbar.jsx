@@ -19,13 +19,6 @@ const DropLinks = [
   { id: 3, name: "Most Ordered", link: "/#" },
 ];
 
-const ProfileLinks = [
-  { id: 1, name: "Orders", link: "/orders" },
-  { id: 2, name: "Wishlist", link: "/wishlist" },
-  { id: 3, name: "Login", link: "/login" },
-  { id: 4, name: "Signup", link: "/signup" },
-];
-
 function NavBar({ handleOrderPopup, size, toggleCart }) {
   const [isOpen, setIsOpen] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
@@ -33,21 +26,30 @@ function NavBar({ handleOrderPopup, size, toggleCart }) {
   const closeDropdown = () => setIsOpen(false);
 
   const [user, setUser] = useState(null);
+  console.log(user.name);
+
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem("user"));
-    if (storedUser) setUser(storedUser);
+      setUser(storedUser);
   }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    setUser(null);
+    closeDropdown();
+  };
 
   return (
     <div className="bg-white dark:text-white fixed w-full z-50 left-0 top-0 shadow overflow-visible">
       <div className="py-1">
         <div className="p-3 sm:p-6 sm:flex sm:justify-between items-center flex justify-around mx-0 sm:mx-6">
-           <div className="lg:hidden flex items-center">
+          <div className="lg:hidden flex items-center">
             <IoMenu
               onClick={() => setShowMobileMenu(!showMobileMenu)}
               className="text-2xl cursor-pointer text-black mr-4"
             />
           </div>
+
           <div className="flex items-center gap-6">
             <Link to="/" className="text-black font-extrabold text-4xl sm:text-3xl uppercase">SHOP.CO</Link>
 
@@ -82,7 +84,7 @@ function NavBar({ handleOrderPopup, size, toggleCart }) {
               <IoIosSearch className="text-gray-600 absolute top-3 left-2 text-2xl" />
               <input type="text" placeholder="Search for Products.." className="search-bar pl-10" />
             </div>
-                
+
             <button onClick={toggleCart}>
               <FaShoppingCart className="text-black hover:scale-105 text-2xl cursor-pointer" />
             </button>
@@ -94,17 +96,33 @@ function NavBar({ handleOrderPopup, size, toggleCart }) {
               <CgProfile className="text-black text-3xl" />
               {isOpen && (
                 <div className="absolute right-0 mt-4 shadow-sm w-56 bg-white top-full z-50 rounded-md border border-gray-200">
-                  <div className="flex items-center justify-between mb-2">
-                    <h2 className="text-black text-xl font-bold p-3">{user ? `Hello, ${user.name}` : 'Profile'}</h2>
+                  <div className="flex justify-between items-center mb-2">
+                    <h2 className="text-black text-xl font-bold p-3">
+                      {user ? `Hello, ${user.name}` : 'Profile'}
+                    </h2>
                     <button onClick={closeDropdown}>
                       <IoMdClose className="text-2xl m-3 text-gray-600 hover:scale-110 cursor-pointer" />
                     </button>
                   </div>
-                  <ul>
-                    {ProfileLinks.map((item) => (
-                      
-                        <Link to={item.link}><li key={item.id} className="text-gray-600 w-full p-2 hover:bg-black hover:text-white font-sans font-semibold bg-white">{item.name}</li></Link>
-                    ))}
+
+                  <ul className='text-center'>
+                    {user ? (
+                      <>
+                          <Link to="/wishlist">   <li className="text-gray-600 w-full p-2 hover:bg-black hover:text-white font-sans font-semibold bg-white">Wishlist </li></Link>
+                        <li
+                          onClick={handleLogout}
+                          className="cursor-pointer text-gray-600 w-full p-2 hover:bg-black hover:text-white font-sans font-semibold bg-white"
+                        >
+                          Logout
+                        </li>
+                      </>
+                    ) : (
+                      <>
+                       
+                          <Link to="/login"> <li className="text-gray-600 w-full p-2 hover:bg-black hover:text-white font-sans font-semibold bg-white">Login</li></Link>
+                          <Link to="/signup"><li className="text-gray-600 w-full p-2 hover:bg-black hover:text-white font-sans font-semibold bg-white">Signup</li> </Link>
+                      </>
+                    )}
                   </ul>
                 </div>
               )}
@@ -115,8 +133,11 @@ function NavBar({ handleOrderPopup, size, toggleCart }) {
 
       {showMobileMenu && (
         <div className="lg:hidden absolute top-full left-0 w-full bg-white shadow-md z-40 px-4 py-2 transition-all duration-300">
-          <ul className="">
-            <li className="font-bold text-gray-700 mb-1">Quick Links <button onClick={() => setShowMobileMenu(!showMobileMenu)} className='text-black tracking-widest text-2xl transition-all duration-200'>X</button></li>
+          <ul>
+            <li className="font-bold text-gray-700 mb-1">
+              Quick Links
+              <button onClick={() => setShowMobileMenu(!showMobileMenu)} className='text-black tracking-widest text-2xl ml-4'>X</button>
+            </li>
             {DropLinks.map((link) => (
               <li key={link.id} className="py-2 border-b">
                 <Link to={link.link} className="text-gray-600">{link.name}</Link>

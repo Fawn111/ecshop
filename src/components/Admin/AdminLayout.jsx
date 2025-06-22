@@ -43,7 +43,7 @@ const AdminLayout = () => {
     
   return (
     <div className="flex h-screen">
-      <Sidebar />
+      <Sidebar setAuthenticated={setAuthenticated}/>
       <div className="flex flex-col flex-1 bg-gray-100">
         <Topbar />
         <main className="p-6 overflow-y-auto">
