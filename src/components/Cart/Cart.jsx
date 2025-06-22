@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { IoMdClose } from "react-icons/io";
-import { FaPlusCircle, FaMinusCircle } from "react-icons/fa";
 import { MdDeleteOutline } from "react-icons/md";
 import { Link } from "react-router-dom";
 

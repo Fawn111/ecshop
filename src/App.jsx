@@ -19,7 +19,7 @@ import Signup from './components/Signup/Signup';
 import OrderRecieved from "./components/Conformation/OrderRecieved";
 import Checkout from './components/Checkout/Checkout';
 
-// Admin components
+// admin components
 import AdminLayout from "./components/Admin/AdminLayout";
 import AdminOrders from "./components/Admin/Orders";
 import AdminProducts from "./components/Admin/Products";
@@ -32,6 +32,7 @@ function App() {
   const [isWishOpen, setIsWishOpen] = useState(false);
   const [OrderPopup, SetOrderPopup] = useState(false);
 
+  // toaster states
   const [warning, setWarning] = useState(false);
   const [warning2, setWarning2] = useState(false);
   const [addedwish, setaddedWish] = useState(false);
@@ -187,7 +188,6 @@ function App() {
           }
         />
 
-        {/* Catch-all route */}
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </Router>
