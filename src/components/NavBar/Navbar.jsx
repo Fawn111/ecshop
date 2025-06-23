@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { IoIosSearch } from "react-icons/io";
-import { FaShoppingCart } from "react-icons/fa";
+import { FaShoppingCart, FaHeartBroken } from "react-icons/fa";
 import { IoMdArrowDropdown, IoMdClose } from "react-icons/io";
 import { CgProfile } from "react-icons/cg";
-import { IoMenu } from "react-icons/io5";
+import { IoMenu, IoNuclearOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
 
 const MenuLinks = [
@@ -19,19 +19,21 @@ const DropLinks = [
   { id: 3, name: "Most Ordered", link: "/#" },
 ];
 
-function NavBar({ handleOrderPopup, size, toggleCart }) {
+function NavBar({ handleOrderPopup, size, toggleCart, toggleWish, size2 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const toggleDropdown = () => setIsOpen(!isOpen);
   const closeDropdown = () => setIsOpen(false);
 
-  const [user, setUser] = useState(null);
-  console.log(user.name);
+const [user, setUser] = useState(IoNuclearOutline);
 
-  useEffect(() => {
-    const storedUser = JSON.parse(localStorage.getItem("user"));
-      setUser(storedUser);
-  }, []);
+useEffect(() => {
+  const storedUser = JSON.parse(localStorage.getItem("user"));
+    setUser(storedUser)
+}, []);
+
+const username = JSON.parse(localStorage.getItem("loggedInUser"));
+
 
   const handleLogout = () => {
     localStorage.removeItem("user");
@@ -51,7 +53,7 @@ function NavBar({ handleOrderPopup, size, toggleCart }) {
           </div>
 
           <div className="flex items-center gap-6">
-            <Link to="/" className="text-black font-extrabold text-4xl sm:text-3xl uppercase">SHOP.CO</Link>
+            <Link to="/" className="text-black font-extrabold text-4xl sm:text-3xl uppercase sm:mr-0 mr-4">SHOP.CO</Link>
 
             <div className="hidden lg:block">
               <ul className="flex mx-9 mt-2">
@@ -79,7 +81,7 @@ function NavBar({ handleOrderPopup, size, toggleCart }) {
             </div>
           </div>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2">
             <div className="relative hidden sm:block">
               <IoIosSearch className="text-gray-600 absolute top-3 left-2 text-2xl" />
               <input type="text" placeholder="Search for Products.." className="search-bar pl-10" />
@@ -91,6 +93,12 @@ function NavBar({ handleOrderPopup, size, toggleCart }) {
             <p onClick={toggleCart} className="cursor-pointer -translate-x-6 -translate-y-3 border rounded-4xl px-2 text-white bg-black">
               {size}
             </p>
+            <button onClick={toggleWish}>
+              <FaHeartBroken className="text-black hover:scale-105 text-2xl cursor-pointer" />
+            </button>
+            <p onClick={toggleWish} className="cursor-pointer -translate-x-6 -translate-y-3 border rounded-4xl px-2 text-white bg-black">
+              {size2}
+            </p>
 
             <div className="relative cursor-pointer" onClick={toggleDropdown}>
               <CgProfile className="text-black text-3xl" />
@@ -98,7 +106,7 @@ function NavBar({ handleOrderPopup, size, toggleCart }) {
                 <div className="absolute right-0 mt-4 shadow-sm w-56 bg-white top-full z-50 rounded-md border border-gray-200">
                   <div className="flex justify-between items-center mb-2">
                     <h2 className="text-black text-xl font-bold p-3">
-                      {user ? `Hello, ${user.name}` : 'Profile'}
+                      {user ? `Hello, ${username.name}` : 'Profile'}
                     </h2>
                     <button onClick={closeDropdown}>
                       <IoMdClose className="text-2xl m-3 text-gray-600 hover:scale-110 cursor-pointer" />

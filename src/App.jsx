@@ -4,10 +4,9 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import Navbar from './components/NavBar/Navbar';
 import Hero from './components/Hero/Hero';
 import Category from './components/Category/Category';
-import Services from './components/Services/Services';
 import Banner from './components/Banner/Banner';
 import Products from './components/Products/Products';
-import Blog from './components/Blogs/Blog';
+import Reviews from './components/Reviews/Reviews';
 import Footer from './components/Footer/Footer';
 import Popup from './components/Popup/Popup';
 import Cart from './components/Cart/Cart';
@@ -41,6 +40,8 @@ function App() {
   const toggleCart = () => setIsCartOpen(!isCartOpen);
   const toggleWish = () => setIsWishOpen(!isWishOpen);
   const handleOrderPopup = () => SetOrderPopup(!OrderPopup);
+
+
 
   useEffect(() => {
     const savedCart = JSON.parse(localStorage.getItem("cartItems")) || [];
@@ -106,8 +107,7 @@ function App() {
                 wish={wish}
               />
               <Banner />
-              <Blog />
-              <Services />
+              <Reviews />
               <Footer />
               <Popup OrderPopup={OrderPopup} handleOrderPopup={handleOrderPopup} />
               <Cart

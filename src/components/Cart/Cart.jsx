@@ -4,6 +4,7 @@ import { MdDeleteOutline } from "react-icons/md";
 import { Link } from "react-router-dom";
 
 const Cart = ({ isCartOpen, toggleCart, cart, setCart, size }) => {
+  
   const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
 
 const updateCart = (updatedCart) => {

@@ -27,10 +27,6 @@ const Wishlist = ({ isWishOpen, toggleWish, wish , setWish, size , cart , handle
     }, [isWishOpen]);
 
 
-//    useEffect(() => {
-//         handleprice();
-//     }, [cart]);
-
   return (
     
     <div
@@ -39,14 +35,14 @@ const Wishlist = ({ isWishOpen, toggleWish, wish , setWish, size , cart , handle
       }`}
     >
       <div className="flex items-center justify-between px-6 py-5  bg-white">
-        <h2 className="text-center flex items-center gap-3 text-xl font-semibold text-black font-primary tracking-wide"><FaRegHeart className='text-primary'/> Wishlist ({size})</h2>
+        <h2 className="text-center flex items-center gap-3 text-xl font-semibold text-black font-primary tracking-wide"><FaRegHeart className='text-red-600'/> Wishlist ({size})</h2>
         <IoMdClose
           onClick={toggleWish}
-          className="text-2xl cursor-pointer text-gray-400 hover:scale-105"
+          className="text-2xl cursor-pointer text-black hover:scale-105"
         />
       </div>
-        <div className='border-b border-t text-center py-2 bg-primary/20 border-primary'>
-        <h2 className='text-primary font-sans font-medium tracking-wide'>Wishlist</h2>
+        <div className='border-b border-t text-center py-2 bg-red-500/20 border-primary'>
+        <h2 className='text-red-600 font-sans font-medium tracking-wide'>Wishlist</h2>
       </div>
 
 
