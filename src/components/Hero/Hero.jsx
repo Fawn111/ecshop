@@ -7,7 +7,9 @@ function Hero( { handleOrderPopup }){
 
     return(
         <div className="overflow-hidden mt-18 sm:mt-26">
-            <motion.div className="w-full bg-primary h-[900px] sm:h-[650px]" >
+            <motion.div className="w-full bg-primary h-[900px] sm:h-[650px]" initial={{ x: 50, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ delay: 0.2, duration: 0.6 }} >
             <div className="flex justify-around flex-col sm:flex-row">
                 <div className="flex flex-col mt-6 ml-3 sm:ml-0 sm:mt-30">
                     <div>
