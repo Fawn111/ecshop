@@ -17,12 +17,20 @@ import Login from './components/Logins/Login';
 import Signup from './components/Signup/Signup';
 import OrderRecieved from "./components/Conformation/OrderRecieved";
 import Checkout from './components/Checkout/Checkout';
+import Productsapi from "./components/Testing/Productsapi";
+import CategoryPage from "./components/CategoryPage/CategoryPage";
+import CategoryProducts from "./components/CategoryProduct/CategoryProducts";
+import BrandProductPage from "./components/BrandProductPage/BrandProductPage";
+import BrandPage from "./components/BrandPage/BrandPage";
 
 // admin components
 import AdminLayout from "./components/Admin/AdminLayout";
 import AdminOrders from "./components/Admin/Orders";
 import AdminProducts from "./components/Admin/Products";
 import Dashboard from "./components/Admin/Dashboard";
+import AdminCategory from "./components/Admin/Category"
+import AdminBrands from "./components/Admin/Brands"
+
 
 function App() {
   const [cart, setCart] = useState([]);
@@ -134,6 +142,8 @@ function App() {
       <Route path="dashboard" element={<Dashboard />} />
       <Route path="orders" element={<AdminOrders />} />
       <Route path="products" element={<AdminProducts />} />
+      <Route path="categories" element={<AdminCategory />} />
+      <Route path="brands" element={<AdminBrands />} />
     </Route>
 
         <Route path="/login" element={<Login />} />
@@ -187,8 +197,67 @@ function App() {
             </>
           }
         />
-
+        <Route
+          path="/newarrivals"
+          element={
+            <>
+              <Navbar
+                handleOrderPopup={handleOrderPopup}
+                size={cart.length}
+                size2={wish.length}
+                toggleCart={toggleCart}
+                toggleWish={toggleWish}
+              />
+              <Productsapi />
+            </>
+          }
+        />
         <Route path="*" element={<Navigate to="/" />} />
+         <Route
+  path="/categories"
+  element={
+    <>
+      <Navbar />
+      <CategoryPage />
+      <Footer />
+    </>
+  }
+/>
+
+<Route
+  path="/categories/:id"
+  element={
+    <>
+      <Navbar />
+      <CategoryProducts />
+      <Footer />
+    </>
+  }
+/>
+
+  <Route
+  path="/brands"
+  element={
+    <>
+      <Navbar />
+      <BrandPage />
+      <Footer />
+    </>
+  }
+/>
+
+<Route
+  path="/brands/:id"
+  element={
+    <>
+      <Navbar />
+      <BrandProductPage />
+      <Footer />
+    </>
+  }
+/>
+
+
       </Routes>
     </Router>
   );

@@ -35,7 +35,7 @@
 
 @layer components {
     .search-bar {
-        @apply w-[557px] rounded-full border bg-primary h-[48px] text-black border-primary px-3 py-1;
+        @apply lg:w-[557px] md:w-[223px] rounded-full border bg-primary h-[48px] text-black border-primary px-3 py-1;
     }
 }
 

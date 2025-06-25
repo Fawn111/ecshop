@@ -9,7 +9,7 @@ const ProductCard = ({ data, handlecart, handlewish, wish, cart }) => {
       <motion.div initial={{ x: -100, opacity: 0 }}
           whileInView={{ x: 0, opacity: 1 }}
           transition={{ delay: 0.4, duration: 2 }}
-          viewport={{ once: true }} className='grid grid-cols-1 sm:grid-cols-4 place-items-center p-7 gap-4'>
+          viewport={{ once: true }} className='grid grid-cols-1 lg:grid-cols-4 md:grid-cols-2 place-items-center p-7 gap-4'>
         {data.map((item) => (
           <div key={item.id} className='bg-white rounded-md p-3 w-full h-fit sm:w-[300px] hover:scale-105 transition-all duration-300 ease-in-out'>
             <div className="relative">

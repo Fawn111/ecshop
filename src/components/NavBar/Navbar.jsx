@@ -7,10 +7,10 @@ import { IoMenu, IoNuclearOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
 
 const MenuLinks = [
-  { id: 1, name: "On Sale", link: "/#" },
-  { id: 2, name: "New Arrivals", link: "/#" },
+  { id: 1, name: "Categories", link: "/categories" },
+  { id: 2, name: "All Products", link: "/newarrivals" },
   { id: 3, name: "Deals", link: "/#" },
-  { id: 4, name: "Brands", link: "/#" },
+  { id: 4, name: "Brands", link: "/brands" },
 ];
 
 const DropLinks = [
@@ -55,9 +55,9 @@ const username = JSON.parse(localStorage.getItem("loggedInUser"));
           <div className="flex items-center gap-6">
             <Link to="/" className="text-black font-extrabold text-4xl sm:text-3xl uppercase sm:mr-0 mr-4">SHOP.CO</Link>
 
-            <div className="hidden lg:block">
+            <div className="hidden md:hidden lg:block">
               <ul className="flex mx-9 mt-2">
-                <li className="relative group cursor-pointer">
+                {/* <li className="relative group cursor-pointer">
                   <span className="text-gray-600 flex items-center gap-[2px] font-sans font-semibold">
                     Shop
                     <IoMdArrowDropdown className="text-gray-600 group-hover:rotate-180 mt-1 duration-300 text-xl" />
@@ -71,9 +71,9 @@ const username = JSON.parse(localStorage.getItem("loggedInUser"));
                       ))}
                     </ul>
                   </div>
-                </li>
+                </li> */}
                 {MenuLinks.map((data) => (
-                  <li key={data.id} className="text-gray-600 px-4 font-sans font-semibold hover:text-black">
+                  <li key={data.id} className="text-gray-600 hidden lg:block px-4 font-sans font-semibold hover:text-black">
                     <Link to={data.link}>{data.name}</Link>
                   </li>
                 ))}
@@ -82,7 +82,7 @@ const username = JSON.parse(localStorage.getItem("loggedInUser"));
           </div>
 
           <div className="flex items-center gap-2">
-            <div className="relative hidden sm:block">
+            <div className="relative hidden lg:block md:block">
               <IoIosSearch className="text-gray-600 absolute top-3 left-2 text-2xl" />
               <input type="text" placeholder="Search for Products.." className="search-bar pl-10" />
             </div>
@@ -114,7 +114,7 @@ const username = JSON.parse(localStorage.getItem("loggedInUser"));
                   </div>
 
                   <ul className='text-center'>
-                    {user ? (
+                    {username ? (
                       <>
                           <Link to="/wishlist">   <li className="text-gray-600 w-full p-2 hover:bg-black hover:text-white font-sans font-semibold bg-white">Wishlist </li></Link>
                         <li

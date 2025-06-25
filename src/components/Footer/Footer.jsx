@@ -15,7 +15,7 @@ import {
 const Footer = () => {
   return (
     <footer className="bg-gray-100 text-gray-700">
-      <div className="bg-black text-white px-4 py-8 md:px-12 md:mx-34 mx-0 rounded-2xl sm:-translate-y-10 -translate-y-0 m-8 sm:m-0">
+      <div className="bg-black text-white px-4 py-8 md:px-12 md:mx-14 mx-0 rounded-2xl sm:-translate-y-10 -translate-y-0 m-8 sm:m-0">
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
           <h2 className="sm:text-[40px] text-2xl sm:text-left font-extrabold uppercase text-center sm:w-[551px] leading-9 tracking-tighter pt-4">Stay up to date about our latest offers</h2>
           <div className="flex flex-col gap-2 w-full sm:w-auto">
