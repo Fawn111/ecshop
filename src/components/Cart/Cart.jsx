@@ -16,14 +16,14 @@ const updateCart = (updatedCart) => {
 
   const handlePlus = (id) => {
     const updatedCart = cart.map((item) =>
-      item.id === id ? { ...item, quantity: item.quantity + 1 } : item
+      item._id === id ? { ...item, quantity: item.quantity + 1 } : item
     );
     updateCart(updatedCart);
   };
 
   const handleMinus = (id) => {
     const updatedCart = cart.map((item) =>
-      item.id === id && item.quantity > 1
+      item._id === id && item.quantity > 1
         ? { ...item, quantity: item.quantity - 1 }
         : item
     );
@@ -31,9 +31,10 @@ const updateCart = (updatedCart) => {
   };
 
   const handleRemove = (id) => {
-    const updatedCart = cart.filter((item) => item.id !== id);
+    const updatedCart = cart.filter((item) => item._id !== id);
     updateCart(updatedCart);
   };
+
 
   useEffect(() => {
     const savedCart = localStorage.getItem("cartItems");
@@ -93,25 +94,25 @@ const updateCart = (updatedCart) => {
           ) : (
             <div className="flex-1 overflow-y-auto py-4 space-y-4">
               {cart?.map((item) => (
-                <div key={item.id} className="border-b pb-2 px-5 flex gap-4">
+                <div key={item._id} className="border-b pb-2 px-5 flex gap-4">
                   <img src={item.img} className="h-[150px] w-[130px] object-cover rounded-md" />
                   <div className="flex flex-col w-full justify-between">
                     <div>
-                      <p className="text-[16px] font-bold font-primary tracking-widest">{item.title}</p>
+                      <p className="text-[16px] font-bold font-primary tracking-widest">{item.name}</p>
                       <p className="text-gray-500 text-[16px] font-medium font-primary tracking-widest">PKR {item.price.toLocaleString()}</p>
                     </div>
                     <div className="flex gap-2 text-center items-center">
                       <div className='flex items-center gap-3 border border-black px-3 py-1 justify-center'>
-                        <button className="text-xl hover:text-primary cursor-pointer" onClick={() => handleMinus(item.id)}>
+                        <button className="text-xl hover:text-primary cursor-pointer" onClick={() => handleMinus(item._id)}>
                           -
                         </button>
                         <h2>{item.quantity}</h2>
-                        <button className="text-xl hover:text-primary cursor-pointer" onClick={() => handlePlus(item.id)}>
+                        <button className="text-xl hover:text-primary cursor-pointer" onClick={() => handlePlus(item._id)}>
                           +
                         </button>
                       </div>
                       <div>
-                        <button className="text-2xl hover:text-primary cursor-pointer" onClick={() => handleRemove(item.id)}>
+                        <button className="text-2xl hover:text-primary cursor-pointer" onClick={() => handleRemove(item._id)}>
                           <MdDeleteOutline />
                         </button>
                       </div>

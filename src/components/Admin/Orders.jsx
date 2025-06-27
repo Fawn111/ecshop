@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);
+  const [search, setSearch] = useState('')
 
   useEffect(() => {
     const savedOrders = JSON.parse(localStorage.getItem("orders")) || [];
@@ -20,6 +21,14 @@ const Orders = () => {
       <h2 className="text-3xl font-extrabold mb-8 text-center text-gray-900 tracking-tight">
         Your Orders
       </h2>
+      <input
+            type="text"
+            placeholder="Search Orders.."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="w-full p-3 mb-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brandGreen"
+            required
+          />
 
       {orders.length === 0 ? (
         <p className="text-center text-gray-500 text-lg mt-12">
@@ -27,7 +36,9 @@ const Orders = () => {
         </p>
       ) : (
         <div className="space-y-8 max-w-4xl mx-auto">
-          {orders.map((order, index) => (
+          {orders.filter((item) => {
+            return search.toLowerCase() === '' ? item : item.shippingInfo.name.toLowerCase().includes(search)
+          }).map((order, index) => (
             <div
               key={index}
               className="bg-white shadow-lg rounded-xl p-6 border border-gray-200 hover:shadow-xl transition-shadow duration-300 relative"

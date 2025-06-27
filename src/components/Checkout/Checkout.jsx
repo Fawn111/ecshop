@@ -97,7 +97,7 @@ const CheckoutPage = ({ setCart1 }) => {
             <div className="space-y-4">
               {cart.map((item, index) => (
                 <motion.div
-                  key={item.id}
+                  key={item._id}
                   className="flex items-center justify-between border-b pb-2"
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -106,11 +106,11 @@ const CheckoutPage = ({ setCart1 }) => {
                   <div className="flex gap-3 items-center">
                     <img
                       src={item.img}
-                      alt={item.title}
+                      alt={item.name}
                       className="h-16 w-16 rounded object-cover"
                     />
                     <div>
-                      <p className="font-medium">{item.title}</p>
+                      <p className="font-medium">{item.name}</p>
                       <p className="text-sm text-gray-500">Qty: {item.quantity}</p>
                     </div>
                   </div>

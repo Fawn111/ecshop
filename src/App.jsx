@@ -17,7 +17,7 @@ import Login from './components/Logins/Login';
 import Signup from './components/Signup/Signup';
 import OrderRecieved from "./components/Conformation/OrderRecieved";
 import Checkout from './components/Checkout/Checkout';
-import Productsapi from "./components/Testing/Productsapi";
+import Productsapi from "./components/Product Page/Productsapi";
 import CategoryPage from "./components/CategoryPage/CategoryPage";
 import CategoryProducts from "./components/CategoryProduct/CategoryProducts";
 import BrandProductPage from "./components/BrandProductPage/BrandProductPage";
@@ -45,7 +45,11 @@ function App() {
   const [addedwish, setaddedWish] = useState(false);
   const [addedcart, setaddedCart] = useState(false);
 
-  const toggleCart = () => setIsCartOpen(!isCartOpen);
+  const toggleCart = () => {
+    console.log("Cart Pressed")
+     setIsCartOpen(!isCartOpen);
+  }
+
   const toggleWish = () => setIsWishOpen(!isWishOpen);
   const handleOrderPopup = () => SetOrderPopup(!OrderPopup);
 
@@ -60,23 +64,25 @@ function App() {
     localStorage.setItem("cartItems", JSON.stringify(cart));
   }, [cart]);
 
-  const handlecart = (item) => {
-    const exists = cart.some((i) => i.id === item.id);
-    if (exists) {
-      setCart(cart.filter((i) => i.id !== item.id));
-      setWarning(true);
-      setTimeout(() => setWarning(false), 2000);
-    } else {
-      setCart([...cart, item]);
-      setaddedCart(true);
-      setTimeout(() => setaddedCart(false), 2000);
-    }
-  };
+ const handlecart = (item) => {
+  const exists = cart.some((i) => i._id === item._id);
+  if (exists) {
+    setCart(cart.filter((i) => i._id !== item._id));
+    setWarning(true);
+    setTimeout(() => setWarning(false), 2000);
+  } else {
+    const newItem = { ...item, quantity: 1 };
+    setCart([...cart, newItem]);
+    setaddedCart(true);
+    setTimeout(() => setaddedCart(false), 2000);
+  }
+};
+
 
   const handlewish = (item) => {
-    const exists = wish.some((w) => w.id === item.id);
+    const exists = wish.some((w) => w._id === item._id);
     if (exists) {
-      setWish(wish.filter((w) => w.id !== item.id));
+      setWish(wish.filter((w) => w._id !== item._id));
       setWarning2(true);
       setTimeout(() => setWarning2(false), 2000);
     } else {
@@ -208,16 +214,57 @@ function App() {
                 toggleCart={toggleCart}
                 toggleWish={toggleWish}
               />
-              <Productsapi />
+              <Productsapi cart={cart}
+                handlecart={handlecart}
+                handlewish={handlewish}
+                wish={wish}/>
+                <Cart
+                isCartOpen={isCartOpen}
+                size={cart.length}
+                toggleCart={toggleCart}
+                cart={cart}
+                setCart={setCart}
+              />
+              <Wishlist
+                isWishOpen={isWishOpen}
+                toggleWish={toggleWish}
+                wish={wish}
+                setWish={setWish}
+                size={wish.length}
+                cart={cart}
+                handlecart={handlecart}
+              />
             </>
           }
         />
         <Route path="*" element={<Navigate to="/" />} />
          <Route
-  path="/categories"
+  path="/category"
   element={
     <>
-      <Navbar />
+     <Navbar
+                handleOrderPopup={handleOrderPopup}
+                size={cart.length}
+                size2={wish.length}
+                toggleCart={toggleCart}
+                toggleWish={toggleWish}
+              />
+              <Cart
+                isCartOpen={isCartOpen}
+                size={cart.length}
+                toggleCart={toggleCart}
+                cart={cart}
+                setCart={setCart}
+              />
+              <Wishlist
+                isWishOpen={isWishOpen}
+                toggleWish={toggleWish}
+                wish={wish}
+                setWish={setWish}
+                size={wish.length}
+                cart={cart}
+                handlecart={handlecart}
+              />
       <CategoryPage />
       <Footer />
     </>
@@ -225,11 +272,36 @@ function App() {
 />
 
 <Route
-  path="/categories/:id"
+  path="/category/:id"
   element={
     <>
-      <Navbar />
-      <CategoryProducts />
+       <Navbar
+                handleOrderPopup={handleOrderPopup}
+                size={cart.length}
+                size2={wish.length}
+                toggleCart={toggleCart}
+                toggleWish={toggleWish}
+              />
+              <Cart
+                isCartOpen={isCartOpen}
+                size={cart.length}
+                toggleCart={toggleCart}
+                cart={cart}
+                setCart={setCart}
+              />
+              <Wishlist
+                isWishOpen={isWishOpen}
+                toggleWish={toggleWish}
+                wish={wish}
+                setWish={setWish}
+                size={wish.length}
+                cart={cart}
+                handlecart={handlecart}
+              />
+      <CategoryProducts cart={cart}
+                handlecart={handlecart}
+                handlewish={handlewish}
+                wish={wish}/>
       <Footer />
     </>
   }
@@ -239,7 +311,29 @@ function App() {
   path="/brands"
   element={
     <>
-      <Navbar />
+       <Navbar
+                handleOrderPopup={handleOrderPopup}
+                size={cart.length}
+                size2={wish.length}
+                toggleCart={toggleCart}
+                toggleWish={toggleWish}
+              />
+              <Cart
+                isCartOpen={isCartOpen}
+                size={cart.length}
+                toggleCart={toggleCart}
+                cart={cart}
+                setCart={setCart}
+              />
+              <Wishlist
+                isWishOpen={isWishOpen}
+                toggleWish={toggleWish}
+                wish={wish}
+                setWish={setWish}
+                size={wish.length}
+                cart={cart}
+                handlecart={handlecart}
+              />
       <BrandPage />
       <Footer />
     </>
@@ -250,12 +344,38 @@ function App() {
   path="/brands/:id"
   element={
     <>
-      <Navbar />
-      <BrandProductPage />
+      <Navbar
+        handleOrderPopup={handleOrderPopup}
+        size={cart.length}
+        size2={wish.length}
+        toggleCart={toggleCart}
+        toggleWish={toggleWish}
+      />
+      <Cart
+        isCartOpen={isCartOpen}
+        size={cart.length}
+        toggleCart={toggleCart}
+        cart={cart}
+        setCart={setCart}
+      />
+      <Wishlist
+        isWishOpen={isWishOpen}
+        toggleWish={toggleWish}
+        wish={wish}
+        setWish={setWish}
+        size={wish.length}
+        cart={cart}
+        handlecart={handlecart}
+      />
+      <BrandProductPage  cart={cart}
+                handlecart={handlecart}
+                handlewish={handlewish}
+                wish={wish}/>
       <Footer />
     </>
   }
 />
+
 
 
       </Routes>

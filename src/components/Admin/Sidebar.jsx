@@ -26,7 +26,7 @@ const Sidebar = ({ setAuthenticated }) => {
         </Link>
 
         <Link
-          to="/admin/products"
+          to="products"
           className="flex items-center gap-3 p-3 rounded-xl hover:bg-black hover:text-white transition font-medium text-base"
         >
           <MdProductionQuantityLimits size={20} /> Products

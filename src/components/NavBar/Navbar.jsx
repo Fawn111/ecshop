@@ -7,7 +7,7 @@ import { IoMenu, IoNuclearOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
 
 const MenuLinks = [
-  { id: 1, name: "Categories", link: "/categories" },
+  { id: 1, name: "Categories", link: "/category" },
   { id: 2, name: "All Products", link: "/newarrivals" },
   { id: 3, name: "Deals", link: "/#" },
   { id: 4, name: "Brands", link: "/brands" },

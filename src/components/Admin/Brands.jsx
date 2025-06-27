@@ -1,13 +1,33 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const AddProductModal = ({ onClose }) => {
-  const [brand, setBrand] = useState("");
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Brand added:", brand);
-    onClose();
-  };
+   const [brand, setBrand] = useState({
+      brand: '',
+      img: '',
+    });
+  
+      const handleSubmit = async (e) => {
+      e.preventDefault();
+      try {
+        const res = await fetch('http://localhost:3000/brands/add', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(brand)
+        });
+  
+        const data = await res.json();
+        console.log('Brand added:', data);
+        onClose();
+      } catch (error) {
+        console.error('Error saving product:', error);
+      }
+    };
+  
+    const handleChange = (e) => {
+      setBrand({ ...brand, [e.target.name]: e.target.value });
+    };
+  
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black/10 backdrop-blur-sm z-50">
@@ -17,8 +37,18 @@ const AddProductModal = ({ onClose }) => {
           <input
             type="text"
             placeholder="Brand"
-            value={brand}
-            onChange={(e) => setBrand(e.target.value)}
+            name="brand"
+            value={brand.brand}
+            onChange={handleChange}
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brandGreen"
+            required
+          />
+           <input
+            type="text"
+            placeholder="Image Url"
+            name="img"
+            value={brand.img}
+            onChange={handleChange}
             className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brandGreen"
             required
           />
@@ -46,12 +76,50 @@ const AddProductModal = ({ onClose }) => {
 
 const Products = () => {
   const [showModal, setShowModal] = useState(false);
+   const [search, setSearch] = useState('');
+  const [brands, setBrand] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
 
-  const products = [
-    { id: 1, name: "Test Product 1", price: 24928, stock: 8, category: "GYM", brand: "Gucci" },
-    { id: 2, name: "Test Product 2", price: 4857, stock: 4, category: "Cotton", brand: "Gucci" },
-    { id: 3, name: "Test Product 3", price: 475, stock: 4, category: "Gucci", brand: "Gucci" },
-  ];
+  const fetchBrands = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await fetch('http://localhost:3000/brands/all');
+      if(!res.ok) throw new Error('Failed To Fetch Brands');
+      const data = await res.json();
+      setBrand(data)
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+   const handleDelete = async (id) => {
+  try {
+    const res = await fetch(`http://localhost:3000/brands/delete/${id}`, {
+      method: 'DELETE',
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message || 'Failed to delete product');
+    
+    setBrand(prevBrands => prevBrands.filter(brand => brand._id !== id));
+    
+  } catch (error) {
+    alert(`Error deleting product: ${error.message}`);
+  }
+};
+
+
+  useEffect(() => {
+      fetchBrands();
+    }, []);
+    
+  if (loading) return <p>Loading Brands...</p>;
+  if (error) return <p>Error: {error}</p>;
+
+
 
   return (
     <div className="relative p-6 bg-gray-50 min-h-screen">
@@ -67,30 +135,42 @@ const Products = () => {
 
       <input
         type="text"
+         onChange={(e) => setSearch(e.target.value)}
         placeholder="Search brands..."
         className="mb-6 p-3 border border-gray-300 rounded-lg w-full md:w-1/3 focus:outline-none focus:ring-2 focus:ring-brandGreen"
       />
+        <button
+            onClick={fetchBrands}
+            className="px-4 py-2 ml-3 bg-gray-300 rounded-lg hover:bg-gray-400 transition"
+          >
+            Refresh
+          </button>
 
      <div className="overflow-x-auto bg-white shadow-lg rounded-xl p-4">
   <table className="min-w-full text-sm text-left border-separate border-spacing-y-3">
     <thead className="bg-gray-100 text-gray-700 uppercase text-xs tracking-wider">
       <tr>
+        <th className="px-6 py-3 font-semibold rounded-tl-lg">Brand Image</th>
         <th className="px-6 py-3 font-semibold rounded-tl-lg">Brand Name</th>
         <th className="px-6 py-3 font-semibold rounded-tr-lg">Actions</th>
       </tr>
     </thead>
     <tbody>
-      {products.map((p) => (
+      {brands.filter((item) => {
+            return search.toLowerCase() === ''
+              ? item
+              : item.brand.toLowerCase().includes(search)}).map((p) => (
         <tr
           key={p.id}
           className="bg-white hover:bg-indigo-50 transition-transform duration-300 shadow-sm rounded-lg hover:shadow-md transform hover:scale-[1.02]"
         >
+          <td><img src={p.img} alt="" className="px-6 w-[150px] h-[80px] " /></td>
           <td className="px-6 py-4 font-medium rounded-l-lg">{p.brand}</td>
           <td className="px-6 py-4 flex gap-4 rounded-r-lg">
             <button className="bg-blue-600 text-white px-4 py-1 rounded-lg shadow-sm hover:bg-blue-700 transition duration-300 font-semibold">
               Edit
             </button>
-            <button className="bg-red-600 text-white px-4 py-1 rounded-lg shadow-sm hover:bg-red-700 transition duration-300 font-semibold">
+            <button onClick={() => handleDelete(p._id)} className="bg-red-600 text-white px-4 py-1 rounded-lg shadow-sm hover:bg-red-700 transition duration-300 font-semibold">
               Delete
             </button>
           </td>

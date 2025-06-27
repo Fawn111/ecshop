@@ -44,7 +44,6 @@ const ADMIN_PASSWORD = "admin123";
     
     );
   }
-
   return (
     <>
      {warning && (<Toaster message="Incorrect Password!" type="error" />)}
@@ -74,10 +73,11 @@ const ADMIN_PASSWORD = "admin123";
 
               <div className="mb-2">
                 <strong>Items:</strong>
-                {order.cart.map((item, idx) => (
-                  <div key={idx} className="flex justify-between text-sm py-1">
+                {order.cart.map((item, id) => (
+
+                  <div key={id} className="flex justify-between text-sm py-1">
                     <span>
-                      {item.title} x {item.quantity}
+                      {item.name} x {item.quantity}
                     </span>
                     <span>PKR {item.price * item.quantity}</span>
                   </div>

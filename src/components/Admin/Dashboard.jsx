@@ -1,13 +1,33 @@
 import React from "react";
+import { useState, useEffect } from "react";
 
 const Dashboard = () => {
 
-      const [orders, setOrders] = React.useState([]);
+      const [orders, setOrders] = useState([]);
+      const [products, setProducts] = useState([]);   
+      const [users, setUsers] = useState([])
     
-     React.useEffect(() => {
+     useEffect(() => {
           const savedOrders = JSON.parse(localStorage.getItem("orders")) || [];
           setOrders(savedOrders);
       }, []);
+
+      useEffect(() => {
+        const totaluser = JSON.parse(localStorage.getItem("user")) || [];
+        setUsers(totaluser)
+      })
+
+        useEffect(() => {
+          fetch('https://fakestoreapi.com/products')
+            .then((res) => res.json())
+            .then((data) => {
+              setProducts(data);
+            })
+            .catch((error) => {
+              console.error("Error fetching products:", error);
+            });
+        }, []);
+
 
   return (
     <div className="flex flex-col gap-6 p-6">
@@ -21,12 +41,12 @@ const Dashboard = () => {
 
         <div className="bg-white rounded-xl shadow p-4">
           <h2 className="text-lg font-medium text-gray-600">Total Products</h2>
-          <p className="text-2xl font-bold text-gray-800">56</p>
+          <p className="text-2xl font-bold text-gray-800">{products.length}</p>
         </div>
 
         <div className="bg-white rounded-xl shadow p-4">
           <h2 className="text-lg font-medium text-gray-600">Registered Users</h2>
-          <p className="text-2xl font-bold text-gray-800">89</p>
+          <p className="text-2xl font-bold text-gray-800">{users.length}</p>
         </div>
       </div>
 
