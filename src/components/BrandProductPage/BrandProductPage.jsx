@@ -35,7 +35,7 @@ const BrandProductPage = ({ data, handlecart, handlewish, wish, cart }) => {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {products.map((item) => (
 
-            <div key={item.id} className='bg-white rounded-md p-3 w-full h-fit sm:w-[300px] hover:scale-105 transition-all duration-300 ease-in-out'>
+            <div key={item._id} className='bg-white rounded-md p-3 w-full h-fit sm:w-[300px] hover:scale-105 transition-all duration-300 ease-in-out'>
                         <div className="relative">
                           <img src={item.img} alt={item.title} className="h-[330px] w-[295px] object-cover rounded-md" />
                         </div>
@@ -58,9 +58,9 @@ const BrandProductPage = ({ data, handlecart, handlewish, wish, cart }) => {
                           </div>
                            
                            <div className="items-center flex justify-center mt-3">
-                           <motion.button onClick={() => handlecart(item)} className={`${cart.some((c) => c.id === item.id) ? 'bg-green-600' : 'bg-black'} text-white px-6 py-2 rounded-xl font-semibold shadow-md hover:shadow-lg bottom-2 cursor-pointer`}  whileHover={{ scale: 1.1 }}
+                           <motion.button onClick={() => handlecart(item)} className={`${cart.some((c) => c._id === item._id) ? 'bg-green-600' : 'bg-black'} text-white px-6 py-2 rounded-xl font-semibold shadow-md hover:shadow-lg bottom-2 cursor-pointer`}  whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.8 }}>
-                        {cart.some((c) => c.id === item.id) ? "Remove From Cart" : "Add To Cart"}
+                        {cart.some((c) => c._id === item._id) ? "Remove From Cart" : "Add To Cart"}
                     </motion.button>
                             
                           </div>

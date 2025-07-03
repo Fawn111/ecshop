@@ -3,7 +3,10 @@ import { FaHeart } from "react-icons/fa";
 import { motion } from "framer-motion";
 import { IoIosStar } from "react-icons/io";
 
+
+
 const ProductCard = ({ data, handlecart, handlewish, wish, cart }) => {
+  console.log(data)
   return (
     <div className='mt-10 overflow-hidden'>
       <motion.div initial={{ x: -100, opacity: 0 }}

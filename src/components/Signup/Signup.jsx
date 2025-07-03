@@ -4,7 +4,7 @@ import { IoMdReturnLeft } from "react-icons/io";
 import { Link, useNavigate } from "react-router-dom";
 
 const Signup = () => {
-    const navigate = useNavigate(); // ✅ Hook to navigate
+    const navigate = useNavigate();
     const [isOpen, setIsOpen] = React.useState(false);
     const [isOpen2, setIsOpen2] = React.useState(false);
 
@@ -19,24 +19,40 @@ const Signup = () => {
         setUser({ ...user, [name]: value });
     }
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
+    const handleSubmit = async (e) => {
+  e.preventDefault();
 
-        if (!user.name || !user.email || !user.password) {
-            setIsOpen(true);
-            setTimeout(() => setIsOpen(false), 3000);
-            return;
-        }
+  if (!user.name || !user.email || !user.password) {
+    setIsOpen(true);
+    setTimeout(() => setIsOpen(false), 3000);
+    return;
+  }
 
-        const existingUsers = JSON.parse(localStorage.getItem("user")) || [];
-        const updatedUsers = [...existingUsers, user];
-        localStorage.setItem("user", JSON.stringify(updatedUsers));
+  try {
+    const response = await fetch("http://localhost:3000/api/auth/signup", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(user)
+    });
 
-        setIsOpen2(true);
-            setIsOpen2(false);
-            navigate("/login");
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || "Signup failed");
     }
 
+    setIsOpen2(true);
+    setTimeout(() => {
+      setIsOpen2(false);
+      navigate("/login");
+    }, 2000);
+  } catch (err) {
+    setIsOpen(true);
+    console.error("Signup Error:", err.message);
+  }
+};
     return (
         <>
             {isOpen && <Toaster message="Please Fill All Fields" type="error" />}

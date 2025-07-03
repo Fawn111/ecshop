@@ -22,6 +22,7 @@ import CategoryPage from "./components/CategoryPage/CategoryPage";
 import CategoryProducts from "./components/CategoryProduct/CategoryProducts";
 import BrandProductPage from "./components/BrandProductPage/BrandProductPage";
 import BrandPage from "./components/BrandPage/BrandPage";
+import DealsPage from "./components/Deals/DealPage";
 
 // admin components
 import AdminLayout from "./components/Admin/AdminLayout";
@@ -30,6 +31,7 @@ import AdminProducts from "./components/Admin/Products";
 import Dashboard from "./components/Admin/Dashboard";
 import AdminCategory from "./components/Admin/Category"
 import AdminBrands from "./components/Admin/Brands"
+import CreateDeal from "./components/Admin/Dealsadmin";
 
 
 function App() {
@@ -143,6 +145,38 @@ function App() {
             </>
           }
         />
+        <Route path="/deals" element={
+          <>
+          <Navbar
+                handleOrderPopup={handleOrderPopup}
+                size={cart.length}
+                size2={wish.length}
+                toggleCart={toggleCart}
+                toggleWish={toggleWish}
+              />
+              <Cart
+                isCartOpen={isCartOpen}
+                size={cart.length}
+                toggleCart={toggleCart}
+                cart={cart}
+                setCart={setCart}
+              />
+              <Wishlist
+                isWishOpen={isWishOpen}
+                toggleWish={toggleWish}
+                wish={wish}
+                setWish={setWish}
+                size={wish.length}
+                cart={cart}
+                handlecart={handlecart}
+              />
+          <DealsPage cart={cart}
+                handlecart={handlecart}
+                handlewish={handlewish}
+                wish={wish} />
+          <Footer />
+          </>
+      } />
 
       <Route path="/admin" element={<AdminLayout />}>
       <Route path="dashboard" element={<Dashboard />} />
@@ -150,6 +184,7 @@ function App() {
       <Route path="products" element={<AdminProducts />} />
       <Route path="categories" element={<AdminCategory />} />
       <Route path="brands" element={<AdminBrands />} />
+      <Route path="deals" element={<CreateDeal />} />
     </Route>
 
         <Route path="/login" element={<Login />} />

@@ -208,6 +208,49 @@ const Products = () => {
   }
 };
 
+const toggleIsNew = async (id, currentIsNew) => {
+  try {
+    const res = await fetch(`http://localhost:3000/api/products/mark-new/${id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({  isNewProduct: !currentIsNew }),
+    });
+    const data = await res.json();
+
+    if (!res.ok) throw new Error(data.message || "Failed to update product");
+
+    // Update local state after toggle:
+    setProducts((prev) =>
+      prev.map((product) =>
+        product._id === id ? { ...product,  isNewProduct: !currentIsNew } : product
+      )
+    );
+  } catch (error) {
+    alert(error.message);
+  }
+};
+
+const toggleIsHot = async (id, currentIsNew) => {
+  try {
+    const res = await fetch(`http://localhost:3000/api/products/mark-hot/${id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({   isHotSelling: !currentIsNew }),
+    });
+    const data = await res.json();
+
+    if (!res.ok) throw new Error(data.message || "Failed to update product");
+
+    // Update local state after toggle:
+    setProducts((prev) =>
+      prev.map((product) =>
+        product._id === id ? { ...product,   isHotSelling: !currentIsNew } : product
+      )
+    );
+  } catch (error) {
+    alert(error.message);
+  }
+};
 
   
 
@@ -254,6 +297,8 @@ const Products = () => {
           <th className="px-6 py-3">Brand</th>
           <th className="px-6 py-3 rounded-tl-lg">SKU</th>
           <th className="px-6 py-3 rounded-tr-lg">Actions</th>
+          <th className="px-6 py-3 rounded-tr-lg">New Arrival</th>
+          <th className="px-6 py-3 rounded-tr-lg">Hot Sellings</th>
         </tr>
       </thead>
       <tbody>
@@ -267,21 +312,33 @@ const Products = () => {
             <tr  key={p._id}  className="bg-white hover:bg-indigo-50 transition-transform duration-300 shadow-md rounded-lg hover:shadow-lg transform hover:scale-[1.02] text-center">
               <td className="px-6 py-4"><img src={p.img} alt={p.name} className="w-[150px] h-[80px] object-cover rounded-md mx-auto" /></td>
               <td className="px-6 py-4 font-semibold rounded-l-lg">{p.name}</td>
-              <td className="px-6 py-4 text-indigo-700 font-medium">{p.price}</td>
+              <td className="px-6 py-4 text-brandGreen font-bold text-xl">{p.price}</td>
               <td className="px-6 py-4">{p.stock}</td>
               <td className="px-6 py-4">{p.category}</td>
               <td className="px-6 py-4">{p.brand}</td>
               <td className="px-6 py-4 font-semibold rounded-l-lg">{p.sku}</td>
-              <td className="px-6 py-4 flex gap-3 rounded-r-lg">
-                <button className="bg-blue-600 text-white px-4 py-1 rounded-lg shadow-sm hover:bg-blue-700 transition duration-300 font-semibold">
+              <td className="px-6 py-4 flex gap-3">
+                <button className="bg-blue-600 text-white px-3 py-1 rounded-lg shadow-sm hover:bg-blue-700 transition duration-300 font-semibold">
                   Edit
                 </button>
                 <button
                   onClick={() => handleDelete(p._id)}
-                  className="bg-red-600 text-white px-4 py-1 rounded-lg shadow-sm hover:bg-red-700 transition duration-300 font-semibold"
+                  className="bg-red-600 text-white px-3 py-1 rounded-lg shadow-sm hover:bg-red-700 transition duration-300 font-semibold"
                 >
                   Delete
                 </button>
+              </td>
+              <td>
+                 <button
+    onClick={() => toggleIsNew(p._id, p. isNewProduct)} className={`px-3 py-1 rounded-lg font-semibold transition ${p. isNewProduct ? "bg-green-600 text-white hover:bg-green-700" : "bg-gray-300 text-gray-700 hover:bg-gray-400"}`}>
+                {p. isNewProduct ? "Yes" : "No"}
+            </button>
+              </td>
+               <td>
+                 <button
+    onClick={() => toggleIsHot(p._id, p.  isHotSelling)} className={`px-3 py-1 rounded-lg font-semibold transition ${p.  isHotSelling ? "bg-green-600 text-white hover:bg-green-700" : "bg-gray-300 text-gray-700 hover:bg-gray-400"}`}>
+                {p.  isHotSelling ? "Yes" : "No"}
+            </button>
               </td>
             </tr>
           ))}

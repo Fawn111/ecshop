@@ -2,10 +2,12 @@ import { Link } from "react-router-dom";
 import { MdDashboard, MdProductionQuantityLimits } from "react-icons/md";
 import { IoNewspaperOutline } from "react-icons/io5";
 import { FaUsers } from "react-icons/fa";
+import { FaIdeal } from "react-icons/fa";
+
 
 const Sidebar = ({ setAuthenticated }) => {
   return (
-    <div className="w-64 h-screen bg-white border-r border-gray-200 text-black flex flex-col shadow-md">
+    <div className="w-48 h-screen bg-white border-r border-gray-200 text-black flex flex-col shadow-md">
       <div className="px-6 py-5 text-2xl font-bold font-secondary tracking-tight border-b">
         Admin Panel
       </div>
@@ -30,6 +32,13 @@ const Sidebar = ({ setAuthenticated }) => {
           className="flex items-center gap-3 p-3 rounded-xl hover:bg-black hover:text-white transition font-medium text-base"
         >
           <MdProductionQuantityLimits size={20} /> Products
+        </Link>
+
+        <Link
+          to="/admin/deals"
+          className="flex items-center gap-3 p-3 rounded-xl hover:bg-black hover:text-white transition font-medium text-base"
+        >
+          <FaIdeal size={20} /> Deals
         </Link>
 
         <Link

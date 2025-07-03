@@ -3,13 +3,13 @@ import { IoIosSearch } from "react-icons/io";
 import { FaShoppingCart, FaHeartBroken } from "react-icons/fa";
 import { IoMdArrowDropdown, IoMdClose } from "react-icons/io";
 import { CgProfile } from "react-icons/cg";
-import { IoMenu, IoNuclearOutline } from "react-icons/io5";
+import { IoMenu } from "react-icons/io5";
 import { Link } from "react-router-dom";
 
 const MenuLinks = [
   { id: 1, name: "Categories", link: "/category" },
   { id: 2, name: "All Products", link: "/newarrivals" },
-  { id: 3, name: "Deals", link: "/#" },
+  { id: 3, name: "Deals", link: "/deals" },
   { id: 4, name: "Brands", link: "/brands" },
 ];
 
@@ -22,21 +22,20 @@ const DropLinks = [
 function NavBar({ handleOrderPopup, size, toggleCart, toggleWish, size2 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const stored = JSON.parse(localStorage.getItem("loggedInUser"));
+    setUser(stored);
+  }, []);
+
   const toggleDropdown = () => setIsOpen(!isOpen);
   const closeDropdown = () => setIsOpen(false);
 
-const [user, setUser] = useState(IoNuclearOutline);
-
-useEffect(() => {
-  const storedUser = JSON.parse(localStorage.getItem("user"));
-    setUser(storedUser)
-}, []);
-
-const username = JSON.parse(localStorage.getItem("loggedInUser"));
-
-
   const handleLogout = () => {
-    localStorage.removeItem("user");
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("token");
+    localStorage.removeItem("loggedInUser");
     setUser(null);
     closeDropdown();
   };
@@ -53,27 +52,14 @@ const username = JSON.parse(localStorage.getItem("loggedInUser"));
           </div>
 
           <div className="flex items-center gap-6">
-            <Link to="/" className="text-black font-extrabold text-4xl sm:text-3xl uppercase sm:mr-0 mr-4">SHOP.CO</Link>
+            <Link to="/" className="text-black font-extrabold text-4xl sm:text-3xl uppercase sm:mr-0 mr-4">
+              SHOP.CO
+            </Link>
 
-            <div className="hidden md:hidden lg:block">
+            <div className="hidden lg:block">
               <ul className="flex mx-9 mt-2">
-                {/* <li className="relative group cursor-pointer">
-                  <span className="text-gray-600 flex items-center gap-[2px] font-sans font-semibold">
-                    Shop
-                    <IoMdArrowDropdown className="text-gray-600 group-hover:rotate-180 mt-1 duration-300 text-xl" />
-                  </span>
-                  <div className="hidden group-hover:block absolute shadow-sm top-full z-10">
-                    <ul>
-                      {DropLinks.map((data) => (
-                        <li key={data.id} className="text-gray-600 w-36 p-2 rounded-sm hover:bg-red-200 font-sans font-semibold bg-white">
-                          <Link to={data.link}>{data.name}</Link>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </li> */}
                 {MenuLinks.map((data) => (
-                  <li key={data.id} className="text-gray-600 hidden lg:block px-4 font-sans font-semibold hover:text-black">
+                  <li key={data.id} className="text-gray-600 px-4 font-sans font-semibold hover:text-black">
                     <Link to={data.link}>{data.name}</Link>
                   </li>
                 ))}
@@ -93,6 +79,7 @@ const username = JSON.parse(localStorage.getItem("loggedInUser"));
             <p onClick={toggleCart} className="cursor-pointer -translate-x-6 -translate-y-3 border rounded-4xl px-2 text-white bg-black">
               {size}
             </p>
+
             <button onClick={toggleWish}>
               <FaHeartBroken className="text-black hover:scale-105 text-2xl cursor-pointer" />
             </button>
@@ -106,7 +93,7 @@ const username = JSON.parse(localStorage.getItem("loggedInUser"));
                 <div className="absolute right-0 mt-4 shadow-sm w-56 bg-white top-full z-50 rounded-md border border-gray-200">
                   <div className="flex justify-between items-center mb-2">
                     <h2 className="text-black text-xl font-bold p-3">
-                      {user ? `Hello, ${username.name}` : 'Profile'}
+                      {user ? `Hello, ${user.name}` : 'Profile'}
                     </h2>
                     <button onClick={closeDropdown}>
                       <IoMdClose className="text-2xl m-3 text-gray-600 hover:scale-110 cursor-pointer" />
@@ -114,9 +101,13 @@ const username = JSON.parse(localStorage.getItem("loggedInUser"));
                   </div>
 
                   <ul className='text-center'>
-                    {username ? (
+                    {user ? (
                       <>
-                          <Link to="/wishlist">   <li className="text-gray-600 w-full p-2 hover:bg-black hover:text-white font-sans font-semibold bg-white">Wishlist </li></Link>
+                        <Link to="/wishlist">
+                          <li className="text-gray-600 w-full p-2 hover:bg-black hover:text-white font-sans font-semibold bg-white">
+                            Wishlist
+                          </li>
+                        </Link>
                         <li
                           onClick={handleLogout}
                           className="cursor-pointer text-gray-600 w-full p-2 hover:bg-black hover:text-white font-sans font-semibold bg-white"
@@ -126,9 +117,16 @@ const username = JSON.parse(localStorage.getItem("loggedInUser"));
                       </>
                     ) : (
                       <>
-                       
-                          <Link to="/login"> <li className="text-gray-600 w-full p-2 hover:bg-black hover:text-white font-sans font-semibold bg-white">Login</li></Link>
-                          <Link to="/signup"><li className="text-gray-600 w-full p-2 hover:bg-black hover:text-white font-sans font-semibold bg-white">Signup</li> </Link>
+                        <Link to="/login">
+                          <li className="text-gray-600 w-full p-2 hover:bg-black hover:text-white font-sans font-semibold bg-white">
+                            Login
+                          </li>
+                        </Link>
+                        <Link to="/signup">
+                          <li className="text-gray-600 w-full p-2 hover:bg-black hover:text-white font-sans font-semibold bg-white">
+                            Signup
+                          </li>
+                        </Link>
                       </>
                     )}
                   </ul>
@@ -154,7 +152,9 @@ const username = JSON.parse(localStorage.getItem("loggedInUser"));
             <li className="font-bold text-gray-700 mt-4 mb-1">Main Menu</li>
             {MenuLinks.map((link) => (
               <li key={link.id} className="py-2 border-b">
-                <Link to={link.link} className="text-gray-600">{link.name}</Link>
+                <Link to={link.link} className="text-gray-600">
+                  {link.name}
+                </Link>
               </li>
             ))}
           </ul>
