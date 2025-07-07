@@ -1,14 +1,34 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Navigate } from "react-router-dom";
 
 const CheckoutPage = ({ setCart1 }) => {
   const [cart, setCart] = useState([]);
+  const [coupons, setCoupon] = useState([]);
+  const [error, setError] = useState(null);
   const [shippingInfo, setShippingInfo] = useState({
     name: "",
     address: "",
     phone: "",
   });
+
+  const [enteredCode, setEnteredCode] = useState("");
+  const [appliedCoupon, setAppliedCoupon] = useState(null);
+
+  // Fetch coupons
+  const fetchCoupons = async () => {
+    try {
+      const res = await fetch("http://localhost:3000/api/coupon/");
+      if (!res.ok) throw new Error("Failed to fetch Coupons");
+      const data = await res.json();
+      setCoupon(data);
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  useEffect(() => {
+    fetchCoupons();
+  }, []);
 
   useEffect(() => {
     const savedCart = JSON.parse(localStorage.getItem("cartItems")) || [];
@@ -19,17 +39,55 @@ const CheckoutPage = ({ setCart1 }) => {
     setShippingInfo({ ...shippingInfo, [e.target.name]: e.target.value });
   };
 
+  const isCouponValid = (coupon) => {
+    const now = new Date();
+    return new Date(coupon.expiryDate) > now;
+  };
+
+  const handleCouponApply = () => {
+    const found = coupons.find(
+      (c) => c.code.toLowerCase() === enteredCode.trim().toLowerCase()
+    );
+    if (found && isCouponValid(found)) {
+      setAppliedCoupon(found);
+      setEnteredCode(found.code);
+      alert(`Coupon "${found.code}" applied!`);
+    } else if (found) {
+      alert("Coupon expired");
+      setAppliedCoupon(null);
+    } else {
+      alert("Invalid coupon code");
+      setAppliedCoupon(null);
+    }
+  };
+
+  const calculateDiscountAmount = (subtotal) => {
+    if (!appliedCoupon) return 0;
+    if (appliedCoupon.discountType === "percentage") {
+      return (subtotal * appliedCoupon.value) / 100;
+    } else if (appliedCoupon.discountType === "value") {
+      return appliedCoupon.value;
+    }
+    return 0;
+  };
+
   const handlePlaceOrder = () => {
-    const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    const subtotal = cart.reduce(
+      (sum, item) => sum + item.price * item.quantity,
+      0
+    );
     const tax = subtotal * 0.15;
-    const total = subtotal + tax;
+    const discount = calculateDiscountAmount(subtotal);
+    const total = subtotal + tax - discount;
 
     const newOrder = {
       cart,
       shippingInfo,
       subtotal,
       tax,
+      discount,
       total,
+      appliedCoupon,
       timestamp: new Date().toISOString(),
     };
 
@@ -41,6 +99,11 @@ const CheckoutPage = ({ setCart1 }) => {
     setCart([]);
     window.location.href = "/order-received";
   };
+
+  const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const tax = subtotal * 0.15;
+  const discount = calculateDiscountAmount(subtotal);
+  const total = subtotal + tax - discount;
 
   return (
     <motion.div
@@ -95,6 +158,34 @@ const CheckoutPage = ({ setCart1 }) => {
             <p className="text-gray-500">Your cart is empty</p>
           ) : (
             <div className="space-y-4">
+              <div className="bg-white flex justify-center p-4 border-t border-b border-gray-300 mb-4 gap-3">
+                <input
+                  type="text"
+                  placeholder="Enter Coupon Code"
+                  value={enteredCode}
+                  onChange={(e) => setEnteredCode(e.target.value)}
+                  className="border border-gray-300 px-3 py-2 sm:w-[250px] w-[200px] rounded"
+                />
+                <button
+                  onClick={handleCouponApply}
+                  className="bg-black text-white px-4 py-2 font-semibold cursor-pointer hover:bg-brandGreen text-[14px] transition duration-300 rounded"
+                >
+                  Apply Coupon
+                </button>
+              </div>
+
+              {appliedCoupon && (
+                <div className="flex justify-between text-green-600 font-semibold mb-2">
+                  <span>
+                    Discount ({appliedCoupon.code}):{" "}
+                    {appliedCoupon.discountType === "percentage"
+                      ? `${appliedCoupon.value}%`
+                      : `PKR ${appliedCoupon.value}`}
+                  </span>
+                  <span>- PKR {discount.toFixed(2)}</span>
+                </div>
+              )}
+
               {cart.map((item, index) => (
                 <motion.div
                   key={item._id}
@@ -114,38 +205,28 @@ const CheckoutPage = ({ setCart1 }) => {
                       <p className="text-sm text-gray-500">Qty: {item.quantity}</p>
                     </div>
                   </div>
-                  <div className="font-semibold">
-                    PKR {item.price * item.quantity}
-                  </div>
+                  <div className="font-semibold">PKR {item.price * item.quantity}</div>
                 </motion.div>
               ))}
 
               <div className="pt-4 border-t text-gray-700 space-y-1">
                 <div className="flex justify-between">
                   <span>Subtotal:</span>
-                  <span>
-                    PKR {cart.reduce((sum, item) => sum + item.price * item.quantity, 0)}
-                  </span>
+                  <span>PKR {subtotal.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Tax (15%):</span>
-                  <span>
-                    PKR{" "}
-                    {Math.round(
-                      cart.reduce((sum, item) => sum + item.price * item.quantity, 0) *
-                        0.15
-                    )}
-                  </span>
+                  <span>PKR {tax.toFixed(2)}</span>
                 </div>
+                {appliedCoupon && (
+                  <div className="flex justify-between text-green-600 font-semibold">
+                    <span>Discount:</span>
+                    <span>- PKR {discount.toFixed(2)}</span>
+                  </div>
+                )}
                 <div className="flex justify-between font-bold text-lg">
                   <span>Total:</span>
-                  <span>
-                    PKR{" "}
-                    {Math.round(
-                      cart.reduce((sum, item) => sum + item.price * item.quantity, 0) *
-                        1.15
-                    )}
-                  </span>
+                  <span>PKR {total.toFixed(2)}</span>
                 </div>
               </div>
 

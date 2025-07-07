@@ -20,7 +20,7 @@ function CreateDeal() {
   });
 
   useEffect(() => {
-    fetch('http://localhost:3000/category/all')
+    fetch('http://localhost:3000/api/category/')
       .then(res => res.json())
       .then(data => setCategories(data));
 
@@ -28,7 +28,7 @@ function CreateDeal() {
       .then(res => res.json())
       .then(data => setBrands(data));
 
-    fetch('http://localhost:3000/api/products/all')
+    fetch('http://localhost:3000/api/products/')
       .then(res => res.json())
       .then(data => setProducts(data));
 
@@ -36,7 +36,7 @@ function CreateDeal() {
   }, []);
 
   const fetchDeals = () => {
-    fetch('http://localhost:3000/deals')
+    fetch('http://localhost:3000/api/deals/')
       .then(res => res.json())
       .then(data => setDeals(data));
   };
@@ -62,7 +62,7 @@ function CreateDeal() {
       brand: form.dealTarget === 'brand' ? form.brand : undefined
     };
 
-    const res = await fetch('http://localhost:3000/deals', {
+    const res = await fetch('http://localhost:3000/api/deals/add', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)

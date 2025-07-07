@@ -15,7 +15,7 @@ function Hero( { handleOrderPopup }){
                     <div>
                         <h2 className="sm:w-[557px] w-[315px] sm:text-[60px] text-[39px] text-black font-extrabold sm:leading-14 leading-9 tracking-tighter">FIND CLOTHES THAT MATCHES YOUR STYLE</h2>
                         <p className="sm:w-[545px] w-[380px] text-[16px] mt-4 text-gray-500">Browse through our diverse range of meticulously crafted garments, designed to bring out your individuality and cater to your sense of style.</p>
-                        <button className="border rounded-full bg-black sm:px-15 px-40 py-3 text-white mt-4">Shop Now</button>
+                        <button className="border rounded-full bg-black sm:px-15 px-34 py-3 text-white mt-4">Shop Now</button>
                     </div>
                     <div className="sm:grid sm:grid-cols-3 sm:gap-4 grid-cols-2 grid gap-2 mt-15 text-center">
                         <div className="border-r-2 border-gray-200">

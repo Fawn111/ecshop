@@ -5,7 +5,7 @@ function DealsPage({ handlecart }) {
   const [deals, setDeals] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:3000/deals')
+    fetch('http://localhost:3000/api/deals/')
       .then(res => res.json())
       .then(data => setDeals(data))
       .catch(err => console.error('Failed to fetch deals:', err));

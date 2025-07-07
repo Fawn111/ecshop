@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-const AddProductModal = ({ onClose }) => {
+const AddProductModal = ({ onClose, onProductAdded }) => {
   const [product, setProduct] = useState({
     name: "",
     stock: 0,
@@ -17,13 +17,13 @@ const AddProductModal = ({ onClose }) => {
 
   useEffect(() => {
     // Fetch categories
-    fetch("http://localhost:3000/category/all")
+    fetch("http://localhost:3000/api/category/")
       .then((res) => res.json())
       .then(setCategories)
       .catch(console.error);
 
     // Fetch brands
-    fetch("http://localhost:3000/brands/all")
+    fetch("http://localhost:3000/api/brands/")
       .then((res) => res.json())
       .then(setBrands)
       .catch(console.error);
@@ -44,6 +44,7 @@ const AddProductModal = ({ onClose }) => {
       });
       const data = await res.json();
       console.log("Product added:", data);
+      onProductAdded(data); // notify parent
       onClose();
     } catch (error) {
       console.error("Error saving product:", error);
@@ -52,9 +53,10 @@ const AddProductModal = ({ onClose }) => {
 
   return (
    <div className="fixed inset-0 flex items-center justify-center bg-black/10 backdrop-blur-sm z-50 px-4 py-10 overflow-y-auto">
+    
       <div className="bg-white rounded-2xl p-6 w-full max-w-lg shadow-2xl relative animate-fade-in mt-46">
         <h3 className="text-2xl font-bold mb-6 text-center text-gray-800">Add Product</h3>
-        <form className="" onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit}>
           <p className="font-semibold mt-3">Product Name:</p>
           <input
             type="text"
@@ -65,9 +67,9 @@ const AddProductModal = ({ onClose }) => {
             required
             className="w-full p-3 border border-gray-300 rounded-lg"
           />
-           <p className="font-semibold mt-3">Stock:</p>
+          <p className="font-semibold mt-3">Stock:</p>
           <input
-            type="text"
+            type="number"
             name="stock"
             placeholder="Stock"
             value={product.stock}
@@ -114,9 +116,10 @@ const AddProductModal = ({ onClose }) => {
               </option>
             ))}
           </select>
-           <p className="font-semibold mt-3">Price:</p>
+          <p className="font-semibold mt-3">Price:</p>
           <input
-            type="text"
+            type="number"
+            step="0.01"
             name="price"
             placeholder="Price"
             value={product.price}
@@ -167,8 +170,177 @@ const AddProductModal = ({ onClose }) => {
 };
 
 
+const EditProductModal = ({ productData, onClose, onProductUpdated }) => {
+  const [product, setProduct] = useState(productData);
+
+  const [categories, setCategories] = useState([]);
+  const [brands, setBrands] = useState([]);
+
+  useEffect(() => {
+    // Fetch categories
+    fetch("http://localhost:3000/api/category/")
+      .then((res) => res.json())
+      .then(setCategories)
+      .catch(console.error);
+
+    // Fetch brands
+    fetch("http://localhost:3000/api/brands/")
+      .then((res) => res.json())
+      .then(setBrands)
+      .catch(console.error);
+  }, []);
+
+  useEffect(() => {
+    setProduct(productData); // update local state if productData changes
+  }, [productData]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setProduct((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await fetch(`http://localhost:3000/api/products/${product._id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(product),
+      });
+      const data = await res.json();
+      console.log("Product updated:", data);
+      onProductUpdated(data);
+      onClose();
+    } catch (error) {
+      console.error("Error updating product:", error);
+    }
+  };
+
+  if (!product) return null;
+
+  return (
+   <div className="fixed inset-0 flex items-center justify-center bg-black/10 backdrop-blur-sm z-50 px-4 py-10 overflow-y-auto">
+      <div className="bg-white rounded-2xl p-6 w-full max-w-lg shadow-2xl relative animate-fade-in mt-46">
+        <h3 className="text-2xl font-bold mb-6 text-center text-gray-800">Edit Product</h3>
+        <form onSubmit={handleSubmit}>
+          <p className="font-semibold mt-3">Product Name:</p>
+          <input
+            type="text"
+            name="name"
+            placeholder="Product Name"
+            value={product.name || ""}
+            onChange={handleChange}
+            required
+            className="w-full p-3 border border-gray-300 rounded-lg"
+          />
+          <p className="font-semibold mt-3">Stock:</p>
+          <input
+            type="number"
+            name="stock"
+            placeholder="Stock"
+            value={product.stock || 0}
+            onChange={handleChange}
+            required
+            className="w-full p-3 border border-gray-300 rounded-lg"
+          />
+          <p className="font-semibold mt-3">Description:</p>
+          <textarea
+            name="desc"
+            placeholder="Description"
+            value={product.desc || ""}
+            onChange={handleChange}
+            required
+            className="w-full p-3 border border-gray-300 rounded-lg"
+          />
+          <p className="font-semibold mt-3">Category:</p>
+          <select
+            name="category"
+            value={product.category || ""}
+            onChange={handleChange}
+            required
+            className="w-full p-3 border border-gray-300 rounded-lg"
+          >
+            <option value="">Select Category</option>
+            {categories.map((cat) => (
+              <option key={cat._id} value={cat.category}>
+                {cat.category}
+              </option>
+            ))}
+          </select>
+          <p className="font-semibold mt-3">Brand:</p>
+          <select
+            name="brand"
+            value={product.brand || ""}
+            onChange={handleChange}
+            required
+            className="w-full p-3 border border-gray-300 rounded-lg"
+          >
+            <option value="">Select Brand</option>
+            {brands.map((b) => (
+              <option key={b._id} value={b.brand}>
+                {b.brand}
+              </option>
+            ))}
+          </select>
+          <p className="font-semibold mt-3">Price:</p>
+          <input
+            type="number"
+            step="0.01"
+            name="price"
+            placeholder="Price"
+            value={product.price || ""}
+            onChange={handleChange}
+            required
+            className="w-full p-3 border border-gray-300 rounded-lg"
+          />
+          <p className="font-semibold mt-3">SKU Code:</p>
+          <input
+            type="text"
+            name="sku"
+            placeholder="SKU (Unique Code)"
+            value={product.sku || ""}
+            onChange={handleChange}
+            required
+            className="w-full p-3 border border-gray-300 rounded-lg"
+          />
+          <p className="font-semibold mt-3">Image URL:</p>
+          <input
+            type="text"
+            name="img"
+            placeholder="Image URL"
+            value={product.img || ""}
+            onChange={handleChange}
+            required
+            className="w-full p-3 border border-gray-300 rounded-lg"
+          />
+
+          <div className="flex justify-end gap-4 pt-2">
+            <button
+              type="button"
+              onClick={onClose}
+              className="px-4 py-2 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="px-6 py-2 bg-black text-white rounded-lg hover:bg-gray-900"
+            >
+              Update
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+};
+
+
 const Products = () => {
-  const [showModal, setShowModal] = useState(false);
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [editProduct, setEditProduct] = useState(null);
+
   const [search, setSearch] = useState('');
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -178,7 +350,7 @@ const Products = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch('http://localhost:3000/api/products/all');
+      const res = await fetch('http://localhost:3000/api/products/');
       if (!res.ok) throw new Error('Failed to fetch products');
       const data = await res.json();
       setProducts(data);
@@ -219,7 +391,6 @@ const toggleIsNew = async (id, currentIsNew) => {
 
     if (!res.ok) throw new Error(data.message || "Failed to update product");
 
-    // Update local state after toggle:
     setProducts((prev) =>
       prev.map((product) =>
         product._id === id ? { ...product,  isNewProduct: !currentIsNew } : product
@@ -230,21 +401,20 @@ const toggleIsNew = async (id, currentIsNew) => {
   }
 };
 
-const toggleIsHot = async (id, currentIsNew) => {
+const toggleIsHot = async (id, currentIsHot) => {
   try {
     const res = await fetch(`http://localhost:3000/api/products/mark-hot/${id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({   isHotSelling: !currentIsNew }),
+      body: JSON.stringify({   isHotProduct: !currentIsHot }),
     });
     const data = await res.json();
 
     if (!res.ok) throw new Error(data.message || "Failed to update product");
 
-    // Update local state after toggle:
     setProducts((prev) =>
       prev.map((product) =>
-        product._id === id ? { ...product,   isHotSelling: !currentIsNew } : product
+        product._id === id ? { ...product,  isHotProduct: !currentIsHot } : product
       )
     );
   } catch (error) {
@@ -252,106 +422,139 @@ const toggleIsHot = async (id, currentIsNew) => {
   }
 };
 
-  
+  // After adding product, refresh list or append
+  const handleProductAdded = (newProduct) => {
+    setProducts((prev) => [...prev, newProduct]);
+  };
 
-  if (loading) return <p>Loading products...</p>;
-  if (error) return <p>Error: {error}</p>;
+  // After editing product, update list
+  const handleProductUpdated = (updatedProduct) => {
+    setProducts((prev) =>
+      prev.map((p) => (p._id === updatedProduct._id ? updatedProduct : p))
+    );
+  };
 
- 
+  // Open edit modal with selected product
+  const handleEditClick = (product) => {
+    setEditProduct(product);
+    setShowEditModal(true);
+  };
+
+  // Filter products for search
+  const filteredProducts = products.filter((p) =>
+    p.name.toLowerCase().includes(search.toLowerCase())
+  );
 
   return (
-     <div className="relative p-6 bg-gray-50 min-h-screen">
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-semibold">Products</h2>
-        
-        <button onClick={() => setShowModal(true)} className="flex items-center gap-2 bg-black text-white px-5 py-2.5 rounded-lg shadow-md hover:bg-brandGreen cursor-pointer transition-all duration-200">
-  <span className="text-lg">+</span>
-  <span className="font-semibold">Add Product</span>
-</button>
+    <>
+      <div className="flex items-center gap-2 justify-between mb-6 px-6">
+        <button
+          onClick={() => setShowAddModal(true)}
+          className="btn btn-primary bg-black text-white px-6 py-3 rounded-lg cursor-pointer hover:scale-105"
+        >
+          + Add Product
+        </button>
+
+        <input
+          className="border border-gray-300 px-4 py-2 rounded-lg w-60"
+          placeholder="Search Product"
+          type="text"
+          onChange={(e) => setSearch(e.target.value)}
+          value={search}
+        />
       </div>
 
-      <input
-        type="text"
-        onChange={(e) => setSearch(e.target.value)}
-        placeholder="Search products..."
-        className="mb-6 p-3 border border-gray-300 rounded-lg w-full md:w-1/3 focus:outline-none focus:ring-2 focus:ring-brandGreen" />
-         <button
-            onClick={fetchProducts}
-            className="px-4 py-2 ml-3 bg-gray-300 rounded-lg hover:bg-gray-400 transition"
-          >
-            Refresh
-          </button>
+      {loading && <p className="text-center">Loading products...</p>}
+      {error && <p className="text-center text-red-500">{error}</p>}
 
-  {products.length === 0 ? (
-  <p>No Products Found</p>
-) : (
-  <div className="overflow-x-auto bg-white shadow-xl rounded-xl p-4">
-    <table className="min-w-full text-sm text-left border-separate border-spacing-y-3">
-      <thead className="bg-gray-100 text-gray-700 uppercase text-xs tracking-wider">
-        <tr>
-          <th className="px-6 py-3 rounded-tl-lg">Image</th>
-          <th className="px-6 py-3 rounded-tl-lg">Product Name</th>
-          <th className="px-6 py-3">Price</th>
-          <th className="px-6 py-3">Stock</th>
-          <th className="px-6 py-3">Category</th>
-          <th className="px-6 py-3">Brand</th>
-          <th className="px-6 py-3 rounded-tl-lg">SKU</th>
-          <th className="px-6 py-3 rounded-tr-lg">Actions</th>
-          <th className="px-6 py-3 rounded-tr-lg">New Arrival</th>
-          <th className="px-6 py-3 rounded-tr-lg">Hot Sellings</th>
-        </tr>
-      </thead>
-      <tbody>
-        {products
-          .filter((item) => {
-            return search.toLowerCase() === ''
-              ? item
-              : item.name.toLowerCase().includes(search);
-          })
-          .map((p) => (
-            <tr  key={p._id}  className="bg-white hover:bg-indigo-50 transition-transform duration-300 shadow-md rounded-lg hover:shadow-lg transform hover:scale-[1.02] text-center">
-              <td className="px-6 py-4"><img src={p.img} alt={p.name} className="w-[150px] h-[80px] object-cover rounded-md mx-auto" /></td>
-              <td className="px-6 py-4 font-semibold rounded-l-lg">{p.name}</td>
-              <td className="px-6 py-4 text-brandGreen font-bold text-xl">{p.price}</td>
-              <td className="px-6 py-4">{p.stock}</td>
-              <td className="px-6 py-4">{p.category}</td>
-              <td className="px-6 py-4">{p.brand}</td>
-              <td className="px-6 py-4 font-semibold rounded-l-lg">{p.sku}</td>
-              <td className="px-6 py-4 flex gap-3">
-                <button className="bg-blue-600 text-white px-3 py-1 rounded-lg shadow-sm hover:bg-blue-700 transition duration-300 font-semibold">
-                  Edit
-                </button>
-                <button
-                  onClick={() => handleDelete(p._id)}
-                  className="bg-red-600 text-white px-3 py-1 rounded-lg shadow-sm hover:bg-red-700 transition duration-300 font-semibold"
-                >
-                  Delete
-                </button>
-              </td>
-              <td>
-                 <button
-    onClick={() => toggleIsNew(p._id, p. isNewProduct)} className={`px-3 py-1 rounded-lg font-semibold transition ${p. isNewProduct ? "bg-green-600 text-white hover:bg-green-700" : "bg-gray-300 text-gray-700 hover:bg-gray-400"}`}>
-                {p. isNewProduct ? "Yes" : "No"}
-            </button>
-              </td>
-               <td>
-                 <button
-    onClick={() => toggleIsHot(p._id, p.  isHotSelling)} className={`px-3 py-1 rounded-lg font-semibold transition ${p.  isHotSelling ? "bg-green-600 text-white hover:bg-green-700" : "bg-gray-300 text-gray-700 hover:bg-gray-400"}`}>
-                {p.  isHotSelling ? "Yes" : "No"}
-            </button>
-              </td>
+      {!loading && !error && (
+        <table className="min-w-full border border-gray-300">
+          <thead className="border-b border-gray-300 bg-gray-50">
+            <tr>
+              <th className="p-3 text-left">Image</th>
+              <th className="p-3 text-left">Name</th>
+              <th className="p-3 text-left">Stock</th>
+              <th className="p-3 text-left">Category</th>
+              <th className="p-3 text-left">Brand</th>
+              <th className="p-3 text-left">Price</th>
+              <th className="p-3 text-left">SKU</th>
+              <th className="p-3 text-left">New Arrival</th>
+              <th className="p-3 text-left">Hot Sell</th>
+              <th className="p-3 text-left">Actions</th>
             </tr>
-          ))}
-      </tbody>
-    </table>
-  </div>
-)}
+          </thead>
+          <tbody>
+            {filteredProducts.length === 0 && (
+              <tr>
+                <td colSpan={10} className="text-center p-4">
+                  No products found.
+                </td>
+              </tr>
+            )}
+            {filteredProducts.map((product) => (
+              <tr key={product._id} className="border-b border-gray-300">
+                <td className="p-3">
+                  <img
+                    src={product.img}
+                    alt={product.name}
+                    className="w-12 h-12 object-cover rounded-md"
+                  />
+                </td>
+                <td className="p-3">{product.name}</td>
+                <td className="p-3">{product.stock}</td>
+                <td className="p-3">{product.category}</td>
+                <td className="p-3">{product.brand}</td>
+                <td className="p-3">${product.price}</td>
+                <td className="p-3">{product.sku}</td>
+                <td className="p-3">
+                  <input
+                    type="checkbox"
+                    checked={!!product.isNewProduct}
+                    onChange={() => toggleIsNew(product._id, product.isNewProduct)}
+                  />
+                </td>
+                <td className="p-3">
+                  <input
+                    type="checkbox"
+                    checked={!!product.isHotProduct}
+                    onChange={() => toggleIsHot(product._id, product.isHotProduct)}
+                  />
+                </td>
+                <td className="p-3 space-x-2">
+                  <button
+                    onClick={() => handleEditClick(product)}
+                    className="bg-blue-600 text-white px-4 py-1 rounded-lg shadow-sm hover:bg-blue-700 transition cursor-pointer hover:scale-105"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => handleDelete(product._id)}
+                    className="bg-red-600 text-white px-4 py-1 rounded-lg shadow-sm hover:bg-red-700 transition cursor-pointer hover:scale-105"
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
 
-      
+      {showAddModal && (
+        <AddProductModal
+          onClose={() => setShowAddModal(false)}
+          onProductAdded={handleProductAdded}
+        />
+      )}
 
-
-      {showModal && <AddProductModal onClose={() => setShowModal(false)}/>}
-    </div>
+      {showEditModal && editProduct && (
+        <EditProductModal
+          productData={editProduct}
+          onClose={() => setShowEditModal(false)}
+          onProductUpdated={handleProductUpdated}
+        />
+      )}
+    </>
   );
 };
 

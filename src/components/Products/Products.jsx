@@ -23,7 +23,6 @@ const fetchNewArrivals = async () => {
     setError(err.message);
   } finally {
     setLoading(false);
-    console.log(data)
   }
 };
 
@@ -43,7 +42,6 @@ useEffect(() => {
     setError(err.message);
   } finally {
     setLoading(false);
-    console.log(data)
   }
 };
 

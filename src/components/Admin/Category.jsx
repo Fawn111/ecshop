@@ -9,7 +9,7 @@ const AddProductModal = ({ onClose }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch('http://localhost:3000/category/add', {
+      const res = await fetch('http://localhost:3000/api/category/add', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(category)
@@ -86,7 +86,7 @@ const Products = () => {
       setLoading(true);
       setError(null);
       try {
-        const res = await fetch('http://localhost:3000/category/all');
+        const res = await fetch('http://localhost:3000/api/category/');
         if (!res.ok) throw new Error('Failed to fetch category');
         const data = await res.json();
         setCategory(data);

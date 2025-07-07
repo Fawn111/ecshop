@@ -6,19 +6,21 @@ const Dashboard = () => {
       const [orders, setOrders] = useState([]);
       const [products, setProducts] = useState([]);   
       const [users, setUsers] = useState([])
-    
-     useEffect(() => {
-          const savedOrders = JSON.parse(localStorage.getItem("orders")) || [];
-          setOrders(savedOrders);
-      }, []);
 
       useEffect(() => {
-        const totaluser = JSON.parse(localStorage.getItem("user")) || [];
-        setUsers(totaluser)
-      })
+          fetch('http://localhost:3000/api/auth/users')
+            .then((res) => res.json())
+            .then((data) => {
+              setUsers(data);
+            })
+            .catch((error) => {
+              console.error("Error fetching products:", error);
+            });
+        }, []);
+        
 
         useEffect(() => {
-          fetch('https://fakestoreapi.com/products')
+          fetch('http://localhost:3000/api/products/')
             .then((res) => res.json())
             .then((data) => {
               setProducts(data);

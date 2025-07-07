@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { IoIosSearch } from "react-icons/io";
 import { FaShoppingCart, FaHeartBroken } from "react-icons/fa";
-import { IoMdArrowDropdown, IoMdClose } from "react-icons/io";
+import { IoMdClose } from "react-icons/io";
 import { CgProfile } from "react-icons/cg";
 import { IoMenu } from "react-icons/io5";
 import { Link } from "react-router-dom";
@@ -41,118 +41,134 @@ function NavBar({ handleOrderPopup, size, toggleCart, toggleWish, size2 }) {
   };
 
   return (
-    <div className="bg-white dark:text-white fixed w-full z-50 left-0 top-0 shadow overflow-visible">
-      <div className="py-1">
-        <div className="p-3 sm:p-6 sm:flex sm:justify-between items-center flex justify-around mx-0 sm:mx-6">
-          <div className="lg:hidden flex items-center">
-            <IoMenu
-              onClick={() => setShowMobileMenu(!showMobileMenu)}
-              className="text-2xl cursor-pointer text-black mr-4"
+    <nav className="bg-white fixed top-0 left-0 w-full z-50 shadow-md">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex items-center justify-between">
+        
+        {/* Logo + Mobile Menu Button */}
+        <div className="flex items-center gap-4">
+          <IoMenu
+            onClick={() => setShowMobileMenu(!showMobileMenu)}
+            className="text-2xl lg:hidden cursor-pointer text-black"
+          />
+          <Link to="/" className="text-2xl sm:text-3xl font-extrabold text-black uppercase">
+            SHOP.CO
+          </Link>
+        </div>
+
+        {/* Desktop Nav Links */}
+        <ul className="hidden lg:flex gap-8">
+          {MenuLinks.map((item) => (
+            <li key={item.id}>
+              <Link to={item.link} className="text-gray-600 font-medium hover:text-black transition">
+                {item.name}
+              </Link>
+            </li>
+          ))}
+        </ul>
+
+        {/* Search (visible on md & up) */}
+        <div className="hidden md:block relative w-40 md:w-56 lg:w-[500px]">
+          <IoIosSearch className="absolute top-3.5 left-3 text-xl text-gray-500" />
+          <input
+            type="text"
+            placeholder="Search products..."
+            className="w-full pl-10 pr-4 py-3 border rounded-full text-sm  border-gray-400 focus:ring-black"
+          />
+        </div>
+
+        {/* Icons */}
+        <div className="flex items-center gap-3 sm:gap-5">
+          {/* Cart */}
+          <button onClick={toggleCart} className="relative">
+            <FaShoppingCart className="text-3xl text-black hover:scale-105 transition" />
+            {size > 0 && (
+              <span className="absolute -top-3 -right-2 bg-red-500 text-white text-xs w-6 h-6 font-normal rounded-full flex items-center justify-center">
+                {size}
+              </span>
+            )}
+          </button>
+
+          {/* Wishlist */}
+          <button onClick={toggleWish} className="relative">
+            <FaHeartBroken className="text-3xl text-black hover:scale-105 transition" />
+            {size2 > 0 && (
+              <span className="absolute -top-3 -right-2 bg-red-500 text-white text-xs w-6 h-6 font-normal rounded-full flex items-center justify-center">
+                {size2}
+              </span>
+            )}
+          </button>
+
+          {/* Profile */}
+          <div className="relative">
+            <CgProfile
+              onClick={toggleDropdown}
+              className="text-3xl text-black cursor-pointer"
             />
-          </div>
-
-          <div className="flex items-center gap-6">
-            <Link to="/" className="text-black font-extrabold text-4xl sm:text-3xl uppercase sm:mr-0 mr-4">
-              SHOP.CO
-            </Link>
-
-            <div className="hidden lg:block">
-              <ul className="flex mx-9 mt-2">
-                {MenuLinks.map((data) => (
-                  <li key={data.id} className="text-gray-600 px-4 font-sans font-semibold hover:text-black">
-                    <Link to={data.link}>{data.name}</Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <div className="relative hidden lg:block md:block">
-              <IoIosSearch className="text-gray-600 absolute top-3 left-2 text-2xl" />
-              <input type="text" placeholder="Search for Products.." className="search-bar pl-10" />
-            </div>
-
-            <button onClick={toggleCart}>
-              <FaShoppingCart className="text-black hover:scale-105 text-2xl cursor-pointer" />
-            </button>
-            <p onClick={toggleCart} className="cursor-pointer -translate-x-6 -translate-y-3 border rounded-4xl px-2 text-white bg-black">
-              {size}
-            </p>
-
-            <button onClick={toggleWish}>
-              <FaHeartBroken className="text-black hover:scale-105 text-2xl cursor-pointer" />
-            </button>
-            <p onClick={toggleWish} className="cursor-pointer -translate-x-6 -translate-y-3 border rounded-4xl px-2 text-white bg-black">
-              {size2}
-            </p>
-
-            <div className="relative cursor-pointer" onClick={toggleDropdown}>
-              <CgProfile className="text-black text-3xl" />
-              {isOpen && (
-                <div className="absolute right-0 mt-4 shadow-sm w-56 bg-white top-full z-50 rounded-md border border-gray-200">
-                  <div className="flex justify-between items-center mb-2">
-                    <h2 className="text-black text-xl font-bold p-3">
-                      {user ? `Hello, ${user.name}` : 'Profile'}
-                    </h2>
-                    <button onClick={closeDropdown}>
-                      <IoMdClose className="text-2xl m-3 text-gray-600 hover:scale-110 cursor-pointer" />
-                    </button>
-                  </div>
-
-                  <ul className='text-center'>
-                    {user ? (
-                      <>
-                        <Link to="/wishlist">
-                          <li className="text-gray-600 w-full p-2 hover:bg-black hover:text-white font-sans font-semibold bg-white">
-                            Wishlist
-                          </li>
-                        </Link>
-                        <li
-                          onClick={handleLogout}
-                          className="cursor-pointer text-gray-600 w-full p-2 hover:bg-black hover:text-white font-sans font-semibold bg-white"
-                        >
-                          Logout
-                        </li>
-                      </>
-                    ) : (
-                      <>
-                        <Link to="/login">
-                          <li className="text-gray-600 w-full p-2 hover:bg-black hover:text-white font-sans font-semibold bg-white">
-                            Login
-                          </li>
-                        </Link>
-                        <Link to="/signup">
-                          <li className="text-gray-600 w-full p-2 hover:bg-black hover:text-white font-sans font-semibold bg-white">
-                            Signup
-                          </li>
-                        </Link>
-                      </>
-                    )}
-                  </ul>
+            {isOpen && (
+              <div className="absolute right-0 mt-2 bg-white w-56 rounded-lg shadow-lg z-50 border">
+                <div className="flex justify-between items-center px-4 py-2 border-b">
+                  <p className="text-black font-semibold">
+                    {user ? `Hello, ${user.name}` : "Profile"}
+                  </p>
+                  <IoMdClose
+                    className="text-xl cursor-pointer text-gray-500 hover:text-black"
+                    onClick={closeDropdown}
+                  />
                 </div>
-              )}
-            </div>
+                <ul className="py-2">
+                  {user ? (
+                    <>
+                      <Link to="/wishlist">
+                        <li className="px-4 py-2 hover:bg-gray-100 text-gray-700 cursor-pointer">Wishlist</li>
+                      </Link>
+                      <li
+                        onClick={handleLogout}
+                        className="px-4 py-2 hover:bg-gray-100 text-gray-700 cursor-pointer"
+                      >
+                        Logout
+                      </li>
+                    </>
+                  ) : (
+                    <>
+                      <Link to="/login">
+                        <li className="px-4 py-2 hover:bg-gray-100 text-gray-700 cursor-pointer">Login</li>
+                      </Link>
+                      <Link to="/signup">
+                        <li className="px-4 py-2 hover:bg-gray-100 text-gray-700 cursor-pointer">Signup</li>
+                      </Link>
+                    </>
+                  )}
+                </ul>
+              </div>
+            )}
           </div>
         </div>
       </div>
 
+      {/* Mobile Dropdown Menu */}
       {showMobileMenu && (
-        <div className="lg:hidden absolute top-full left-0 w-full bg-white shadow-md z-40 px-4 py-2 transition-all duration-300">
-          <ul>
-            <li className="font-bold text-gray-700 mb-1">
-              Quick Links
-              <button onClick={() => setShowMobileMenu(!showMobileMenu)} className='text-black tracking-widest text-2xl ml-4'>X</button>
-            </li>
+        <div className="lg:hidden bg-white shadow-md px-6 py-4 transition-all">
+          <div className="flex justify-between items-center mb-2">
+            <h3 className="text-lg font-bold text-gray-800">Menu</h3>
+            <button
+              onClick={() => setShowMobileMenu(false)}
+              className="text-black text-xl"
+            >
+              X
+            </button>
+          </div>
+          <ul className="space-y-2">
             {DropLinks.map((link) => (
-              <li key={link.id} className="py-2 border-b">
-                <Link to={link.link} className="text-gray-600">{link.name}</Link>
+              <li key={link.id}>
+                <Link to={link.link} className="text-gray-600 hover:text-black block">
+                  {link.name}
+                </Link>
               </li>
             ))}
-            <li className="font-bold text-gray-700 mt-4 mb-1">Main Menu</li>
+            <hr className="my-2" />
             {MenuLinks.map((link) => (
-              <li key={link.id} className="py-2 border-b">
-                <Link to={link.link} className="text-gray-600">
+              <li key={link.id}>
+                <Link to={link.link} className="text-gray-600 hover:text-black block">
                   {link.name}
                 </Link>
               </li>
@@ -160,7 +176,7 @@ function NavBar({ handleOrderPopup, size, toggleCart, toggleWish, size2 }) {
           </ul>
         </div>
       )}
-    </div>
+    </nav>
   );
 }
 

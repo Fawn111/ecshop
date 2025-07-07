@@ -12,7 +12,7 @@ function CategoryPage() {
       setLoading(true);
       setError(null);
       try {
-        const res = await fetch('http://localhost:3000/category/all');
+        const res = await fetch('http://localhost:3000/api/category/');
         if(!res.ok) throw new Error('Failed To Fetch Categories');
         const data = await res.json();
         setCategory(data)
@@ -22,6 +22,7 @@ function CategoryPage() {
         setLoading(false);
       }
     }
+     console.log(category)
   
     useEffect(() => {
         fetchCategory();

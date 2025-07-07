@@ -11,7 +11,7 @@ const Cart = ({ isCartOpen, toggleCart, cart, setCart, size }) => {
 
   // Fetch deals from backend
   useEffect(() => {
-    fetch("http://localhost:3000/deals")
+    fetch("http://localhost:3000/api/deals")
       .then((res) => res.json())
       .then((data) => {
         setDeals(data);
@@ -180,11 +180,6 @@ const Cart = ({ isCartOpen, toggleCart, cart, setCart, size }) => {
               })}
             </div>
           )}
-
-          <div className="bg-white flex justify-center p-4 border-t border-b border-gray-300">
-            <input type="text" placeholder="Enter Coupon Code" className="border border-gray-300 px-3 py-2 sm:w-[250px] w-[200]" />
-            <button className="bg-black text-white px-4 py-2 font-semibold cursor-pointer hover:bg-brandGreen text-[14px] transition duration-300">Apply Coupon</button>
-          </div>
 
           <div className="p-7">
             <h2 className="text-xl font-semibold mb-4 font-sans tracking-widest">Order Summary</h2>

@@ -85,7 +85,7 @@ const Products = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch('http://localhost:3000/brands/all');
+      const res = await fetch('http://localhost:3000/api/brands/');
       if(!res.ok) throw new Error('Failed To Fetch Brands');
       const data = await res.json();
       setBrand(data)
@@ -98,7 +98,7 @@ const Products = () => {
 
    const handleDelete = async (id) => {
   try {
-    const res = await fetch(`http://localhost:3000/brands/delete/${id}`, {
+    const res = await fetch(`http://localhost:3000/api/brands/delete/${id}`, {
       method: 'DELETE',
     });
     const data = await res.json();

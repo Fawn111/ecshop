@@ -24,14 +24,18 @@ import BrandProductPage from "./components/BrandProductPage/BrandProductPage";
 import BrandPage from "./components/BrandPage/BrandPage";
 import DealsPage from "./components/Deals/DealPage";
 
+
 // admin components
 import AdminLayout from "./components/Admin/AdminLayout";
 import AdminOrders from "./components/Admin/Orders";
 import AdminProducts from "./components/Admin/Products";
 import Dashboard from "./components/Admin/Dashboard";
-import AdminCategory from "./components/Admin/Category"
-import AdminBrands from "./components/Admin/Brands"
+import AdminCategory from "./components/Admin/Category";
+import AdminBrands from "./components/Admin/Brands";
 import CreateDeal from "./components/Admin/Dealsadmin";
+import AdminCoupon from "./components/Admin/Coupon";
+import AdminUsers from "./components/Admin/User";
+import User from "./components/Admin/User";
 
 
 function App() {
@@ -185,6 +189,8 @@ function App() {
       <Route path="categories" element={<AdminCategory />} />
       <Route path="brands" element={<AdminBrands />} />
       <Route path="deals" element={<CreateDeal />} />
+      <Route path="coupon" element={<AdminCoupon />} />
+      <Route path="users" element={<User />} />
     </Route>
 
         <Route path="/login" element={<Login />} />
