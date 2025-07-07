@@ -9,7 +9,6 @@ const Cart = ({ isCartOpen, toggleCart, cart, setCart, size }) => {
   const [deals, setDeals] = useState([]);
   const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
 
-  // Fetch deals from backend
   useEffect(() => {
     fetch("http://localhost:3000/api/deals")
       .then((res) => res.json())
@@ -50,8 +49,8 @@ const Cart = ({ isCartOpen, toggleCart, cart, setCart, size }) => {
     let discount = 0;
 
     cart.forEach((item) => {
-      let finalPrice = item.price;
-      let itemDiscount = 0;
+      let itemPrice = item.price;
+      let discountAmount = 0;
 
       const matchingDeal = deals.find((deal) => {
         return (
@@ -63,17 +62,17 @@ const Cart = ({ isCartOpen, toggleCart, cart, setCart, size }) => {
 
       if (matchingDeal) {
         if (matchingDeal.type === "percentage") {
-          itemDiscount = (finalPrice * matchingDeal.discountValue) / 100;
+          discountAmount = (itemPrice * matchingDeal.discountValue) / 100;
         } else if (matchingDeal.type === "fixed") {
-          itemDiscount = matchingDeal.discountValue;
+          discountAmount = matchingDeal.discountValue;
         }
 
-        itemDiscount = Math.min(itemDiscount, finalPrice); 
-        finalPrice -= itemDiscount;
-        discount += itemDiscount * item.quantity;
+        discountAmount = Math.min(discountAmount, itemPrice);
+        itemPrice -= discountAmount;
+        discount += discountAmount * item.quantity;
       }
 
-      total += finalPrice * item.quantity;
+      total += itemPrice * item.quantity;
     });
 
     setPrice(total);
@@ -102,117 +101,126 @@ const Cart = ({ isCartOpen, toggleCart, cart, setCart, size }) => {
     };
   }, [isCartOpen]);
 
-  return (
-    <>
-      <div
-        className={`fixed top-0 right-0 h-full w-full sm:w-[450px] bg-white shadow-lg z-50 transform transition-transform duration-300 overflow-hidden ${isCartOpen ? 'translate-x-0' : 'translate-x-full'}`}
-      >
-        <div className="flex items-center justify-between px-5 py-5 bg-white">
-          <h2 className="text-xl font-semibold text-black font-primary tracking-wide">Shopping Cart ({size})</h2>
-          <IoMdClose
-            onClick={toggleCart}
-            className="text-2xl cursor-pointer hover:scale-105 text-black"
-          />
+ // ⬇️ Just Replace your Cart return JSX with this inside the component
+return (
+  <div className={`fixed top-0 right-0 h-full w-full sm:w-[450px] bg-white shadow-2xl z-50 transform transition-transform duration-300 overflow-hidden ${isCartOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+    <div className="flex items-center justify-between px-5 py-4 bg-black text-white shadow-md">
+      <h2 className="text-xl font-bold font-sans tracking-wide">🛒 Shopping Cart ({size})</h2>
+      <IoMdClose onClick={toggleCart} className="text-2xl cursor-pointer hover:scale-110 transition" />
+    </div>
+
+    <div className='border-b border-t text-center py-2 bg-brandGreen/10 border-green-700'>
+      <h2 className='text-green-700 font-semibold tracking-wide'>🎉 Just ONE step away from your order!</h2>
+    </div>
+
+    <div className="flex flex-col h-[calc(100vh-100px)]">
+      {size === 0 ? (
+        <div className="flex items-center justify-center h-full">
+          <h2 className="text-2xl font-semibold text-gray-500">🛍️ Your cart is empty</h2>
         </div>
+      ) : (
+        <div className="flex-1 overflow-y-auto py-4 space-y-4 px-3">
+          {cart?.map((item) => {
+            const matchingDeal = deals.find((deal) =>
+              deal.product?._id === item._id ||
+              deal.category === item.category ||
+              deal.brand === item.brand
+            );
 
-        <div className='border-b border-t text-center py-2 bg-brandGreen/10 border-green-700'>
-          <h2 className='text-green-700 font-sans tracking-wide'>Just ONE step away from completing your order.</h2>
-        </div>
+            let discountAmount = 0;
 
-        <div className="flex flex-col h-[calc(100vh-100px)]">
-          {size === 0 ? (
-            <div className="flex items-center justify-center h-full">
-              <h2 className="text-2xl font-semibold text-gray-500">Your cart is empty</h2>
-            </div>
-          ) : (
-            <div className="flex-1 overflow-y-auto py-4 space-y-4">
-              {cart?.map((item) => {
-                const matchingDeal = deals.find((deal) => {
-                  return (
-                    deal.product?._id === item._id ||
-                    deal.category === item.category ||
-                    deal.brand === item.brand
-                  );
-                });
+            if (matchingDeal) {
+              if (matchingDeal.type === "percentage") {
+                discountAmount = (item.price * matchingDeal.discountValue) / 100;
+              } else if (matchingDeal.type === "fixed") {
+                discountAmount = matchingDeal.discountValue;
+              }
 
-                const discountAmount =
-                  matchingDeal?.type === "percentage"
-                    ? (item.price * matchingDeal.discountValue) / 100
-                    : matchingDeal?.discountValue || 0;
+              discountAmount = Math.min(discountAmount, item.price);
+            }
 
-                const discountedPrice = matchingDeal ? item.price - discountAmount : item.price;
+            const discountedPrice = item.price - discountAmount;
 
-                return (
-                  <div key={item._id} className="border-b pb-2 px-5 flex gap-4">
-                    <img src={item.img} className="h-[150px] w-[130px] object-cover rounded-md" />
-                    <div className="flex flex-col w-full justify-between">
-                      <div>
-                        <p className="text-[16px] font-bold font-primary tracking-widest">{item.name}</p>
-                        {matchingDeal ? (
-                          <div className="space-y-1">
-                            <p className="text-red-500 text-sm font-medium">Discount Applied</p>
-                            <p className="line-through text-gray-400 text-[14px]">PKR {item.price.toLocaleString()}</p>
-                            <p className="text-green-700 font-bold">PKR {discountedPrice.toLocaleString()}</p>
-                          </div>
-                        ) : (
-                          <p className="text-gray-700 text-[15px] font-medium">PKR {item.price.toLocaleString()}</p>
-                        )}
+            return (
+              <div key={item._id} className="border rounded-lg shadow-sm p-4 flex gap-4 bg-white hover:shadow-md transition">
+                <img src={item.img} className="h-[120px] w-[100px] object-cover rounded-lg" />
+                <div className="flex flex-col w-full justify-between">
+                  <div>
+                    <p className="text-lg font-bold font-primary tracking-wide">{item.name}</p>
+                    {matchingDeal ? (
+                      <div className="space-y-1 mt-1">
+                        <p className="text-sm font-medium text-red-500">💸 Discount Applied</p>
+                        <p className="line-through text-gray-400 text-sm">PKR {item.price.toLocaleString()}</p>
+                        <p className="text-green-600 font-bold text-md">PKR {discountedPrice.toLocaleString()}</p>
                       </div>
-                      <div className="flex gap-2 text-center items-center">
-                        <div className='flex items-center gap-3 border border-black px-3 py-1 justify-center'>
-                          <button className="text-xl hover:text-primary cursor-pointer" onClick={() => handleMinus(item._id)}>
-                            -
-                          </button>
-                          <h2>{item.quantity}</h2>
-                          <button className="text-xl hover:text-primary cursor-pointer" onClick={() => handlePlus(item._id)}>
-                            +
-                          </button>
-                        </div>
-                        <div>
-                          <button className="text-2xl hover:text-primary cursor-pointer" onClick={() => handleRemove(item._id)}>
-                            <MdDeleteOutline />
-                          </button>
-                        </div>
-                      </div>
-                    </div>
+                    ) : (
+                      <p className="text-gray-800 text-md font-medium mt-1">PKR {item.price.toLocaleString()}</p>
+                    )}
                   </div>
-                );
-              })}
-            </div>
-          )}
 
-          <div className="p-7">
-            <h2 className="text-xl font-semibold mb-4 font-sans tracking-widest">Order Summary</h2>
-            <div className="flex justify-between mb-1">
-              <span className="font-semibold tracking-widest font-sans text-lg">Total Items:</span>
-              <span className="font-medium text-lg font-sans">{size}</span>
-            </div>
-            <div className="flex justify-between mb-1">
-              <span className="font-semibold text-lg tracking-widest font-sans">Total Discount:</span>
-              <span className="font-medium text-green-700 text-lg font-sans">-PKR {totalDiscount.toLocaleString()}</span>
-            </div>
-            <div className="flex justify-between mb-1">
-              <span className="font-semibold text-lg tracking-widest font-sans">Total Price:</span>
-              <span className="font-medium text-lg font-sans">PKR {(price + price * 0.25).toFixed(0)}</span>
-            </div>
-            {isLoggedIn ? (
-              <Link to='/checkout' onClick={toggleCart}>
-                <button className="bg-black text-white px-6 py-2 rounded-md font-semibold hover:bg-brandGreen cursor-pointer transition duration-300 w-full">
-                  Proceed to Checkout
-                </button>
-              </Link>
-            ) : (
-              <Link to='/login' onClick={toggleCart}>
-                <button className="bg-black text-white px-6 py-2 rounded-md font-semibold cursor-pointer hover:bg-brandGreen transition duration-300 w-full">
-                  Please Login to Checkout
-                </button>
-              </Link>
-            )}
-          </div>
+                  <div className="flex gap-2 items-center mt-3">
+                    <div className='flex items-center gap-3 border border-gray-300 rounded-lg px-3 py-1'>
+                      <button className="text-xl text-gray-700 hover:text-green-600" onClick={() => handleMinus(item._id)}>-</button>
+                      <h2 className="font-medium">{item.quantity}</h2>
+                      <button className="text-xl text-gray-700 hover:text-green-600" onClick={() => handlePlus(item._id)}>+</button>
+                    </div>
+                    <button className="text-2xl text-red-600 hover:text-red-800" onClick={() => handleRemove(item._id)}>
+                      <MdDeleteOutline />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
         </div>
+      )}
+
+      {/* Order Summary Section */}
+      <div className="p-7 border-t bg-white">
+        <h2 className="text-xl font-bold mb-4 font-sans tracking-widest text-black">📦 Order Summary</h2>
+
+        <div className="flex justify-between mb-2 text-md font-medium text-gray-700">
+          <span>Total Items:</span>
+          <span>{size}</span>
+        </div>
+
+        <div className="flex justify-between mb-2 text-md font-medium text-green-700">
+          <span>Total Discount:</span>
+          <span>-PKR {totalDiscount.toLocaleString()}</span>
+        </div>
+
+        <div className="flex justify-between mb-2 text-md font-medium text-gray-700">
+          <span>Subtotal:</span>
+          <span>PKR {price.toLocaleString()}</span>
+        </div>
+
+        <div className="flex justify-between mb-2 text-md font-medium text-gray-700">
+          <span>Tax (25%):</span>
+          <span>PKR {(price * 0.25).toFixed(0)}</span>
+        </div>
+
+        <div className="flex justify-between mb-4 text-lg font-bold text-black border-t pt-2">
+          <span>Total:</span>
+          <span>PKR {(price + price * 0.25).toFixed(0)}</span>
+        </div>
+
+        {isLoggedIn ? (
+          <Link to='/checkout' onClick={toggleCart}>
+            <button className="bg-black hover:bg-brandGreen text-white px-6 py-3 rounded-lg font-semibold tracking-wide w-full transition duration-300">
+              Proceed to Checkout
+            </button>
+          </Link>
+        ) : (
+          <Link to='/login' onClick={toggleCart}>
+            <button className="bg-black hover:bg-brandGreen text-white px-6 py-3 rounded-lg font-semibold tracking-wide w-full transition duration-300">
+              🔒 Please Login to Checkout
+            </button>
+          </Link>
+        )}
       </div>
-    </>
-  );
-};
+    </div>
+  </div>
+);
+}
 
 export default Cart;

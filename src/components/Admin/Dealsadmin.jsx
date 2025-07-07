@@ -19,6 +19,27 @@ function CreateDeal() {
     brand: ''
   });
 
+  const handleDelete = async (id) => {
+  try {
+    const res = await fetch(`http://localhost:3000/api/deals/${id}`, {
+      method: 'DELETE',
+    });
+
+    if (!res.ok) {
+      const errorData = await res.json();
+      alert(`Error deleting deal: ${errorData.error}`);
+      return;
+    }
+
+    alert('Deal deleted successfully!');
+    fetchDeals(); // Refresh the deals list
+  } catch (err) {
+    console.error("Delete failed:", err);
+    alert("Something went wrong while deleting the deal.");
+  }
+};
+
+
   useEffect(() => {
     fetch('http://localhost:3000/api/category/')
       .then(res => res.json())
