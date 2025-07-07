@@ -9,7 +9,7 @@ import brand5 from "../../assets/brands/5.png";
 function Category() {
 
   return (
-    <div className=' bg-black overflow-hidden'>
+    <div className=' bg-gradient-to-br from-rose-900 via-rose-700 to-rose-900 overflow-hidden'>
         <motion.div className='p-3 sm:p-6'>
             <div className='gap-3 grid grid-cols-3 md:grid-cols-5 place-items-center items-center'>
                 <motion.img src={brand1} alt="" className='w-[80px]'  initial={{ x: 50, opacity: 0 }}

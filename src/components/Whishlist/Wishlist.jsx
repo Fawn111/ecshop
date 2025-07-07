@@ -10,7 +10,7 @@ const Wishlist = ({ isWishOpen, toggleWish, wish , setWish, size , cart , handle
     // const [total, setTotal] = useState();
     //remove
     const handleRemove = (id) => {
-        const arr = wish.filter((item) => item.id !== id);
+        const arr = wish.filter((item) => item._id !== id);
         setWish(arr);
     }
 
@@ -50,18 +50,18 @@ const Wishlist = ({ isWishOpen, toggleWish, wish , setWish, size , cart , handle
       {
             wish?.map((item) => (
             <>
-            <div key={item.id} className="border-b pb-2 flex gap-4">
+            <div key={item._id} className="border-b pb-2 flex gap-4">
                 <img src={item.img} className='h-[100px] w-[160px] object-cover rounded-md'/>
                 <div className='ml-10 flex w-full justify-between '>
                     <div>
-                    <p className="font-bold text-xl">" {item.title} "</p>
+                    <p className="font-bold text-xl">" {item.name} "</p>
                     <p className="text-lg text-gray-500">${item.price}</p>
                        {/* <button onClick={() => handlecart(item)} className={`${cart.map((c) => c.id === item.id) ? 'bg-primary' : 'bg-green-300'} text-white px-6 py-2 rounded-xl font-semibold text-sm hover:scale-105 shadow-md hover:shadow-lg bottom-2`} >
                       {cart.some((c) => c.id === item.id) ? "Remove From Cart" : "Add To Cart"}
                     </button> */}
                     </div>
                     <div className="">
-                         <button className=' text-3xl hover:text-primary cursor-pointer' onClick={() => handleRemove(item.id)}>
+                         <button className=' text-3xl hover:scale-105 cursor-pointer' onClick={() => handleRemove(item._id)}>
                             <MdDelete />
                         </button>
   
