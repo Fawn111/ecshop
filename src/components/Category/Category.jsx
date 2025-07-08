@@ -7,39 +7,42 @@ import brand4 from "../../assets/brands/4.png";
 import brand5 from "../../assets/brands/5.png";
 
 function Category() {
+  const vibrateAnimation = {
+    scale: [1, 1.03, 1],
+    x: [0, -1.5, 1.5, 0],
+  };
+
+  const vibrateTransition = {
+    duration: 1.8,
+    repeat: Infinity,
+    repeatType: "loop",
+    ease: "easeInOut",
+  };
 
   return (
-    <div className=' bg-gradient-to-br from-rose-900 via-rose-700 to-rose-900 overflow-hidden'>
-        <motion.div className='p-3 sm:p-6'>
-            <div className='gap-3 grid grid-cols-3 md:grid-cols-5 place-items-center items-center'>
-                <motion.img src={brand1} alt="" className='w-[80px]'  initial={{ x: 50, opacity: 0 }}
-                 whileInView={{ x: 0, opacity: 1 }}
-                 transition={{ delay: 0.4, duration: 4 }}
-                 viewport={{ once: true }}/>
-                <motion.img src={brand2} alt="" className='w-[80px]' initial={{ x: 50, opacity: 0 }}
-                 whileInView={{ x: 0, opacity: 1 }}
-                 transition={{ delay: 0.6, duration: 4 }}
-                 viewport={{ once: true }} />
-                <motion.img src={brand3} alt="" className='w-[80px]' 
-                 initial={{ x: 50, opacity: 0 }}
-                 whileInView={{ x: 0, opacity: 1 }}
-                 transition={{ delay: 0.8, duration: 4 }}
-                 viewport={{ once: true }}/>
-                <motion.img src={brand4} alt="" className='w-[80px] col-span-auto md:col-span-1'
-                 initial={{ x: 50, opacity: 0 }}
-                 whileInView={{ x: 0, opacity: 1 }}
-                 transition={{ delay: 1, duration: 4 }}
-                 viewport={{ once: true }}/>
-                <motion.img src={brand5} alt="" className='w-[80px] col-span-auto md:col-span-1'
-                 initial={{ x: 50, opacity: 0 }}
-                 whileInView={{ x: 0, opacity: 1 }}
-                 transition={{ delay: 2, duration: 4 }}
-                 viewport={{ once: true }}/>
-            </div>
-        </motion.div>
+    <div className="bg-gradient-to-br from-rose-900 via-rose-700 to-rose-900 overflow-hidden">
+      <motion.div className="p-3 sm:p-6">
+        <div className="gap-3 grid grid-cols-3 md:grid-cols-5 place-items-center items-center">
+          {[brand1, brand2, brand3, brand4, brand5].map((brand, index) => (
+            <motion.img
+              key={index}
+              src={brand}
+              alt={`brand-${index}`}
+              className="w-[80px] col-span-auto md:col-span-1"
+              initial={{ x: 50, opacity: 0 }}
+              whileInView={{ x: 0, opacity: 1 }}
+              viewport={{ once: true }}
+              animate={vibrateAnimation}
+              transition={{
+                ...vibrateTransition,
+                delay: 0.5 + index * 0.15,
+              }}
+            />
+          ))}
+        </div>
+      </motion.div>
     </div>
-  )
+  );
 }
-
 
 export default Category;

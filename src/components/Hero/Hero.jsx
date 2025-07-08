@@ -34,9 +34,32 @@ function Hero( { handleOrderPopup }){
                     </div>
                 </div>
                 <div> 
-                    <img src={vector} className="absolute lg:top-90 top-180 lg:ml-0 ml-4 md:top-220"/>
-                    <img src={image1} alt="" className="top-0" />
-                    <img src={vector} className="absolute lg:top-40 lg:right-20 top-150 right-10 md:top-200 " />
+                <motion.img 
+                src={vector}
+                className="absolute lg:top-90 top-180 lg:ml-0 ml-4 md:top-220"
+                alt="vector"
+                animate={{ y: [0, -10, 0] }}
+                transition={{
+                    repeat: Infinity,
+                    duration: 1.5,
+                    ease: "easeInOut"
+                }}
+                />
+
+                <img src={image1} alt="" className="top-0" />
+
+                <motion.img 
+                src={vector}
+                className="absolute lg:top-40 lg:right-20 top-150 right-10 md:top-200"
+                alt="vector"
+                animate={{ y: [0, -10, 0] }}
+                transition={{
+                    repeat: Infinity,
+                    duration: 1.5,
+                    ease: "easeInOut"
+                }}
+                />
+
                 </div>
             </div>
               

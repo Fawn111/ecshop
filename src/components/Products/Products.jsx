@@ -3,12 +3,28 @@ import Heading from "../Shared/Heading";
 import Slider from "react-slick";
 import ProductCard from "./ProductCard";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+
 
 const Products = ({ handlecart, handlewish, wish, cart }) => {
   const [products, setProducts] = useState([]);
   const [products2, setProducts2] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+
+useEffect(() => {
+  AOS.init({
+    duration: 400,         // Smoother, more noticeable animation
+    once: false,           // Animates every time it enters viewport
+    mirror: true,          // Re-animate on scroll up
+    easing: 'ease-in-out', // Smooth acceleration/deceleration
+    offset: 100,           // Trigger animation a bit earlier
+    delay: 200,            // Adds a slight delay for a polished entry
+    anchorPlacement: 'top-bottom' // Defines trigger position
+  });
+}, []);
 
   const fetchNewArrivals = async () => {
     setLoading(true);
@@ -86,13 +102,13 @@ const Products = ({ handlecart, handlewish, wish, cart }) => {
   return (
     <div>
       {/* NEW ARRIVALS */}
-      <div className="p-4 sm:p-6 m-4 overflow-hidden">
+      <div className="p-4 sm:p-6 m-4 overflow-hidden " data-aos="zoom-in">
         <Heading title="NEW ARRIVALS" />
         {error && <p className="text-red-500">{error}</p>}
         {loading ? (
           <p>Loading...</p>
         ) : products.length > 0 ? (
-          <div className="relative">
+          <div className="relative" data-aos="zoom-in">
             <Slider {...settings}>
               {products.map((product) => (
                 <div key={product._id} className="ml-10">
@@ -113,13 +129,13 @@ const Products = ({ handlecart, handlewish, wish, cart }) => {
       </div>
 
       {/* HOT SELLING */}
-      <div className="p-4 sm:p-6 m-4 overflow-hidden border-t-2 border-gray-100">
-        <Heading title="TOP SELLING" />
+      <div className="p-4 sm:p-6 m-4 overflow-hidden border-t-2 border-gray-100" data-aos="zoom-in">
+        <Heading title="HOT SELLINGS" />
         {error && <p className="text-red-500">{error}</p>}
         {loading ? (
           <p>Loading...</p>
         ) : products2.length > 0 ? (
-          <div className="relative">
+          <div className="relative" data-aos="zoom-in">
             <Slider {...settings}>
               {products2.map((product) => (
                 <div key={product._id} className="ml-10">

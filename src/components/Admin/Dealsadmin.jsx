@@ -45,7 +45,7 @@ function CreateDeal() {
       .then(res => res.json())
       .then(data => setCategories(data));
 
-    fetch('http://localhost:3000/brands/all')
+    fetch('http://localhost:3000/api/brands/')
       .then(res => res.json())
       .then(data => setBrands(data));
 
