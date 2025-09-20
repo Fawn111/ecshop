@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { IoIosSearch } from "react-icons/io";
-import { FaShoppingCart, FaHeartBroken } from "react-icons/fa";
+import { FaShoppingCart, FaHeartBroken, FaHeart } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
 import { CgProfile } from "react-icons/cg";
 import { IoMenu } from "react-icons/io5";
 import { Link } from "react-router-dom";
+import { CiShoppingCart } from "react-icons/ci";
+
 
 const MenuLinks = [
   { id: 1, name: "Categories", link: "/category" },
@@ -55,18 +57,25 @@ function NavBar({ handleOrderPopup, size, toggleCart, toggleWish, size2 }) {
           </Link>
         </div>
 
-        {/* Desktop Nav Links */}
-        <ul className="hidden lg:flex gap-8">
-          {MenuLinks.map((item) => (
-            <li key={item.id}>
-              <Link to={item.link} className="text-gray-600 font-medium hover:text-black transition">
-                {item.name}
-              </Link>
-            </li>
-          ))}
-        </ul>
+     <ul className="hidden lg:flex gap-8">
+  {MenuLinks.map((item) => (
+    <li key={item.id}>
+      <Link
+        to={item.link}
+        className={
+          item.name === "Deals"
+            ? "text-red-600 font-extrabold uppercase tracking-wider hover:text-red-800 hover:scale-110 transition-all duration-300 drop-shadow-lg font-deal"
+            : "text-gray-600 font-medium hover:text-black transition"
+        }
+        style={item.name === "Deals" ? { fontFamily: "'Bebas Neue', sans-serif" } : {}}
+      >
+        {item.name === "Deals" ? "🔥 " + item.name : item.name}
+      </Link>
+    </li>
+  ))}
+</ul>
 
-        {/* Search (visible on md & up) */}
+
         <div className="hidden md:block relative w-40 md:w-56 lg:w-[500px]">
           <IoIosSearch className="absolute top-3.5 left-3 text-xl text-gray-500" />
           <input
@@ -80,7 +89,7 @@ function NavBar({ handleOrderPopup, size, toggleCart, toggleWish, size2 }) {
         <div className="flex items-center gap-3 sm:gap-5">
           {/* Cart */}
           <button onClick={toggleCart} className="relative">
-            <FaShoppingCart className="text-3xl text-black hover:scale-105 transition" />
+           {size === 0 ? <CiShoppingCart className="text-3xl text-black hover:scale-105 transition" /> : <FaShoppingCart className="text-3xl text-black hover:scale-105 transition" /> }
             {size > 0 && (
               <span className="absolute -top-3 -right-2 bg-red-500 text-white text-xs w-6 h-6 font-normal rounded-full flex items-center justify-center">
                 {size}
@@ -90,7 +99,7 @@ function NavBar({ handleOrderPopup, size, toggleCart, toggleWish, size2 }) {
 
           {/* Wishlist */}
           <button onClick={toggleWish} className="relative">
-            <FaHeartBroken className="text-3xl text-black hover:scale-105 transition" />
+            {size2 === 0 ? <FaHeartBroken className="text-3xl text-black hover:scale-105 transition" /> : <FaHeart className="text-3xl text-black hover:scale-105 transition" /> }
             {size2 > 0 && (
               <span className="absolute -top-3 -right-2 bg-red-500 text-white text-xs w-6 h-6 font-normal rounded-full flex items-center justify-center">
                 {size2}

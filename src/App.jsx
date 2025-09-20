@@ -23,6 +23,7 @@ import CategoryProducts from "./components/CategoryProduct/CategoryProducts";
 import BrandProductPage from "./components/BrandProductPage/BrandProductPage";
 import BrandPage from "./components/BrandPage/BrandPage";
 import DealsPage from "./components/Deals/DealPage";
+import DealProductsPage from "./components/Deals/DealProductsPage";
 
 
 // admin components
@@ -36,6 +37,7 @@ import CreateDeal from "./components/Admin/Dealsadmin";
 import AdminCoupon from "./components/Admin/Coupon";
 import AdminUsers from "./components/Admin/User";
 import User from "./components/Admin/User";
+import Tax from "./components/Admin/Tax";
 
 
 function App() {
@@ -182,6 +184,42 @@ function App() {
           </>
       } />
 
+      <Route path="/deal-products/:id" element={
+  <>
+    <Navbar
+      handleOrderPopup={handleOrderPopup}
+      size={cart.length}
+      size2={wish.length}
+      toggleCart={toggleCart}
+      toggleWish={toggleWish}
+    />
+    <Cart
+      isCartOpen={isCartOpen}
+      size={cart.length}
+      toggleCart={toggleCart}
+      cart={cart}
+      setCart={setCart}
+    />
+    <Wishlist
+      isWishOpen={isWishOpen}
+      toggleWish={toggleWish}
+      wish={wish}
+      setWish={setWish}
+      size={wish.length}
+      cart={cart}
+      handlecart={handlecart}
+    />
+    <DealProductsPage
+      cart={cart}
+      handlecart={handlecart}
+      handlewish={handlewish}
+      wish={wish}
+    />
+    <Footer />
+  </>
+} />
+
+
       <Route path="/admin" element={<AdminLayout />}>
       <Route path="dashboard" element={<Dashboard />} />
       <Route path="orders" element={<AdminOrders />} />
@@ -191,6 +229,7 @@ function App() {
       <Route path="deals" element={<CreateDeal />} />
       <Route path="coupon" element={<AdminCoupon />} />
       <Route path="users" element={<User />} />
+      <Route path="tax" element={<Tax />} />
     </Route>
 
         <Route path="/login" element={<Login />} />

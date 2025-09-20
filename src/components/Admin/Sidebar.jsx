@@ -7,6 +7,8 @@ import { IoNewspaperOutline } from "react-icons/io5";
 import { FaUsers, FaUserSecret } from "react-icons/fa";
 import { FaIdeal } from "react-icons/fa";
 import { BiSolidCoupon } from "react-icons/bi";
+import { HiReceiptTax } from "react-icons/hi";
+
 
 const Sidebar = ({ setAuthenticated }) => {
   const location = useLocation();
@@ -115,6 +117,17 @@ const Sidebar = ({ setAuthenticated }) => {
         >
           <FaUserSecret size={22} />
           Users
+        </Link>
+        <Link
+          to="/admin/tax"
+          className={`flex items-center gap-4 px-4 py-3 rounded-lg transition ${
+            isActive("/admin/tax")
+              ? "bg-white text-rose-600 shadow-lg font-bold"
+              : "hover:bg-rose-500 hover:text-white"
+          }`}
+        >
+          <HiReceiptTax size={22} />
+          Tax
         </Link>
       </nav>
 

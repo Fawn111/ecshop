@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import Heading from "../Shared/Heading";
 import Slider from "react-slick";
 import ProductCard from "./ProductCard";
+import ProductModal from "./ProductModal"; // 👈 Import the modal
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-
 
 const Products = ({ handlecart, handlewish, wish, cart }) => {
   const [products, setProducts] = useState([]);
@@ -13,18 +13,30 @@ const Products = ({ handlecart, handlewish, wish, cart }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const [showModal, setShowModal] = useState(false);     // 👈 Modal visibility
+  const [selectedProduct, setSelectedProduct] = useState(null); // 👈 Product data
 
-useEffect(() => {
-  AOS.init({
-    duration: 400,         // Smoother, more noticeable animation
-    once: false,           // Animates every time it enters viewport
-    mirror: true,          // Re-animate on scroll up
-    easing: 'ease-in-out', // Smooth acceleration/deceleration
-    offset: 100,           // Trigger animation a bit earlier
-    delay: 200,            // Adds a slight delay for a polished entry
-    anchorPlacement: 'top-bottom' // Defines trigger position
-  });
-}, []);
+  const handleOpenModal = (product) => {
+    setSelectedProduct(product);
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setSelectedProduct(null);
+  };
+
+  useEffect(() => {
+    AOS.init({
+      duration: 400,
+      once: false,
+      mirror: true,
+      easing: 'ease-in-out',
+      offset: 100,
+      delay: 200,
+      anchorPlacement: 'top-bottom'
+    });
+  }, []);
 
   const fetchNewArrivals = async () => {
     setLoading(true);
@@ -33,7 +45,6 @@ useEffect(() => {
       const res = await fetch("http://localhost:3000/api/products/newarrivals");
       if (!res.ok) throw new Error("Failed to fetch new arrivals");
       const data = await res.json();
-      console.log("New arrivals data:", data);
       setProducts(data || []);
     } catch (err) {
       setError(err.message);
@@ -50,7 +61,6 @@ useEffect(() => {
       const res = await fetch("http://localhost:3000/api/products/hotselling");
       if (!res.ok) throw new Error("Failed to fetch hot selling");
       const data = await res.json();
-      console.log("Hot selling data:", data);
       setProducts2(data || []);
     } catch (err) {
       setError(err.message);
@@ -65,27 +75,20 @@ useEffect(() => {
     fetchHotProducts();
   }, []);
 
-  // Custom Arrows
   const NextArrow = ({ onClick }) => (
-    <div
-      onClick={onClick}
-      className="z-20 absolute top-1/2 right-[-20px] -translate-y-1/2 cursor-pointer bg-white text-black shadow-md p-2 rounded-full hover:bg-black hover:text-white transition"
-    >
+    <div onClick={onClick} className="z-20 absolute top-1/2 right-[-20px] -translate-y-1/2 cursor-pointer bg-white text-black shadow-md p-2 rounded-full hover:bg-black hover:text-white transition">
       <FaArrowRight />
     </div>
   );
 
   const PrevArrow = ({ onClick }) => (
-    <div
-      onClick={onClick}
-      className="z-20 absolute top-1/2 left-[-20px] -translate-y-1/2 cursor-pointer bg-white text-black shadow-md p-2 rounded-full hover:bg-black hover:text-white transition"
-    >
+    <div onClick={onClick} className="z-20 absolute top-1/2 left-[-20px] -translate-y-1/2 cursor-pointer bg-white text-black shadow-md p-2 rounded-full hover:bg-black hover:text-white transition">
       <FaArrowLeft />
     </div>
   );
 
   const settings = {
-    dots: true,
+    dots: false,
     infinite: false,
     speed: 300,
     slidesToShow: 4,
@@ -102,7 +105,7 @@ useEffect(() => {
   return (
     <div>
       {/* NEW ARRIVALS */}
-      <div className="p-4 sm:p-6 m-4 overflow-hidden " data-aos="zoom-in">
+      <div className="p-4 sm:p-6 m-4 overflow-hidden" data-aos="zoom-in">
         <Heading title="NEW ARRIVALS" />
         {error && <p className="text-red-500">{error}</p>}
         {loading ? (
@@ -111,13 +114,14 @@ useEffect(() => {
           <div className="relative" data-aos="zoom-in">
             <Slider {...settings}>
               {products.map((product) => (
-                <div key={product._id} className="ml-10">
+                <div key={product._id} className="ml-10 mb-5">
                   <ProductCard
                     data={[product]}
                     handlecart={handlecart}
                     handlewish={handlewish}
                     wish={wish}
                     cart={cart}
+                    onOpenModal={() => handleOpenModal(product)} // 👈 Trigger
                   />
                 </div>
               ))}
@@ -138,13 +142,14 @@ useEffect(() => {
           <div className="relative" data-aos="zoom-in">
             <Slider {...settings}>
               {products2.map((product) => (
-                <div key={product._id} className="ml-10">
+                <div key={product._id} className="ml-10 mb-5">
                   <ProductCard
                     data={[product]}
                     handlecart={handlecart}
                     handlewish={handlewish}
                     wish={wish}
                     cart={cart}
+                    onOpenModal={() => handleOpenModal(product)} // 👈 Trigger
                   />
                 </div>
               ))}
@@ -154,6 +159,18 @@ useEffect(() => {
           <p>No top selling products found.</p>
         )}
       </div>
+
+      {/* Product Modal */}
+      {showModal && selectedProduct && (
+        <ProductModal
+          product={selectedProduct}
+          onClose={handleCloseModal}
+          handlecart={handlecart}
+          handlewish={handlewish}
+          wish={wish}
+          cart={cart}
+        />
+      )}
     </div>
   );
 };

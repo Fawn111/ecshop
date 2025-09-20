@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { MdDeleteOutline } from "react-icons/md";
 
 const CheckoutPage = ({ setCart1 }) => {
   const [cart, setCart] = useState([]);
@@ -13,8 +14,19 @@ const CheckoutPage = ({ setCart1 }) => {
 
   const [enteredCode, setEnteredCode] = useState("");
   const [appliedCoupon, setAppliedCoupon] = useState(null);
+  const [tax, setTax] = useState(0); // default to 0
 
-  // Fetch coupons
+  const fetchTax = async () => {
+    try {
+      const res = await fetch("http://localhost:3000/api/tax/");
+      if (!res.ok) throw new Error("No tax found");
+      const data = await res.json();
+      setTax(data.taxValue);
+    } catch (err) {
+      setTax(0);
+    }
+  };
+
   const fetchCoupons = async () => {
     try {
       const res = await fetch("http://localhost:3000/api/coupon/");
@@ -28,6 +40,7 @@ const CheckoutPage = ({ setCart1 }) => {
 
   useEffect(() => {
     fetchCoupons();
+    fetchTax();
   }, []);
 
   useEffect(() => {
@@ -76,15 +89,15 @@ const CheckoutPage = ({ setCart1 }) => {
       (sum, item) => sum + item.price * item.quantity,
       0
     );
-    const tax = subtotal * 0.15;
     const discount = calculateDiscountAmount(subtotal);
-    const total = subtotal + tax - discount;
+    const calculatedTax = subtotal * (tax / 100);
+    const total = subtotal + calculatedTax - discount;
 
     const newOrder = {
       cart,
       shippingInfo,
       subtotal,
-      tax,
+      tax: calculatedTax,
       discount,
       total,
       appliedCoupon,
@@ -101,9 +114,9 @@ const CheckoutPage = ({ setCart1 }) => {
   };
 
   const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  const tax = subtotal * 0.15;
+  const taxi = subtotal * (tax / 100);
   const discount = calculateDiscountAmount(subtotal);
-  const total = subtotal + tax - discount;
+  const total = subtotal + taxi - discount;
 
   return (
     <motion.div
@@ -118,6 +131,7 @@ const CheckoutPage = ({ setCart1 }) => {
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.3, duration: 0.6 }}
       >
+        {/* Left: Shipping Info */}
         <motion.div
           initial={{ x: -50, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
@@ -147,6 +161,7 @@ const CheckoutPage = ({ setCart1 }) => {
           />
         </motion.div>
 
+        {/* Right: Order Summary */}
         <motion.div
           className="bg-gray-50 rounded-lg p-6 shadow-inner"
           initial={{ x: 50, opacity: 0 }}
@@ -215,15 +230,32 @@ const CheckoutPage = ({ setCart1 }) => {
                   <span>PKR {subtotal.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span>Tax (15%):</span>
-                  <span>PKR {tax.toFixed(2)}</span>
+                  <span>Tax ({tax}%):</span>
+                  <span>PKR {taxi.toFixed(2)}</span>
                 </div>
+
                 {appliedCoupon && (
-                  <div className="flex justify-between text-green-600 font-semibold">
-                    <span>Discount:</span>
-                    <span>- PKR {discount.toFixed(2)}</span>
+                  <div className="flex flex-col gap-2 text-green-600 font-semibold mb-2">
+                    <div className="flex justify-between items-center">
+                      <span className="flex text-center items-center">
+                        <MdDeleteOutline
+                          onClick={() => {
+                            setAppliedCoupon(null);
+                            setEnteredCode("");
+                            alert("Coupon removed");
+                          }}
+                          className="text-lg text-red-500 hover:rotate-12 cursor-pointer hover:scale-110"
+                        />
+                        Discount ({appliedCoupon.code}):{" "}
+                        {appliedCoupon.discountType === "percentage"
+                          ? `${appliedCoupon.value}%`
+                          : `PKR ${appliedCoupon.value}`}
+                      </span>
+                      <span>- PKR {discount.toFixed(2)}</span>
+                    </div>
                   </div>
                 )}
+
                 <div className="flex justify-between font-bold text-lg">
                   <span>Total:</span>
                   <span>PKR {total.toFixed(2)}</span>

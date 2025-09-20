@@ -43,7 +43,6 @@ const Cart = ({ isCartOpen, toggleCart, cart, setCart, size }) => {
     updateCart(updatedCart);
   };
 
-  // Pricing Logic
   const calculatePrice = () => {
     let total = 0;
     let discount = 0;
@@ -101,7 +100,6 @@ const Cart = ({ isCartOpen, toggleCart, cart, setCart, size }) => {
     };
   }, [isCartOpen]);
 
- // ⬇️ Just Replace your Cart return JSX with this inside the component
 return (
   <div className={`fixed top-0 right-0 h-full w-full sm:w-[450px] bg-white shadow-2xl z-50 transform transition-transform duration-300 overflow-hidden ${isCartOpen ? 'translate-x-0' : 'translate-x-full'}`}>
     <div className="flex items-center justify-between px-5 py-4 bg-black text-white shadow-md">
@@ -175,7 +173,6 @@ return (
         </div>
       )}
 
-      {/* Order Summary Section */}
       <div className="p-7 border-t bg-white">
         <h2 className="text-xl font-bold mb-4 font-sans tracking-widest text-black">📦 Order Summary</h2>
 
@@ -194,14 +191,10 @@ return (
           <span>PKR {price.toLocaleString()}</span>
         </div>
 
-        <div className="flex justify-between mb-2 text-md font-medium text-gray-700">
-          <span>Tax (25%):</span>
-          <span>PKR {(price * 0.25).toFixed(0)}</span>
-        </div>
 
         <div className="flex justify-between mb-4 text-lg font-bold text-black border-t pt-2">
           <span>Total:</span>
-          <span>PKR {(price + price * 0.25).toFixed(0)}</span>
+          <span>PKR {(price).toFixed(0)}</span>
         </div>
 
         {isLoggedIn ? (

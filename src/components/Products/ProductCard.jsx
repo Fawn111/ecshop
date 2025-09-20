@@ -3,13 +3,13 @@ import { FaHeart } from "react-icons/fa";
 import { motion } from "framer-motion";
 import { IoIosStar } from "react-icons/io";
 
-const ProductCard = ({ data, handlecart, handlewish, wish, cart }) => {
+const ProductCard = ({ data, handlecart, handlewish, wish = [], cart = [], onOpenModal }) => {
   if (!data) return null;
 
   const products = Array.isArray(data) ? data : [data];
   if (products.length === 0) return null;
 
-  // If only one product, render a single card without grid wrapper
+  // Single product render
   if (products.length === 1) {
     const item = products[0];
     if (!item) return null;
@@ -17,11 +17,16 @@ const ProductCard = ({ data, handlecart, handlewish, wish, cart }) => {
     return (
       <div className='bg-white rounded-md p-3 w-full h-fit sm:w-[300px] hover:scale-105 transition-all duration-300 ease-in-out'>
         <div className="relative">
-          <img src={item.img} alt={item.name} className="h-[298px] w-[295px] object-cover rounded-md" />
+          <img
+            src={item.img}
+            alt={item.name}
+            className="h-[298px] w-[295px] object-cover rounded-md cursor-pointer"
+            onClick={() => onOpenModal?.(item)}
+          />
         </div>
         <div className="leading-7 mt-4 flex flex-col">
           <div className='flex justify-between'>
-            <h2 className="font-semibold text-xl">{item.name}</h2>
+            <h2 className="font-semibold text-xl h-[50px]">{item.name}</h2>
             <button onClick={() => handlewish(item)}>
               <FaHeart
                 className={`text-2xl mt-2 transition-all duration-300 cursor-pointer hover:scale-125 ${
@@ -57,7 +62,7 @@ const ProductCard = ({ data, handlecart, handlewish, wish, cart }) => {
     );
   }
 
-  // Multiple products case - render grid
+  // Multiple products render
   return (
     <div className='mt-10 overflow-hidden'>
       <motion.div
@@ -65,7 +70,7 @@ const ProductCard = ({ data, handlecart, handlewish, wish, cart }) => {
         whileInView={{ x: 0, opacity: 1 }}
         transition={{ delay: 0.4, duration: 2 }}
         viewport={{ once: true }}
-        className='grid grid-cols-1 lg:grid-cols-4 md:grid-cols-2 place-items-center p-7 gap-4'
+        className='grid grid-cols-1 lg:grid-cols-4 w-full md:grid-cols-2 place-items-center p-7 gap-10'
       >
         {products.map(item => {
           if (!item) return null;
@@ -76,7 +81,12 @@ const ProductCard = ({ data, handlecart, handlewish, wish, cart }) => {
               className='bg-white rounded-md p-3 w-full h-fit sm:w-[300px] hover:scale-105 transition-all duration-300 ease-in-out'
             >
               <div className="relative">
-                <img src={item.img} alt={item.name} className="h-[298px] w-[295px] object-cover rounded-md" />
+                <img
+                  src={item.img}
+                  alt={item.name}
+                  className="h-[298px] w-[295px] object-cover rounded-md cursor-pointer"
+                  onClick={() => onOpenModal?.(item)}
+                />
               </div>
               <div className="leading-7 mt-4 flex flex-col">
                 <div className='flex justify-between'>
